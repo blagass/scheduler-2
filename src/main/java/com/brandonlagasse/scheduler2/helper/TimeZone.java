@@ -1,2 +1,4 @@
-package com.brandonlagasse.scheduler2.helper;public class TimeZone {
+package com.brandonlagasse.scheduler2.helper;
+
+public class TimeZone {
 }

@@ -1,2 +1,4 @@
-package com.brandonlagasse.scheduler2;public class CustomerView {
+package com.brandonlagasse.scheduler2.controller;
+
+public class CustomerView {
 }
