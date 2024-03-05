@@ -53,11 +53,7 @@ public class LoginView {
                 }
 
             } catch (Error e) {
-                showLoginErrorAlert("Login Error", e.getMessage()); // More general errors
-            } catch (SQLException e) {
-                System.err.println("Database error: " + e.getMessage());
-            } catch (IOException e) {
-                System.err.println("Error loading FXML: " + e.getMessage());
+                showLoginErrorAlert("Login Error", e.getMessage());
             }
     }
 
