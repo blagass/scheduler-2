@@ -33,13 +33,18 @@ public class CustomerDAO implements DAOInterface<Customer>{
     }
 
     @Override
-    public boolean update(Customer object) {
+    public boolean update(Customer customer) throws SQLException {
         JDBC.openConnection();
-        String sql = "UPDATE customers SET User_Name = ?, Password = ? WHERE User_ID = ?";
+        String sql = "UPDATE customers SET Customer_ID = ?, Customer_name = ?, Address = ?, Postal_Code = ?, Phone = ?, Division_ID = ? WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1,user.getId());
-        ps.setString(2,user.getName());
-        ps.setString(3,user.getPassword());
+        ps.setInt(1,customer.getId());
+        ps.setString(2,customer.getName());
+        ps.setString(3,customer.getAddress());
+
+        ps.setString(4, customer.getPostalCode());
+        ps.setString(5, customer.getPhone());
+        ps.setInt(6, customer.getDivisionId());
+        ps.setInt(7,customer.getId());
 
         int rowsAffected = ps.executeUpdate();
 

@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
@@ -18,6 +19,13 @@ import java.util.ResourceBundle;
 
 public class CustomerView implements Initializable {
     public TableView customerTableView;
+    public TableColumn idCol;
+    public TableColumn nameCol;
+    public TableColumn addressCol;
+    public TableColumn postalCodeCol;
+    public TableColumn phoneCol;
+    public TableColumn divisionIdCol;
+    public TableColumn divisionNameCol;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -37,9 +45,27 @@ public class CustomerView implements Initializable {
     }
 
     public void onAddNewCustomer(ActionEvent actionEvent) {
+        try {
+            Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/customer-add-view.fxml"));
+            Scene scene = new Scene(customerScene);
+            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            window.setScene(scene);
+            window.show();
+        } catch (IOException e) {
+            System.err.println("Error loading customer-add-view.fxml: " + e.getMessage());
+        }
     }
 
     public void onUpdateCustomer(ActionEvent actionEvent) {
+        try {
+            Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/customer-update-view.fxml"));
+            Scene scene = new Scene(customerScene);
+            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            window.setScene(scene);
+            window.show();
+        } catch (IOException e) {
+            System.err.println("Error loading customer-update-view.fxml: " + e.getMessage());
+        }
     }
 
     public void onDeleteCustomer(ActionEvent actionEvent) {

@@ -56,9 +56,10 @@ public class UserDAO implements DAOInterface<User>{
         JDBC.openConnection();
         String sql = "UPDATE users SET User_Name = ?, Password = ? WHERE User_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1,user.getId());
-        ps.setString(2,user.getName());
-        ps.setString(3,user.getPassword());
+
+        ps.setString(1,user.getName());
+        ps.setString(2,user.getPassword());
+        ps.setInt(3,user.getId());
 
         int rowsAffected = ps.executeUpdate();
 
