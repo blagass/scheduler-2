@@ -2,9 +2,11 @@ package com.brandonlagasse.scheduler2.controller;
 
 import com.brandonlagasse.scheduler2.dao.CountryDAO;
 import com.brandonlagasse.scheduler2.dao.CustomerDAO;
+import com.brandonlagasse.scheduler2.dao.FirstLevelDivisionDAO;
 import com.brandonlagasse.scheduler2.model.Country;
 import com.brandonlagasse.scheduler2.model.Customer;
 import com.brandonlagasse.scheduler2.model.FirstLevelDivision;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,41 +34,49 @@ public class CustomerUpdateView implements Initializable {
     public TextField postalCodeField;
     @FXML
     public TextField phoneField;
+
     @FXML
     public ComboBox<Country> countryCombo;
     @FXML
     public ComboBox<FirstLevelDivision> fldCombo;
+
     @FXML
-    public CountryDAO countryDAO;
-
-    public static Customer getPassedCustomer() {
-        return passedCustomer;
-    }
-
-    public static void setPassedCustomer(Customer passedCustomer) {
-        CustomerUpdateView.passedCustomer = passedCustomer;
-    }
+    public CountryDAO countryDAO = new CountryDAO();
+    @FXML
+    public FirstLevelDivisionDAO fldDAO = new FirstLevelDivisionDAO();
 
     @FXML
     public static Customer passedCustomer;
+    @FXML
+    private ObservableList<FirstLevelDivision> usDivisions;
+    @FXML
+    private ObservableList<FirstLevelDivision> canadaDivisions;
+    @FXML
+    private ObservableList<FirstLevelDivision> ukDivisions;
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         passedCustomer = CustomerView.getCustomerToPass();
 
-        System.out.println(passedCustomer);
-//
-//        customerIdField.setText(String.valueOf(passedCustomer.getId()));
-//        nameField.setText(passedCustomer.getName());
-//        addressField.setText(passedCustomer.getAddress());
-//        postalCodeField.setText(passedCustomer.getPostalCode());
-//        phoneField.setText(passedCustomer.getPhone());
 
-//        try {
-//            countryCombo.setItems(countryDAO.getList());
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
+        customerIdField.setText(String.valueOf(passedCustomer.getId()));
+        nameField.setText(passedCustomer.getName());
+        addressField.setText(passedCustomer.getAddress());
+        postalCodeField.setText(passedCustomer.getPostalCode());
+        phoneField.setText(passedCustomer.getPhone());
+
+        try {
+
+            countryCombo.setItems(countryDAO.getList());
+            fldCombo.setItems(fldDAO.getList());
+            usDivisions = FirstLevelDivisionDAO.usStates();
+            canadaDivisions = FirstLevelDivisionDAO.canadaStates();
+            ukDivisions = FirstLevelDivisionDAO.ukStates();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
     @FXML
@@ -90,4 +100,43 @@ public class CustomerUpdateView implements Initializable {
 
     }
 
+    public void onCountryCombo(ActionEvent actionEvent) throws SQLException {
+        Country country = countryCombo.getSelectionModel().getSelectedItem();
+
+        if (country != null) {
+
+            ObservableList<FirstLevelDivision> matchingDivisions = null;
+            switch(country.getId()) {
+                case 1:
+                    matchingDivisions = usDivisions;
+                    break;
+                case 2:
+                    matchingDivisions = ukDivisions;
+                    break;
+                case 3:
+                    matchingDivisions = canadaDivisions;
+                    break;
+                default:
+                    System.err.println("No matching Country found");
+            }
+
+            if (matchingDivisions != null) {
+                fldCombo.setItems(matchingDivisions);
+                fldCombo.getSelectionModel().clearSelection();
+            }
+        }
+    }
+
+    public void onFldCombo(ActionEvent actionEvent) {
+    }
+
+
+    public static Customer getPassedCustomer() {
+        return passedCustomer;
+    }
+
+
+    public static void setPassedCustomer(Customer passedCustomer) {
+        CustomerUpdateView.passedCustomer = passedCustomer;
+    }
 }

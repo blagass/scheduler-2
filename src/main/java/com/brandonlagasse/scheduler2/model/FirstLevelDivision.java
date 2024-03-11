@@ -8,7 +8,7 @@ public class FirstLevelDivision {
     private int countryId;
 
     //CONSTRUCTOR
-    FirstLevelDivision(int id, String name, int countryId){
+    public FirstLevelDivision(int id, String name, int countryId){
         this.id = id;
         this.name = name;
         this.countryId = countryId;
@@ -37,5 +37,10 @@ public class FirstLevelDivision {
 
     public void setCountryId(int countryId) {
         this.countryId = countryId;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }

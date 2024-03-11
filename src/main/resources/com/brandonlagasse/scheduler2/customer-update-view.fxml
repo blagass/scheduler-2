@@ -13,8 +13,8 @@
       <TextField fx:id="addressField" layoutX="326.0" layoutY="199.0" promptText="Address" />
       <TextField fx:id="postalCodeField" layoutX="326.0" layoutY="254.0" promptText="Postal Code" />
       <TextField fx:id="phoneField" layoutX="326.0" layoutY="307.0" promptText="Phone" />
-      <ComboBox fx:id="countryCombo" layoutX="326.0" layoutY="367.0" prefWidth="150.0" promptText="Country" />
-      <ComboBox fx:id="fldCombo" layoutX="326.0" layoutY="411.0" prefWidth="150.0" promptText="First Level Division" />
+      <ComboBox fx:id="countryCombo" layoutX="326.0" layoutY="367.0" onAction="#onCountryCombo" prefWidth="150.0" promptText="Country" />
+      <ComboBox fx:id="fldCombo" layoutX="326.0" layoutY="411.0" onAction="#onFldCombo" prefWidth="150.0" promptText="First Level Division" />
       <TextField fx:id="customerIdField" layoutX="327.0" layoutY="119.0" promptText="Customer ID" />
    </children>
 </AnchorPane>
