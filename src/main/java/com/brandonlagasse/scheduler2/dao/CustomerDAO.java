@@ -1,16 +1,48 @@
 package com.brandonlagasse.scheduler2.dao;
 
 import com.brandonlagasse.scheduler2.model.Customer;
+import com.brandonlagasse.scheduler2.model.User;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CustomerDAO implements DAOInterface<Customer>{
 
     @Override
-    public ObservableList<Customer> getList() {
-        return null;
+    public ObservableList<Customer> getList() throws SQLException {
+        JDBC.openConnection();
+
+        ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
+
+        String sql = "SELECT CUSTOMERS.Customer_ID, CUSTOMERS.Customer_Name, CUSTOMERS.Address, CUSTOMERS.Postal_Code, CUSTOMERS.Phone, CUSTOMERS.Division_ID, FIRST_LEVEL_DIVISIONS.Division \n" +
+                "from CUSTOMERS \n" +
+                "INNER JOIN  FIRST_LEVEL_DIVISIONS \n" +
+                "ON CUSTOMERS.Division_ID = FIRST_LEVEL_DIVISIONS.Division_ID";
+
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+            int customerId = rs.getInt("Customer_ID");
+            String customerName = rs.getString("Customer_Name");
+            String customerAddress = rs.getString("Address");
+            String customerPostalCode = rs.getString("Postal_Code");
+            String customerPhone = rs.getString("Phone");
+            int customerDivision = rs.getInt("Division_ID");
+            String customerDivisionName = rs.getString("Division");
+
+
+            Customer customer = new Customer(customerId,customerName,customerAddress,customerPostalCode,customerPhone,customerDivision,customerDivisionName);
+            allCustomers.add(customer);
+        }
+
+
+
+        return allCustomers; // Returns the observable list
+
     }
 
     @Override
@@ -57,12 +89,17 @@ public class CustomerDAO implements DAOInterface<Customer>{
     }
 
     @Override
-    public boolean delete(int id) {
-        return false;
+    public boolean delete(int id) throws SQLException {
+        String sql = "DELETE FROM customers WHERE Customer_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, id);
+        int rowsAffected = ps.executeUpdate();
+
+        if (rowsAffected == 0) {
+            return false; //  failed
+        }
+        return true;
     }
 
-    @Override
-    public Customer getById(int id) {
-        return null;
-    }
+
 }

@@ -12,13 +12,13 @@ public class Customer {
     private String divisionName;
 
     //CONSTRUCTOR
-    Customer(int id,
-             String name,
-             String address,
-             String postalCode,
-             String phone,
-             int divisionId,
-             String divisionName){
+    public Customer(int id,
+                    String name,
+                    String address,
+                    String postalCode,
+                    String phone,
+                    int divisionId,
+                    String divisionName){
         this.id = id;
         this.name = name;
         this.address = address;

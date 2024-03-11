@@ -23,13 +23,13 @@ public class AppointmentUpdateView {
 
     public void onExit(ActionEvent actionEvent) {
         try {
-            Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/appointment-update-view.fxml"));
+            Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/appointment-view.fxml"));
             Scene scene = new Scene(customerScene);
             Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(scene);
             window.show();
         } catch (IOException e) {
-            System.err.println("Error loading appointment-update-view.fxml: " + e.getMessage());
+            System.err.println("Error loading appointment-view.fxml: " + e.getMessage());
         }
     }
 

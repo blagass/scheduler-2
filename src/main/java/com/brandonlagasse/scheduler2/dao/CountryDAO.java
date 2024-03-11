@@ -1,12 +1,32 @@
 package com.brandonlagasse.scheduler2.dao;
 
 import com.brandonlagasse.scheduler2.model.Country;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class CountryDAO implements DAOInterface<Country>{
     @Override
-    public ObservableList<Country> getList() {
-        return null;
+    public ObservableList<Country> getList() throws SQLException {
+
+        JDBC.openConnection();
+        ObservableList<Country> allCountries = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM COUNTRIES";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+            int countryId = rs.getInt("Country_ID");
+            String countryName = rs.getString("Country");
+
+            Country country = new Country(countryId,countryName);
+            allCountries.add(country);
+
+        }
+        return allCountries; // Returns the observable list
+
     }
 
     @Override

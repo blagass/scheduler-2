@@ -5,7 +5,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.brandonlagasse.scheduler2.controller.CustomerUpdateView">
    <children>
       <Button layoutX="44.0" layoutY="539.0" mnemonicParsing="false" onAction="#onCancel" text="Go Back" />
@@ -16,5 +15,6 @@
       <TextField fx:id="phoneField" layoutX="326.0" layoutY="307.0" promptText="Phone" />
       <ComboBox fx:id="countryCombo" layoutX="326.0" layoutY="367.0" prefWidth="150.0" promptText="Country" />
       <ComboBox fx:id="fldCombo" layoutX="326.0" layoutY="411.0" prefWidth="150.0" promptText="First Level Division" />
+      <TextField fx:id="customerIdField" layoutX="327.0" layoutY="119.0" promptText="Customer ID" />
    </children>
 </AnchorPane>
