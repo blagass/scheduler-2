@@ -45,7 +45,19 @@ public class CountryDAO implements DAOInterface<Country>{
     }
 
     @Override
-    public Country getById(int id) {
-        return null;
+    public Country getById(int id) throws SQLException {
+        String sql = "SELECT * FROM countries WHERE Country_ID =?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        Country country = null;
+        while (rs.next()) {
+            int countryId = rs.getInt("Country_ID");
+            String countryName = rs.getString("Country");
+
+            country = new Country(countryId, countryName);
+
+        }
+        return country;
     }
 }

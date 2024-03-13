@@ -68,19 +68,54 @@ public class CustomerUpdateView implements Initializable {
         phoneField.setText(passedCustomer.getPhone());
 
         try {
-
-            countryCombo.setItems(countryDAO.getList());
-            fldCombo.setItems(fldDAO.getList());
             usDivisions = FirstLevelDivisionDAO.usStates();
             canadaDivisions = FirstLevelDivisionDAO.canadaStates();
             ukDivisions = FirstLevelDivisionDAO.ukStates();
+
+            fldCombo.setItems(fldDAO.getList());
+            countryCombo.setItems(countryDAO.getList());
+            setCountryAndFldCombo();
+
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
     }
+
+
+    private void setCountryAndFldCombo() throws SQLException {
+        // Find the matching First-Level Division for the customer
+        FirstLevelDivision matchingFld = null;
+        for (FirstLevelDivision fld : fldDAO.getList()) {
+            if (fld.getId() == passedCustomer.getDivisionId()) {
+                matchingFld = fld;
+                break;
+            }
+        }
+
+        // Set both the FLD and the Country
+        if (matchingFld != null) {
+            // Set the First-Level Division
+            fldCombo.getSelectionModel().select(matchingFld);
+
+            // Set the Country
+            int countryId = matchingFld.getCountryId();
+            for (Country country : countryCombo.getItems()) {
+                if (country.getId() == countryId) {
+                    countryCombo.getSelectionModel().select(country);
+                    break;
+                }
+            }
+        }
+    }
+
+
+
+
     @FXML
     public void onCancel(ActionEvent actionEvent) {
+
         try {
             Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/customer-view.fxml"));
             Scene scene = new Scene(customerScene);
@@ -92,7 +127,39 @@ public class CustomerUpdateView implements Initializable {
         }
     }
     @FXML
-    public void onSave(ActionEvent actionEvent) {
+    public void onSave(ActionEvent actionEvent) throws SQLException {
+        Customer customer = new Customer(-1,"ted","asdfsa","14326","544-353-3333",4,"Place");
+        CustomerDAO customerDAO = new CustomerDAO();
+
+        int customerId = Integer.parseInt(customerIdField.getText());
+        String customerName = nameField.getText();
+        String customerAddress = addressField.getText();
+        String customerPostal = postalCodeField.getText();
+        String customerPhone = phoneField.getText();
+        int customerDivisionId  = countryCombo.getSelectionModel().getSelectedItem().getId();
+        String customerDivisionName = fldCombo.getSelectionModel().getSelectedItem().toString();
+
+        customer.setId(customerId);
+        customer.setName(customerName);
+        customer.setAddress(customerAddress);
+        customer.setPostalCode(customerPostal);
+        customer.setPhone(customerPhone);
+        customer.setDivisionId(customerDivisionId);
+        customer.setDivisionName(customerDivisionName);
+
+        customerDAO.update(customer);
+
+        //Exit
+        try {
+            Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/customer-view.fxml"));
+            Scene scene = new Scene(customerScene);
+            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            window.setScene(scene);
+            window.show();
+        } catch (IOException e) {
+            System.err.println("Error loading main-view.fxml: " + e.getMessage());
+        }
+
     }
 
     @FXML

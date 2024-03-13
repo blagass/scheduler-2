@@ -108,7 +108,13 @@ public class CustomerView implements Initializable {
 
     }
     @FXML
-    public void onDeleteCustomer(ActionEvent actionEvent) {
+    public void onDeleteCustomer(ActionEvent actionEvent) throws SQLException {
+
+        Customer customerToDelete = customerTableView.getSelectionModel().getSelectedItem();
+
+        CustomerDAO customerDAO = new CustomerDAO();
+        customerDAO.delete(customerToDelete.getId());
+        customerTableView.setItems(customerDAO.getList());
     }
     @FXML
     public static Customer getCustomerToPass() {
