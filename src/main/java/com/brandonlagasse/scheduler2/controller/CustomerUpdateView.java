@@ -6,6 +6,7 @@ import com.brandonlagasse.scheduler2.dao.FirstLevelDivisionDAO;
 import com.brandonlagasse.scheduler2.model.Country;
 import com.brandonlagasse.scheduler2.model.Customer;
 import com.brandonlagasse.scheduler2.model.FirstLevelDivision;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,18 +49,15 @@ public class CustomerUpdateView implements Initializable {
     @FXML
     public static Customer passedCustomer;
     @FXML
-    private ObservableList<FirstLevelDivision> usDivisions;
+    private ObservableList<FirstLevelDivision> usDivisions = FXCollections.observableArrayList();
     @FXML
-    private ObservableList<FirstLevelDivision> canadaDivisions;
+    private ObservableList<FirstLevelDivision> canadaDivisions = FXCollections.observableArrayList();
     @FXML
-    private ObservableList<FirstLevelDivision> ukDivisions;
-
-
+    private ObservableList<FirstLevelDivision> ukDivisions = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         passedCustomer = CustomerView.getCustomerToPass();
-
 
         customerIdField.setText(String.valueOf(passedCustomer.getId()));
         nameField.setText(passedCustomer.getName());
@@ -71,35 +69,33 @@ public class CustomerUpdateView implements Initializable {
             usDivisions = FirstLevelDivisionDAO.usStates();
             canadaDivisions = FirstLevelDivisionDAO.canadaStates();
             ukDivisions = FirstLevelDivisionDAO.ukStates();
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
 
+        try {
             fldCombo.setItems(fldDAO.getList());
             countryCombo.setItems(countryDAO.getList());
             setCountryAndFldCombo();
 
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
-
     private void setCountryAndFldCombo() throws SQLException {
-        // Find the matching First-Level Division for the customer
+        // Find matching FLD and set the selection
         FirstLevelDivision matchingFld = null;
         for (FirstLevelDivision fld : fldDAO.getList()) {
             if (fld.getId() == passedCustomer.getDivisionId()) {
                 matchingFld = fld;
+                fldCombo.getSelectionModel().select(matchingFld);
                 break;
             }
         }
 
-        // Set both the FLD and the Country
+        // Find matching Country and set selection
         if (matchingFld != null) {
-            // Set the First-Level Division
-            fldCombo.getSelectionModel().select(matchingFld);
-
-            // Set the Country
             int countryId = matchingFld.getCountryId();
             for (Country country : countryCombo.getItems()) {
                 if (country.getId() == countryId) {
@@ -108,10 +104,81 @@ public class CustomerUpdateView implements Initializable {
                 }
             }
         }
+
+        // Load matching divisions (only if a country is selected)
+        if (countryCombo.getSelectionModel().getSelectedItem() != null) {
+            loadMatchingDivisions();
+        }
     }
 
+    private void loadMatchingDivisions() throws SQLException {
 
+        int countryId = countryCombo.getSelectionModel().getSelectedItem().getId();
+        ObservableList<FirstLevelDivision> matchingDivisions = fldDAO.getDivisionsByCountryId(countryId);
 
+        if (matchingDivisions != null) {
+            fldCombo.setItems(matchingDivisions);
+        }
+    }
+
+//
+//    @Override
+//    public void initialize(URL url, ResourceBundle resourceBundle) {
+//        passedCustomer = CustomerView.getCustomerToPass();
+//
+//
+//        customerIdField.setText(String.valueOf(passedCustomer.getId()));
+//        nameField.setText(passedCustomer.getName());
+//        addressField.setText(passedCustomer.getAddress());
+//        postalCodeField.setText(passedCustomer.getPostalCode());
+//        phoneField.setText(passedCustomer.getPhone());
+//
+//        try {
+//            usDivisions = FirstLevelDivisionDAO.usStates();
+//            canadaDivisions = FirstLevelDivisionDAO.canadaStates();
+//            ukDivisions = FirstLevelDivisionDAO.ukStates();
+//
+//
+//
+//            countryCombo.setItems(countryDAO.getList());
+//            fldCombo.setItems(fldDAO.getList());
+//
+//            setCountryAndFldCombo();
+//
+//
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//    }
+//
+//
+//    private void setCountryAndFldCombo() throws SQLException {
+//
+//        // Find the matching fld for the customer
+//        FirstLevelDivision matchingFld = null;
+//        for (FirstLevelDivision fld : fldDAO.getList()) {
+//            if (fld.getId() == passedCustomer.getDivisionId()) {
+//                matchingFld = fld;
+//                break;
+//            }
+//        }
+//
+//        // Set the FLD and the Country
+//        if (matchingFld != null) {
+//
+//            fldCombo.getSelectionModel().select(matchingFld);
+//
+//            int countryId = matchingFld.getCountryId();
+//            for (Country country : countryCombo.getItems()) {
+//                if (country.getId() == countryId) {
+//                    countryCombo.getSelectionModel().select(country);
+//                    break;
+//                }
+//            }
+//        }
+//    }
+//
 
     @FXML
     public void onCancel(ActionEvent actionEvent) {
@@ -136,7 +203,7 @@ public class CustomerUpdateView implements Initializable {
         String customerAddress = addressField.getText();
         String customerPostal = postalCodeField.getText();
         String customerPhone = phoneField.getText();
-        int customerDivisionId  = countryCombo.getSelectionModel().getSelectedItem().getId();
+        int customerDivisionId  = fldCombo.getSelectionModel().getSelectedItem().getId();
         String customerDivisionName = fldCombo.getSelectionModel().getSelectedItem().toString();
 
         customer.setId(customerId);
@@ -168,29 +235,28 @@ public class CustomerUpdateView implements Initializable {
     }
 
     public void onCountryCombo(ActionEvent actionEvent) throws SQLException {
+        //Get selected country
         Country country = countryCombo.getSelectionModel().getSelectedItem();
 
         if (country != null) {
-
-            ObservableList<FirstLevelDivision> matchingDivisions = null;
+            ObservableList<FirstLevelDivision> divisions = null;
             switch(country.getId()) {
                 case 1:
-                    matchingDivisions = usDivisions;
+                    divisions = usDivisions;
                     break;
                 case 2:
-                    matchingDivisions = ukDivisions;
+                    divisions = ukDivisions;
                     break;
                 case 3:
-                    matchingDivisions = canadaDivisions;
+                    divisions = canadaDivisions;
+
                     break;
                 default:
                     System.err.println("No matching Country found");
             }
 
-            if (matchingDivisions != null) {
-                fldCombo.setItems(matchingDivisions);
-                fldCombo.getSelectionModel().clearSelection();
-            }
+                fldCombo.setItems(divisions);
+
         }
     }
 

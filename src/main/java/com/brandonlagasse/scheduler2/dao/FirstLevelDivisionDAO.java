@@ -111,4 +111,22 @@ public class FirstLevelDivisionDAO implements DAOInterface<FirstLevelDivision> {
         }
         return allCanadaStates; // Returns the observable list
     }
+
+    public ObservableList<FirstLevelDivision> getDivisionsByCountryId(int id) throws SQLException {
+        String sql = "SELECT * FROM first_level_divisions WHERE Country_ID =?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        ObservableList<FirstLevelDivision> firstLevelDivisions= FXCollections.observableArrayList();
+        FirstLevelDivision fld = null;
+        while (rs.next()) {
+            int divisionId = rs.getInt("Division_ID");
+            String division = rs.getString("Division");
+            int countryId = rs.getInt("Country_ID");
+
+            fld = new FirstLevelDivision(divisionId, division, countryId);
+            firstLevelDivisions.add(fld);
+        }
+        return firstLevelDivisions;
+    }
 }
