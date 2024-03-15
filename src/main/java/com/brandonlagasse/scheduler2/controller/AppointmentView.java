@@ -1,7 +1,12 @@
 package com.brandonlagasse.scheduler2.controller;
 
+import com.brandonlagasse.scheduler2.dao.AppointmentDAO;
+import com.brandonlagasse.scheduler2.model.Appointment;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,9 +15,12 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
 
-public class AppointmentView {
-    public TableView appointmentTable;
+public class AppointmentView implements Initializable {
+    public TableView<Appointment> appointmentTable;
     public TableColumn idCol;
     public TableColumn titleCol;
     public TableColumn descriptionCol;
@@ -67,5 +75,19 @@ public class AppointmentView {
     }
 
     public void byMonth(ActionEvent actionEvent) {
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        AppointmentDAO dao = new AppointmentDAO();
+
+        ObservableList<Appointment> allAppointments;
+
+        try {
+            allAppointments = dao.getList();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        appointmentTable.setItems(allAppointments);
     }
 }
