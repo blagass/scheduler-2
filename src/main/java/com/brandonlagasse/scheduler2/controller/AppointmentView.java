@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -31,6 +32,7 @@ public class AppointmentView implements Initializable {
     public TableColumn customerIdCol;
     public TableColumn userIdCol;
     public TableColumn contactIdCol;
+    private ObservableList<Appointment> allAppointments;
 
     public void onExit(ActionEvent actionEvent) {
         try {
@@ -81,13 +83,26 @@ public class AppointmentView implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         AppointmentDAO dao = new AppointmentDAO();
 
-        ObservableList<Appointment> allAppointments;
 
         try {
             allAppointments = dao.getList();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+
+
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        startCol.setCellValueFactory(new PropertyValueFactory<>("start"));
+        endCol.setCellValueFactory(new PropertyValueFactory<>("end"));
+        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        userIdCol.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        contactIdCol.setCellValueFactory(new PropertyValueFactory<>("contactId"));
+
         appointmentTable.setItems(allAppointments);
     }
 }
