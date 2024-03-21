@@ -34,6 +34,8 @@ public class AppointmentView implements Initializable {
     public TableColumn contactIdCol;
     private ObservableList<Appointment> allAppointments;
 
+    private static Appointment transferAppointment;
+
     public void onExit(ActionEvent actionEvent) {
         try {
             Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/main-view.fxml"));
@@ -47,6 +49,8 @@ public class AppointmentView implements Initializable {
     }
 
     public void onAddAppointment(ActionEvent actionEvent) {
+
+
         try {
             Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/appointment-add-view.fxml"));
             Scene scene = new Scene(customerScene);
@@ -59,6 +63,9 @@ public class AppointmentView implements Initializable {
     }
 
     public void onUpdateAppointment(ActionEvent actionEvent) {
+
+        transferAppointment = appointmentTable.getSelectionModel().getSelectedItem();
+
         try {
             Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/appointment-update-view.fxml"));
             Scene scene = new Scene(customerScene);
@@ -70,10 +77,21 @@ public class AppointmentView implements Initializable {
         }
     }
 
-    public void onDeleteAppointment(ActionEvent actionEvent) {
+    public void onDeleteAppointment(ActionEvent actionEvent) throws SQLException {
+        Appointment selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
+        AppointmentDAO appointmentDAO = new AppointmentDAO();
+
+        System.out.println("Number of customers in the database: " + appointmentDAO.getList().size());
+        appointmentDAO.delete(selectedAppointment.getId());
+        System.out.println("Number of customers in the database: " + appointmentDAO.getList().size());
+
+        ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
+        allAppointments.setAll(appointmentDAO.getList());
+        appointmentTable.setItems(allAppointments);
     }
 
     public void byWeek(ActionEvent actionEvent) {
+
     }
 
     public void byMonth(ActionEvent actionEvent) {
@@ -104,5 +122,13 @@ public class AppointmentView implements Initializable {
         contactIdCol.setCellValueFactory(new PropertyValueFactory<>("contactId"));
 
         appointmentTable.setItems(allAppointments);
+    }
+
+    public static Appointment getTransferAppointment() {
+        return transferAppointment;
+    }
+
+    public void setTransferAppointment(Appointment transferAppointment) {
+        this.transferAppointment = transferAppointment;
     }
 }

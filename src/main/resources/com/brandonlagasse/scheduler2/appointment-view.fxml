@@ -7,25 +7,24 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.brandonlagasse.scheduler2.controller.AppointmentView">
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.brandonlagasse.scheduler2.controller.AppointmentView">
    <children>
       <Button layoutX="35.0" layoutY="540.0" mnemonicParsing="false" onAction="#onExit" text="Go Back" />
       <Button layoutX="494.0" layoutY="540.0" mnemonicParsing="false" onAction="#onAddAppointment" text="Add New" />
       <Button layoutX="607.0" layoutY="540.0" mnemonicParsing="false" onAction="#onUpdateAppointment" text="Update" />
       <Button layoutX="695.0" layoutY="540.0" mnemonicParsing="false" onAction="#onDeleteAppointment" text="Delete" />
-      <TableView fx:id="appointmentTable" layoutY="178.0" prefHeight="318.0" prefWidth="800.0">
+      <TableView fx:id="appointmentTable" layoutY="178.0" prefHeight="318.0" prefWidth="1000.0">
         <columns>
-          <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
-          <TableColumn fx:id="titleCol" prefWidth="75.0" text="Title" />
-            <TableColumn fx:id="descriptionCol" prefWidth="75.0" text="Description" />
-            <TableColumn fx:id="locationCol" prefWidth="75.0" text="Location" />
-            <TableColumn fx:id="typeCol" prefWidth="75.0" text="Type" />
-            <TableColumn fx:id="startCol" prefWidth="75.0" text="Start" />
-            <TableColumn fx:id="endCol" prefWidth="75.0" text="End" />
-            <TableColumn fx:id="customerIdCol" prefWidth="75.0" text="Customer ID" />
+          <TableColumn fx:id="idCol" prefWidth="28.0" text="ID" />
+          <TableColumn fx:id="titleCol" prefWidth="77.0" text="Title" />
+            <TableColumn fx:id="descriptionCol" prefWidth="103.0" text="Description" />
+            <TableColumn fx:id="locationCol" prefWidth="92.0" text="Location" />
+            <TableColumn fx:id="typeCol" prefWidth="94.0" text="Type" />
+            <TableColumn fx:id="startCol" prefWidth="146.0" text="Start" />
+            <TableColumn fx:id="endCol" prefWidth="191.0" text="End" />
+            <TableColumn fx:id="customerIdCol" prefWidth="100.0" text="Customer ID" />
             <TableColumn fx:id="userIdCol" prefWidth="75.0" text="User ID" />
-            <TableColumn fx:id="contactIdCol" prefWidth="75.0" text="Contact ID" />
+            <TableColumn fx:id="contactIdCol" minWidth="0.0" prefWidth="93.0" text="Contact ID" />
         </columns>
 
       </TableView>

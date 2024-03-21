@@ -1,6 +1,7 @@
 package com.brandonlagasse.scheduler2.dao;
 
 import com.brandonlagasse.scheduler2.model.Appointment;
+import com.brandonlagasse.scheduler2.model.FirstLevelDivision;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -83,7 +84,39 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
     }
 
     @Override
-    public Appointment getById(int id) {
-        return null;
+    public Appointment getById(int id) throws SQLException {
+        String sql = "SELECT * FROM appointments WHERE Appointment_ID =?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+
+        ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
+        Appointment appointment = null;
+
+        while (rs.next()) {
+            int appointmentId = rs.getInt("Appointment_ID");
+            String appointmentTitle = rs.getString("Title");
+            String appointmentDescription = rs.getString("Description");
+            String appointmentLocation = rs.getString("Location");
+            String appointmentType = rs.getString("Type");
+
+            LocalDateTime appointmentStart = rs.getTimestamp("Start").toLocalDateTime();
+            LocalDateTime appointmentEnd = rs.getTimestamp("End").toLocalDateTime();
+
+            int appointmentCustomerId = rs.getInt("Customer_ID");
+            int appointmentUserId = rs.getInt("User_ID");
+            int contactId = rs.getInt("Contact_ID");
+
+            // Timezone Handling
+            ZoneId currentZone = ZoneId.of(TimeZone.getDefault().getID());
+            ZonedDateTime zdt = appointmentStart.atZone(currentZone);
+            ZonedDateTime currentToLocalZDT = zdt.withZoneSameInstant(currentZone);
+            appointmentStart = currentToLocalZDT.toLocalDateTime();
+
+            appointment = new Appointment(appointmentId, appointmentTitle, appointmentDescription, appointmentLocation, appointmentType, appointmentStart, appointmentEnd, appointmentCustomerId, appointmentUserId, contactId);
+            //allAppointments.add(appointment);
+        }
+        return appointment;
     }
 }

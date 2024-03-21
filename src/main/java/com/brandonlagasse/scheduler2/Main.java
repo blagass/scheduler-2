@@ -1,7 +1,6 @@
 package com.brandonlagasse.scheduler2;
 
 import com.brandonlagasse.scheduler2.dao.CustomerDAO;
-import com.brandonlagasse.scheduler2.helper.Tester;
 import com.brandonlagasse.scheduler2.model.Customer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
