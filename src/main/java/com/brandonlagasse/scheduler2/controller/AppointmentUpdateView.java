@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -36,6 +37,8 @@ public class AppointmentUpdateView implements Initializable {
     public TextField typeField;
     public ComboBox<LocalTime> startCombo;
     public ComboBox<LocalTime> endCombo;
+    public DatePicker startDatePicker;
+    public DatePicker endDatePicker;
 
     public void onExit(ActionEvent actionEvent) {
         try {
@@ -83,13 +86,13 @@ public class AppointmentUpdateView implements Initializable {
         startCombo.setItems(TimeHelper.getStartHours());
 
         endCombo.setItems(TimeHelper.getEndHours());
-
+// ADD CODE HERE TO LOAD THE SELECTED CONTACT INTO THE CONTACT COMBO
 
     }
 
     public void onStartCombo(ActionEvent actionEvent) {
         if(endCombo != null) {
-            TimeHelper.checkTimeOverlap(startCombo.getSelectionModel().getSelectedItem(), endCombo.getSelectionModel().getSelectedItem());
+            TimeHelper.checkTimeOverlap(startCombo, startCombo.getValue(), endCombo.getValue());
         }else {
             System.out.println("Waiting for end selection");
         }
@@ -97,9 +100,48 @@ public class AppointmentUpdateView implements Initializable {
 
     public void onEndCombo(ActionEvent actionEvent) {
         if(startCombo != null) {
-            TimeHelper.checkTimeOverlap(startCombo.getSelectionModel().getSelectedItem(), endCombo.getSelectionModel().getSelectedItem());
+            TimeHelper.checkTimeOverlap(endCombo, startCombo.getValue(), endCombo.getValue());
         }else {
-            endCombo.getSelectionModel().clearSelection();
+
+            System.out.println("Waiting for start selection");
+        }
+    }
+
+//    public void onStartDate(ActionEvent actionEvent) {
+//        if (endDatePicker != null && startDatePicker.getValue().isAfter(LocalDate.now())) {
+//            TimeHelper.checkDateOverlap(startDatePicker, startDatePicker.getValue(), endDatePicker.getValue());
+//        } else if (endDatePicker!=null) {
+//            TimeHelper.checkDateOverlap(startDatePicker, startDatePicker.getValue(), endDatePicker.getValue());
+//        } else {
+//            System.out.println("Waiting for end selection");
+//        }
+//    }
+//
+//    public void onEndDate(ActionEvent actionEvent) {
+//        if (startDatePicker != null) {
+//            TimeHelper.checkDateOverlap(endDatePicker, startDatePicker.getValue(), endDatePicker.getValue());
+//        } else {
+//            System.out.println("Waiting for start selection");
+//        }
+//    }
+
+    public void onStartDate(ActionEvent actionEvent) {
+        if (endDatePicker != null) {
+            if (startDatePicker.getValue().isAfter(LocalDate.now())) {
+                TimeHelper.checkDateOverlap(startDatePicker, startDatePicker.getValue(), endDatePicker.getValue());
+            } else {
+                TimeHelper.displayErrorMessage("Start date cannot be before the current date.");
+                startDatePicker.setValue(null);
+            }
+        } else {
+            System.out.println("Waiting for end selection");
+        }
+    }
+
+    public void onEndDate(ActionEvent actionEvent) {
+        if (startDatePicker != null) {
+            TimeHelper.checkDateOverlap(endDatePicker, startDatePicker.getValue(), endDatePicker.getValue());
+        } else {
             System.out.println("Waiting for start selection");
         }
     }

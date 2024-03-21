@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 
 import java.time.*;
 
@@ -44,17 +45,26 @@ public class TimeHelper {
         }
     }
 
-    public static void checkTimeOverlap(LocalTime startTime, LocalTime endTime){
-
+    public static void checkTimeOverlap(ComboBox<LocalTime> timeBox,LocalTime startTime, LocalTime endTime){
         if (startTime.isBefore(endTime)) {
             System.out.println("That time works");
         } else {
             displayErrorMessage("Make sure your start time is before your end time.");
+            timeBox.getSelectionModel().clearSelection();
         }
     }
+    //CONTINUED THIS AFTER BUILDING THE DATES IN VISUAL
+    public static void checkDateOverlap(DatePicker dateBox, LocalDate startDate, LocalDate endDate){
+        if (startDate.isBefore(endDate) && startDate.isAfter(LocalDate.now()) || startDate.isEqual(LocalDate.now())) {
+            System.out.println("That date works");
+        } else {
+            displayErrorMessage("Start date must be on or after today's date and before the end date.");
+            dateBox.setValue(null);
+        }
+    };
 
     // Helper function to display the popup
-    private static void displayErrorMessage(String message) {
+    public static void displayErrorMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
         alert.setContentText(message);
