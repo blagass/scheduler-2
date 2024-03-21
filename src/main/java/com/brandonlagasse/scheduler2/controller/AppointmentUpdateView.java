@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class AppointmentUpdateView implements Initializable {
@@ -83,5 +85,22 @@ public class AppointmentUpdateView implements Initializable {
         endCombo.setItems(TimeHelper.getEndHours());
 
 
+    }
+
+    public void onStartCombo(ActionEvent actionEvent) {
+        if(endCombo != null) {
+            TimeHelper.checkTimeOverlap(startCombo.getSelectionModel().getSelectedItem(), endCombo.getSelectionModel().getSelectedItem());
+        }else {
+            System.out.println("Waiting for end selection");
+        }
+    }
+
+    public void onEndCombo(ActionEvent actionEvent) {
+        if(startCombo != null) {
+            TimeHelper.checkTimeOverlap(startCombo.getSelectionModel().getSelectedItem(), endCombo.getSelectionModel().getSelectedItem());
+        }else {
+            endCombo.getSelectionModel().clearSelection();
+            System.out.println("Waiting for start selection");
+        }
     }
 }
