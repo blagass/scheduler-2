@@ -5,6 +5,7 @@ import com.brandonlagasse.scheduler2.dao.ContactDAO;
 import com.brandonlagasse.scheduler2.helper.TimeHelper;
 import com.brandonlagasse.scheduler2.model.Appointment;
 import com.brandonlagasse.scheduler2.model.Contact;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,6 +20,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -60,33 +62,34 @@ public class AppointmentUpdateView implements Initializable {
         ContactDAO contactDAO = new ContactDAO();
         AppointmentDAO appointmentDAO = new AppointmentDAO();
 
+        ObservableList<Contact> allContacts = null;
+        try {
+            allContacts = contactDAO.getList();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         Appointment appointment = AppointmentView.getTransferAppointment();
 
         appointmentIdField.setText(String.valueOf(appointment.getId()));
         titleField.setText(appointment.getTitle());
         descriptionField.setText(appointment.getDescription());
         locationField.setText(appointment.getLocation());
-
-        contactCombo.setItems(contactDAO.getList());
-
         typeField.setText(appointment.getType());
+        customerIdField.setText(String.valueOf(appointment.getCustomerId()));
+        userIdField.setText(String.valueOf(appointment.getUserId()));
 
         LocalDate appointmentDate = appointment.getStart().toLocalDate();
 
-        customerIdField.setText(String.valueOf(appointment.getCustomerId()));
-
-        userIdField.setText(String.valueOf(appointment.getUserId()));
-
-
         TimeHelper timeHelper = new TimeHelper();
-
         timeHelper.loadTimes();
 
 
         startCombo.setItems(TimeHelper.getStartHours());
 
         endCombo.setItems(TimeHelper.getEndHours());
-// ADD CODE HERE TO LOAD THE SELECTED CONTACT INTO THE CONTACT COMBO
+
+        contactCombo.setItems(allContacts);
+
 
     }
 
@@ -144,5 +147,8 @@ public class AppointmentUpdateView implements Initializable {
         } else {
             System.out.println("Waiting for start selection");
         }
+    }
+
+    public void onContactCombo(ActionEvent actionEvent) {
     }
 }

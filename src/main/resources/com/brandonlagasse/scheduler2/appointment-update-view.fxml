@@ -17,7 +17,7 @@
       <TextField fx:id="locationField" layoutX="326.0" layoutY="233.0" promptText="Location" />
       <TextField fx:id="customerIdField" layoutX="327.0" layoutY="405.0" promptText="Customer ID" />
       <TextField fx:id="userIdField" layoutX="327.0" layoutY="443.0" promptText="User ID" />
-      <ComboBox fx:id="contactCombo" layoutX="326.0" layoutY="484.0" prefWidth="150.0" promptText="Contact" />
+      <ComboBox fx:id="contactCombo" layoutX="326.0" layoutY="484.0" onAction="#onContactCombo" prefWidth="150.0" promptText="Contact" />
       <Label layoutX="288.0" layoutY="53.0" text="Update Appointment">
          <font>
             <Font size="24.0" />
