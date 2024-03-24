@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
@@ -54,7 +55,48 @@ public class AppointmentUpdateView implements Initializable {
         }
     }
 
-    public void onSave(ActionEvent actionEvent) {
+    public void onSave(ActionEvent actionEvent) throws SQLException {
+
+         int id = Integer.parseInt(appointmentIdField.getText());
+         String title = titleField.getText();
+         String description = descriptionField.getText();
+         String location = locationField.getText();
+         String type = typeField.getText();
+
+         //Create start LocalDateTime object
+         LocalTime startTime = startCombo.getSelectionModel().getSelectedItem();
+         LocalDate startDate = startDatePicker.getValue();
+
+         LocalDateTime startLdt = LocalDateTime.of(startDate, startTime);
+
+         //Create end LocalDateTime object
+         LocalTime endTime = endCombo.getSelectionModel().getSelectedItem();
+         LocalDate endDate = endDatePicker.getValue();
+
+         LocalDateTime endLdt = LocalDateTime.of(endDate,endTime);
+
+         //Customer,User,and Contact ID
+         int customerId = Integer.parseInt(customerIdField.getText());
+         int userId = Integer.parseInt(userIdField.getText());
+         int contactId = contactCombo.getSelectionModel().getSelectedItem().getId();
+
+         Appointment appointment = new Appointment(id,title,description,location,type,startLdt,endLdt,customerId,userId,contactId);
+         AppointmentDAO appointmentDAO = new AppointmentDAO();
+         appointmentDAO.insert(appointment);
+
+        //Exit
+        try {
+            Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/appointment-view.fxml"));
+            Scene scene = new Scene(customerScene);
+            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            window.setScene(scene);
+            window.show();
+        } catch (IOException e) {
+            System.err.println("Error loading main-view.fxml: " + e.getMessage());
+        }
+
+        //testing thesez
+
     }
 
     @Override

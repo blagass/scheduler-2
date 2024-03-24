@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -69,8 +70,32 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
 
 
     @Override
-    public boolean insert(Appointment object) {
-        return false;
+    public boolean insert(Appointment appointment) throws SQLException {
+        LocalDateTime start = appointment.getStart();
+        Timestamp startTimeStamp = Timestamp.valueOf(start);
+
+        LocalDateTime end = appointment.getEnd();
+        Timestamp endTimeStamp = Timestamp.valueOf(end);
+
+        String sql = "INSERT INTO APPOINTMENTS(Title,Description,Location,Type,Start,End,Customer_ID,User_ID,Contact_ID) VALUES(?,?,?,?,?,?,?,?,?)";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1,appointment.getTitle());
+        ps.setString(2,appointment.getDescription());
+        ps.setString(3,appointment.getLocation());
+        ps.setString(4,appointment.getType());
+        ps.setTimestamp(5,startTimeStamp);
+        ps.setTimestamp(6,endTimeStamp); //work on these after you have the first part of appointments figured out
+        ps.setInt(7, appointment.getCustomerId());
+        ps.setInt(8,appointment.getUserId());
+        ps.setInt(9,appointment.getContactId());
+
+        int rowsAffected = ps.executeUpdate();
+
+        if (rowsAffected == 0) {
+            return false; // Insert failed
+        }
+        JDBC.closeConnection();
+        return true;
     }
 
     @Override
