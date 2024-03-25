@@ -1,5 +1,6 @@
 package com.brandonlagasse.scheduler2.dao;
 
+import com.brandonlagasse.scheduler2.helper.TimeHelper;
 import com.brandonlagasse.scheduler2.model.Appointment;
 import com.brandonlagasse.scheduler2.model.FirstLevelDivision;
 import javafx.collections.FXCollections;
@@ -10,6 +11,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.TimeZone;
+
+import static com.brandonlagasse.scheduler2.helper.TimeHelper.displayErrorMessage;
 
 public class AppointmentDAO implements DAOInterface<Appointment> {
     @Override
@@ -69,9 +72,14 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
     @Override
     public boolean insert(Appointment appointment) throws SQLException {
         LocalDateTime start = appointment.getStart();
-        Timestamp startTimeStamp = Timestamp.valueOf(start);
-
         LocalDateTime end = appointment.getEnd();
+
+        if (TimeHelper.checkOverlap(start, end)) {
+            displayErrorMessage("Appointment times overlap with an existing appointment.");
+            return false;
+        }
+
+        Timestamp startTimeStamp = Timestamp.valueOf(start);
         Timestamp endTimeStamp = Timestamp.valueOf(end);
 
         String sql = "INSERT INTO APPOINTMENTS(Title,Description,Location,Type,Start,End,Customer_ID,User_ID,Contact_ID) VALUES(?,?,?,?,?,?,?,?,?)";

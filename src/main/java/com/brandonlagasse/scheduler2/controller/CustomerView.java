@@ -40,7 +40,8 @@ public class CustomerView implements Initializable {
     @FXML
     private ObservableList<Customer> transferCustomers;
 
-
+    @FXML
+    public Customer customer = null;
 
     @FXML
     public static Customer customerToPass;

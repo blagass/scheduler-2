@@ -1,5 +1,6 @@
 package com.brandonlagasse.scheduler2.helper;
 
+import com.brandonlagasse.scheduler2.dao.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -7,6 +8,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.*;
 
 public class TimeHelper {
@@ -53,7 +58,7 @@ public class TimeHelper {
             timeBox.getSelectionModel().clearSelection();
         }
     }
-    //CONTINUED THIS AFTER BUILDING THE DATES IN VISUAL
+
     public static void checkDateOverlap(DatePicker dateBox, LocalDate startDate, LocalDate endDate){
         if (startDate.isBefore(endDate) && startDate.isAfter(LocalDate.now()) || startDate.isEqual(LocalDate.now())) {
             System.out.println("That date works");
@@ -69,6 +74,18 @@ public class TimeHelper {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public static boolean checkOverlap(LocalDateTime start, LocalDateTime end) throws SQLException {
+        String sql = "SELECT * FROM appointments WHERE Start < ? AND End > ? ";
+
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setTimestamp(1, Timestamp.valueOf(end));
+        ps.setTimestamp(2, Timestamp.valueOf(start));
+
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        return false;
     }
 
 }
