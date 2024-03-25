@@ -21,6 +21,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
@@ -38,6 +40,8 @@ public class AppointmentAddView implements Initializable {
     public ComboBox<LocalTime> endTimeCombo;
     public DatePicker startDatePicker;
     public DatePicker onEndDatePicker;
+    public TextField locationField;
+    public DatePicker endDatePicker;
 
     public void onExit(ActionEvent actionEvent) {
         try {
@@ -51,7 +55,33 @@ public class AppointmentAddView implements Initializable {
         }
     }
 
-    public void onSave(ActionEvent actionEvent) {
+    public void onSave(ActionEvent actionEvent) throws SQLException {
+        //int id = Integer.parseInt(appointmentIdField.getText());
+        String title = titleField.getText();
+        String description = descriptionField.getText();
+        String location = locationField.getText();
+        String type = typeField.getText();
+
+        //Create start LocalDateTime object
+        LocalTime startTime = startTimeCombo.getSelectionModel().getSelectedItem();
+        LocalDate startDate = startDatePicker.getValue();
+
+        LocalDateTime startLdt = LocalDateTime.of(startDate, startTime);
+
+        //Create end LocalDateTime object
+        LocalTime endTime = endTimeCombo.getSelectionModel().getSelectedItem();
+        LocalDate endDate = endDatePicker.getValue();
+
+        LocalDateTime endLdt = LocalDateTime.of(endDate,endTime);
+
+        //Customer,User,and Contact ID
+        int customerId = Integer.parseInt(customerIdField.getText());
+        int userId = Integer.parseInt(userIdField.getText());
+        int contactId = contactCombo.getSelectionModel().getSelectedItem().getId();
+
+        Appointment appointment = new Appointment(-1,title,description,location,type,startLdt,endLdt,customerId,userId,contactId);
+        AppointmentDAO appointmentDAO = new AppointmentDAO();
+        appointmentDAO.insert(appointment);
     }
 
     public void onStartTime(ActionEvent actionEvent) {

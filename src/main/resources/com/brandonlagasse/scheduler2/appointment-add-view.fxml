@@ -13,7 +13,7 @@
       <Button layoutX="68.0" layoutY="546.0" mnemonicParsing="false" onAction="#onExit" text="Go Back" />
       <Button layoutX="168.0" layoutY="546.0" mnemonicParsing="false" onAction="#onSave" text="Save" />
       <TextField fx:id="titleField" layoutX="316.0" layoutY="150.0" promptText="Title" />
-      <TextField fx:id="LocationField" layoutX="316.0" layoutY="231.0" promptText="Location" />
+      <TextField fx:id="locationField" layoutX="316.0" layoutY="231.0" promptText="Location" />
       <TextField fx:id="descriptionField" layoutX="316.0" layoutY="187.0" promptText="Description" />
       <TextField fx:id="typeField" layoutX="316.0" layoutY="275.0" promptText="Type" />
       <TextField fx:id="customerIdField" layoutX="316.0" layoutY="397.0" promptText="Customer ID" />
@@ -27,6 +27,6 @@
       <ComboBox fx:id="startTimeCombo" layoutX="316.0" layoutY="317.0" onAction="#onStartTime" prefWidth="150.0" promptText="Start Time" />
       <ComboBox fx:id="endTimeCombo" layoutX="316.0" layoutY="354.0" onAction="#onEndCombo" prefWidth="150.0" promptText="End Time" />
       <DatePicker fx:id="startDatePicker" layoutX="476.0" layoutY="317.0" onAction="#onStartDate" promptText="Start Date" />
-      <DatePicker fx:id="onEndDatePicker" layoutX="476.0" layoutY="354.0" onAction="#onEndDate" promptText="End Date" />
+      <DatePicker fx:id="endDatePicker" layoutX="476.0" layoutY="354.0" onAction="#onEndDate" promptText="End Date" />
    </children>
 </AnchorPane>
