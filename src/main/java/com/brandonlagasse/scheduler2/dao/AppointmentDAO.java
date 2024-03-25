@@ -136,8 +136,14 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
     }
 
     @Override
-    public boolean delete(int id) {
-        return false;
+    public boolean delete(int id) throws SQLException {
+
+
+        String sql = "DELETE FROM APPOINTMENTS WHERE Appointment_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, id);
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected > 0;
     }
 
     @Override

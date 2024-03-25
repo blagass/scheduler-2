@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="com.brandonlagasse.scheduler2.controller.MainController">
+<VBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.brandonlagasse.scheduler2.controller.MainController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
@@ -28,7 +28,7 @@
          <Button mnemonicParsing="false" onAction="#onReportButton" text="Reports" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       </children>
    </GridPane>
-    <Button onAction="#onExitButton" text="Exit" />
+    <Button fx:id="exitButton" onAction="#onExitButton" text="Exit" />
 
     <Label fx:id="welcomeText" />
 </VBox>
