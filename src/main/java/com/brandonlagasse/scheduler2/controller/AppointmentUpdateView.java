@@ -82,7 +82,7 @@ public class AppointmentUpdateView implements Initializable {
 
          Appointment appointment = new Appointment(id,title,description,location,type,startLdt,endLdt,customerId,userId,contactId);
          AppointmentDAO appointmentDAO = new AppointmentDAO();
-         appointmentDAO.insert(appointment);
+         appointmentDAO.update(appointment);
 
         //Exit
         try {
@@ -94,8 +94,6 @@ public class AppointmentUpdateView implements Initializable {
         } catch (IOException e) {
             System.err.println("Error loading main-view.fxml: " + e.getMessage());
         }
-
-        //testing thesez
 
     }
 
@@ -120,10 +118,20 @@ public class AppointmentUpdateView implements Initializable {
         customerIdField.setText(String.valueOf(appointment.getCustomerId()));
         userIdField.setText(String.valueOf(appointment.getUserId()));
 
-        LocalDate appointmentDate = appointment.getStart().toLocalDate();
+        //LocalDate appointmentDate = appointment.getStart().toLocalDate();
 
         TimeHelper timeHelper = new TimeHelper();
         timeHelper.loadTimes();
+
+        //Set up LTDs
+        LocalDateTime ltdStart = appointment.getStart();
+        LocalDateTime ltdEnd = appointment.getEnd();
+
+        LocalTime startTime = ltdStart.toLocalTime();
+        LocalDate startDate = ltdStart.toLocalDate();
+
+        LocalTime endTime = ltdEnd.toLocalTime();
+        LocalDate endDate = ltdEnd.toLocalDate();
 
 
         startCombo.setItems(TimeHelper.getStartHours());
@@ -132,6 +140,23 @@ public class AppointmentUpdateView implements Initializable {
 
         contactCombo.setItems(allContacts);
 
+        //Set transfer appointments start/end times
+        startCombo.setValue(startTime);
+        endCombo.setValue(endTime);
+
+        //Set Contact combo
+        int contactId = appointment.getContactId();
+        Contact contact = null;
+        try {
+            contact = contactDAO.getById(contactId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        contactCombo.setValue(contact);
+
+        //Set up date picker
+        startDatePicker.setValue(startDate);
+        endDatePicker.setValue(endDate);
 
     }
 

@@ -47,7 +47,25 @@ public class ContactDAO implements DAOInterface<Contact>{
     }
 
     @Override
-    public Contact getById(int id) {
-        return null;
+    public Contact getById(int id) throws SQLException {
+        JDBC.openConnection();
+
+        String sql = "SELECT * FROM CONTACTS where Contact_ID =?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+
+        Contact contact = null;
+        while (rs.next()) {
+            int contactId = rs.getInt("Contact_ID");
+            String contactName = rs.getString("Contact_Name");
+            String email = rs.getString("Email");
+
+
+            contact = new Contact(contactId, contactName, email);
+
+        }
+        return contact;
     }
 }
