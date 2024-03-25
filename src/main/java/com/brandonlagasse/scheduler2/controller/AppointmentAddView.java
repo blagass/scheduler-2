@@ -79,7 +79,7 @@ public class AppointmentAddView implements Initializable {
         int userId = Integer.parseInt(userIdField.getText());
         int contactId = contactCombo.getSelectionModel().getSelectedItem().getId();
 
-        Appointment appointment = new Appointment(-1,title,description,location,type,startLdt,endLdt,customerId,userId,contactId);
+        Appointment appointment = new Appointment(-1,title,description,location,type,  startLdt,endLdt,customerId,userId,contactId);
         AppointmentDAO appointmentDAO = new AppointmentDAO();
         appointmentDAO.insert(appointment);
     }
