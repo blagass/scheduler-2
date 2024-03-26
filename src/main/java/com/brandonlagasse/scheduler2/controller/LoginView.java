@@ -7,19 +7,32 @@ import com.brandonlagasse.scheduler2.model.User;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.time.ZoneId;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
-public class LoginView {
+public class LoginView implements Initializable {
     public TextField userField;
     public TextField passwordField;
+    public Label loginLabel;
+    public Label userLabel;
+    public Label zoneLabel;
+    public Label passwordLabel;
+    public Button loginButton;
+    public Label yourZone;
 
     public void onLogin(ActionEvent actionEvent) throws SQLException, IOException {
         //LoginHelper.logLoginAttempt();
@@ -67,10 +80,29 @@ public class LoginView {
     }
 
     private void showLoginErrorAlert(String title, String message) {
+        ResourceBundle rb = ResourceBundle.getBundle("/com/brandonlagasse/scheduler2/Lang", Locale.getDefault());
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
+        alert.setTitle(rb.getString("loginError")); // Use translated title
         alert.setHeaderText(null);
-        alert.setContentText(message);
+        alert.setContentText(rb.getString("wrongCredentials")); // Use translated message
         alert.showAndWait();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        String zone = String.valueOf(ZoneId.systemDefault());
+
+        ResourceBundle rb = ResourceBundle.getBundle("/com/brandonlagasse/scheduler2/Lang", Locale.getDefault());
+
+        if(Locale.getDefault().getLanguage().equals("fr"))
+            System.out.println("hello");
+        if(Locale.getDefault().getLanguage().equals("fr"))
+            System.out.println(rb.getString("hello"));
+        loginButton.setText(rb.getString("log"));
+        userLabel.setText(rb.getString("user"));
+        passwordLabel.setText(rb.getString("password"));
+        loginLabel.setText(rb.getString("welcome"));
+        yourZone.setText(rb.getString("yourZone"));
+        zoneLabel.setText(zone);
     }
 }

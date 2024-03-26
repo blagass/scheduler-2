@@ -30,15 +30,14 @@ public class TimeHelper {
     }
 
     public void loadTimes() {
-        // Determine user's timezone
+        //  timezone
         ZoneId currentZone = ZoneId.systemDefault();
 
 
-        // Business hours (8 AM - 10 PM ET in user's timezone)
         ZonedDateTime zonedStartTime = ZonedDateTime.of(LocalDate.now(), LocalTime.of(8, 0), currentZone);
         ZonedDateTime zonedEndTime = ZonedDateTime.of(LocalDate.now(), LocalTime.of(22, 0), currentZone);
 
-        // Clear existing times
+        // clear  times
         startHours.clear();
         endHours.clear();
 
