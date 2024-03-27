@@ -15,8 +15,9 @@
     </padding>
    <GridPane>
      <columnConstraints>
-       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+       <ColumnConstraints hgrow="SOMETIMES" maxWidth="325.0" minWidth="10.0" prefWidth="294.0" />
+       <ColumnConstraints hgrow="SOMETIMES" maxWidth="299.0" minWidth="10.0" prefWidth="220.0" />
+         <ColumnConstraints hgrow="SOMETIMES" maxWidth="285.0" minWidth="10.0" prefWidth="215.0" />
      </columnConstraints>
      <rowConstraints>
        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -24,13 +25,13 @@
        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
      </rowConstraints>
       <children>
-         <Button mnemonicParsing="false" onAction="#onCustomerButton" text="Customers" GridPane.columnIndex="1" />
-         <Button mnemonicParsing="false" onAction="#onAppointmentButton" text="Appointments" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-         <Button mnemonicParsing="false" onAction="#onReportButton" text="Reports" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         <Button mnemonicParsing="false" onAction="#onCustomerButton" text="View Customers" GridPane.rowIndex="2" />
+         <Button mnemonicParsing="false" onAction="#onAppointmentButton" text="View Appointments" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         <Button mnemonicParsing="false" onAction="#onReportButton" text="All Reports" GridPane.columnIndex="2" GridPane.rowIndex="2" />
       </children>
    </GridPane>
-    <Button fx:id="exitButton" onAction="#onExitButton" text="Exit" />
 
     <Label fx:id="welcomeText" />
-   <TextArea fx:id="appointmentArea" prefHeight="200.0" prefWidth="200.0" />
+   <TextArea fx:id="appointmentArea" prefHeight="56.0" prefWidth="760.0" />
+    <Button fx:id="exitButton" onAction="#onExitButton" text="Exit" />
 </VBox>

@@ -1,6 +1,8 @@
 package com.brandonlagasse.scheduler2.model;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class Appointment {
 
@@ -115,6 +117,12 @@ public class Appointment {
     }
 
 
+    @Override
+    public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy a")
+                .withZone(ZoneId.systemDefault());
 
+        return "Start: " + start.format(formatter) + ", End: " + end.format(formatter);
+    }
 
 }

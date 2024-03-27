@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -81,17 +82,28 @@ public class AppointmentUpdateView implements Initializable {
 
         System.out.println("Start Date: " + startDate);
         System.out.println("End Date" + endDate);
-        if (startDate.isAfter(endDate)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);alert.setHeaderText(null);alert.setContentText("Start date must be before end date");alert.showAndWait();
-return;
+//        if (startDate.isAfter(endDate)) {
+//            Alert alert = new Alert(Alert.AlertType.ERROR);alert.setHeaderText(null);alert.setContentText("Start date must be before end date");alert.showAndWait();
+//return;
+//        }
+        if (startDate.isAfter(endDate) ||
+                (startDate.getDayOfWeek() == DayOfWeek.SATURDAY || startDate.getDayOfWeek() == DayOfWeek.SUNDAY) ||
+                (endDate.getDayOfWeek() == DayOfWeek.SATURDAY || endDate.getDayOfWeek() == DayOfWeek.SUNDAY)) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Start date must be before end date and cannot be on a weekend.");
+            alert.showAndWait();
+            return;
         }
 
+//        if (!TimeHelper.checkTimeOverlap(startTime, endTime)) {
+//
+//            Alert alert = new Alert(Alert.AlertType.ERROR);alert.setHeaderText(null);alert.setContentText("Start time must be before end time");alert.showAndWait();
+//return;
+//        }
 
-        if (!TimeHelper.checkTimeOverlap(startTime, endTime)) {
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);alert.setHeaderText(null);alert.setContentText("Start time must be before end time");alert.showAndWait();
-return;
-        }
 
         LocalDateTime endLdt = LocalDateTime.of(endDate,endTime);
 
