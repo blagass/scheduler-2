@@ -33,6 +33,7 @@ public class LoginView implements Initializable {
     public Label passwordLabel;
     public Button loginButton;
     public Label yourZone;
+    public static int passUserId;
 
     public void onLogin(ActionEvent actionEvent) throws SQLException, IOException {
         //LoginHelper.logLoginAttempt();
@@ -53,9 +54,23 @@ public class LoginView implements Initializable {
             ObservableList<User> allUsers = userDAO.getList();
 
             String finalUserName = userName;
-            boolean loginSuccess = allUsers.stream()
-                    .anyMatch(u -> u.getName().equals(finalUserName) &&
-                            u.getPassword().equals(password));
+
+//
+//            boolean loginSuccess = allUsers.stream()
+//                    .anyMatch(u -> u.getName().equals(finalUserName) &&
+//                            u.getPassword().equals(password));
+//
+            boolean loginSuccess = false;
+            int userId = -1; // Initialize userId to -1
+
+            // Find Matching User
+            for (User u : allUsers) {
+                if (u.getName().equals(finalUserName) && u.getPassword().equals(password)) {
+                    userId = u.getId();
+                    loginSuccess = true;
+                    break;
+                }
+            }
 
             if (loginSuccess) {
                 System.out.println("Success!");
@@ -68,13 +83,16 @@ public class LoginView implements Initializable {
                 // Log
                 LoginHelper.logLoginAttempt(userName, true);
 
+                if(LoginHelper.appointmentChecker(userId)){
+                    passUserId = userId;
+                };
+
             } else {
                 throw new Error("Wrong credentials");
             }
 
         } catch (Error e) {
             showLoginErrorAlert("Login Error", e.getMessage());
-
             LoginHelper.logLoginAttempt(userName, false);
         }
     }
@@ -104,5 +122,6 @@ public class LoginView implements Initializable {
         loginLabel.setText(rb.getString("welcome"));
         yourZone.setText(rb.getString("yourZone"));
         zoneLabel.setText(zone);
+
     }
 }

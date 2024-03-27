@@ -1,9 +1,13 @@
 package com.brandonlagasse.scheduler2.helper;
 
+import com.brandonlagasse.scheduler2.dao.UserDAO;
+import com.brandonlagasse.scheduler2.model.Appointment;
+import com.brandonlagasse.scheduler2.model.User;
+
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -25,5 +29,14 @@ public class LoginHelper {
             System.err.println("Error logging login attempt: " + e.getMessage());
             // Consider more robust error handling here
         }
+    }
+
+    public static boolean appointmentChecker(int id) throws SQLException {
+
+        Appointment appointment;
+
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.getById(id);
+        return false;
     }
 }

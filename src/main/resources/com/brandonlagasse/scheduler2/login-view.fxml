@@ -15,7 +15,7 @@
    <children>
       <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffc31f" height="600.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="153.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffc31f" height="600.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="181.0" />
             <VBox prefHeight="600.0" prefWidth="588.0">
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0">
