@@ -49,23 +49,6 @@ public class TimeHelper {
         }
     }
 
-    public static void checkTimeOverlap(ComboBox<LocalTime> timeBox,LocalTime startTime, LocalTime endTime){
-        if (startTime.isBefore(endTime)) {
-            System.out.println("That time works");
-        } else {
-            displayErrorMessage("Make sure your start time is before your end time.");
-            timeBox.getSelectionModel().clearSelection();
-        }
-    }
-
-    public static void checkDateOverlap(DatePicker dateBox, LocalDate startDate, LocalDate endDate){
-        if (startDate.isBefore(endDate) && startDate.isAfter(LocalDate.now()) || startDate.isEqual(LocalDate.now())) {
-            System.out.println("That date works");
-        } else {
-            displayErrorMessage("Start date must be on or after today's date and before the end date.");
-            dateBox.setValue(null);
-        }
-    };
 
     // Helper function to display the popup
     public static void displayErrorMessage(String message) {
@@ -75,12 +58,60 @@ public class TimeHelper {
         alert.showAndWait();
     }
 
+    public static boolean checkDateOverlap(LocalDate startDate, LocalDate endDate){
+//        if (startDate.isBefore(endDate) && startDate.isAfter(LocalDate.now()) || startDate.isEqual(LocalDate.now())) {
+//            System.out.println("That date works");
+////        } else {
+//            System.out.println("That Date doesn't work");
+//        }
+//
+//        return true;
+        if (startDate.isBefore(LocalDate.now())) {
+            System.out.println("Start date cannot be in the past.");
+            return false; // Fail if the date is in the past
+        }
+
+        // Check 2: Start Date must be before End Date
+        if (startDate.isAfter(endDate)) {
+            System.out.println("Start date must be before the end date.");
+            return false; // Fail if the start date is not before the end date
+        }
+
+        // If both checks pass:
+        return true;
+    }
+    public static boolean  checkTimeOverlap(LocalTime startTime, LocalTime endTime){
+//        if (startTime.isBefore(endTime)) {
+//            System.out.println("That time works");
+////        } else {
+////            displayErrorMessage("Make sure your start time is before your end time.");
+////           // timeBox.getSelectionModel().clearSelection();
+////        }
+//       // return false;
+//    }
+//        return false;
+        if (startTime.isBefore(LocalTime.now())) {
+            System.out.println("Start date cannot be in the past.");
+            return false; // Fail if the date is in the past
+        }
+
+        // Check 2: Start time must be before End Date
+        if (startTime.isAfter(endTime)) {
+            System.out.println("Start date must be before the end date.");
+            return false; // Fail if the start date is not before the end date
+        }
+
+        // If both checks pass:
+        return true;
+    }
+
     public static boolean checkOverlap(LocalDateTime start, LocalDateTime end) throws SQLException {
-        String sql = "SELECT * FROM appointments WHERE Start < ? AND End > ? ";
+        String sql = "SELECT * FROM appointments WHERE Start < ? AND End > ?";
+
 
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setTimestamp(1, Timestamp.valueOf(end));
-        ps.setTimestamp(2, Timestamp.valueOf(start));
+        ps.setTimestamp(1, Timestamp.valueOf(start));
+        ps.setTimestamp(2, Timestamp.valueOf(end));
 
         ResultSet rs = ps.executeQuery();
         rs.next();

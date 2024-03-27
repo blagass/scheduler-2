@@ -74,10 +74,9 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
         LocalDateTime start = appointment.getStart();
         LocalDateTime end = appointment.getEnd();
 
-        if (TimeHelper.checkOverlap(start, end)) {
-            displayErrorMessage("Appointment times overlap with an existing appointment.");
-            return false;
-        }
+//        if (TimeHelper.checkOverlap(start, end)) {
+//            return false;
+//        }
 
         Timestamp startTimeStamp = Timestamp.valueOf(start);
         Timestamp endTimeStamp = Timestamp.valueOf(end);

@@ -133,4 +133,13 @@ public class CustomerDAO implements DAOInterface<Customer>{
         return rowsAffected > 0;
     }
 
+    public boolean customerExists(int customerId) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM customers WHERE Customer_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, customerId);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        return rs.getInt(1) > 0; // Returns true if a customer with the given ID is found
+    }
+
 }

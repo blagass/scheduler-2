@@ -14,7 +14,7 @@ import java.util.Locale;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("appointment-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         //stage.setTitle("Hello!");
         stage.setScene(scene);

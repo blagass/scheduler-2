@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -65,7 +66,12 @@ public class AppointmentView implements Initializable {
     public void onUpdateAppointment(ActionEvent actionEvent) {
 
         transferAppointment = appointmentTable.getSelectionModel().getSelectedItem();
-
+        if (transferAppointment == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select an appointment to update.");
+            alert.showAndWait();} else{
         try {
             Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/appointment-update-view.fxml"));
             Scene scene = new Scene(customerScene);
@@ -74,20 +80,30 @@ public class AppointmentView implements Initializable {
             window.show();
         } catch (IOException e) {
             System.err.println("Error loading appointment-update-view.fxml: " + e.getMessage());
-        }
+        }}
     }
 
     public void onDeleteAppointment(ActionEvent actionEvent) throws SQLException {
+
         Appointment selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
-        AppointmentDAO appointmentDAO = new AppointmentDAO();
+        AppointmentDAO appointmentDAO = null;
+        if (selectedAppointment == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select an appointment to delete.");
+            alert.showAndWait();
+            appointmentDAO = new AppointmentDAO();
+        } else {
 
-        System.out.println("Number of customers in the database: " + appointmentDAO.getList().size());
-        appointmentDAO.delete(selectedAppointment.getId());
-        System.out.println("Number of customers in the database: " + appointmentDAO.getList().size());
+            System.out.println("Number of customers in the database: " + appointmentDAO.getList().size());
+            appointmentDAO.delete(selectedAppointment.getId());
+            System.out.println("Number of customers in the database: " + appointmentDAO.getList().size());
 
-        ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
-        allAppointments.setAll(appointmentDAO.getList());
-        appointmentTable.setItems(allAppointments);
+            ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
+            allAppointments.setAll(appointmentDAO.getList());
+            appointmentTable.setItems(allAppointments);
+        }
     }
 
     public void byWeek(ActionEvent actionEvent) {

@@ -105,4 +105,13 @@ public class UserDAO implements DAOInterface<User>{
         return returnedUser;
 
     }
+
+    public boolean userExists(int userId) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM users WHERE User_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, userId);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        return rs.getInt(1) > 0;
+    }
 }

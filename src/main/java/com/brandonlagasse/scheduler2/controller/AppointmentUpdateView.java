@@ -2,9 +2,12 @@ package com.brandonlagasse.scheduler2.controller;
 
 import com.brandonlagasse.scheduler2.dao.AppointmentDAO;
 import com.brandonlagasse.scheduler2.dao.ContactDAO;
+import com.brandonlagasse.scheduler2.dao.CustomerDAO;
+import com.brandonlagasse.scheduler2.dao.UserDAO;
 import com.brandonlagasse.scheduler2.helper.TimeHelper;
 import com.brandonlagasse.scheduler2.model.Appointment;
 import com.brandonlagasse.scheduler2.model.Contact;
+import com.brandonlagasse.scheduler2.model.Customer;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -12,19 +15,19 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class AppointmentUpdateView implements Initializable {
@@ -73,11 +76,48 @@ public class AppointmentUpdateView implements Initializable {
          LocalTime endTime = endCombo.getSelectionModel().getSelectedItem();
          LocalDate endDate = endDatePicker.getValue();
 
-         LocalDateTime endLdt = LocalDateTime.of(endDate,endTime);
+//         TimeHelper.checkDateOverlap(startDate,endDate);
+//        TimeHelper.checkTimeOverlap(startTime,endTime);
 
-         //Customer,User,and Contact ID
+        System.out.println("Start Date: " + startDate);
+        System.out.println("End Date" + endDate);
+        if (startDate.isAfter(endDate)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);alert.setHeaderText(null);alert.setContentText("Start date must be before end date");alert.showAndWait();
+return;
+        }
+
+
+        if (!TimeHelper.checkTimeOverlap(startTime, endTime)) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);alert.setHeaderText(null);alert.setContentText("Start time must be before end time");alert.showAndWait();
+return;
+        }
+
+        LocalDateTime endLdt = LocalDateTime.of(endDate,endTime);
+
+         //Check customerId against DAO for valid id
          int customerId = Integer.parseInt(customerIdField.getText());
-         int userId = Integer.parseInt(userIdField.getText());
+         CustomerDAO customerDAO = new CustomerDAO();
+         if (!customerDAO.customerExists(customerId)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Invalid customer ID. Please enter a valid customer ID.");
+            alert.showAndWait();
+            return;  // Exit if the customer ID is invalid
+         }
+         //Check userId against DAO for valid id
+        UserDAO userDAO = new UserDAO();
+        int userId = Integer.parseInt(userIdField.getText());
+        if (!userDAO.userExists(userId)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Invalid user ID. Please enter a valid user ID.");
+            alert.showAndWait();
+            return;  // Exit if the user ID is invalid
+        }
+
          int contactId = contactCombo.getSelectionModel().getSelectedItem().getId();
 
          Appointment appointment = new Appointment(id,title,description,location,type,startLdt,endLdt,customerId,userId,contactId);
@@ -161,20 +201,19 @@ public class AppointmentUpdateView implements Initializable {
     }
 
     public void onStartCombo(ActionEvent actionEvent) {
-        if(endCombo != null) {
-            TimeHelper.checkTimeOverlap(startCombo, startCombo.getValue(), endCombo.getValue());
-        }else {
-            System.out.println("Waiting for end selection");
-        }
+//        if(endCombo != null) {
+//            TimeHelper.checkTimeOverlap(startCombo, startCombo.getValue(), endCombo.getValue());
+//        }else {
+//
+//        }
     }
 
     public void onEndCombo(ActionEvent actionEvent) {
-        if(startCombo != null) {
-            TimeHelper.checkTimeOverlap(endCombo, startCombo.getValue(), endCombo.getValue());
-        }else {
-
-            System.out.println("Waiting for start selection");
-        }
+//        if(startCombo != null) {
+//            TimeHelper.checkTimeOverlap(endCombo, startCombo.getValue(), endCombo.getValue());
+//        }else {
+//            System.out.println("Waiting for start selection");
+//        }
     }
 
 //    public void onStartDate(ActionEvent actionEvent) {
@@ -196,24 +235,24 @@ public class AppointmentUpdateView implements Initializable {
 //    }
 
     public void onStartDate(ActionEvent actionEvent) {
-        if (endDatePicker != null) {
-            if (startDatePicker.getValue().isAfter(LocalDate.now())) {
-                TimeHelper.checkDateOverlap(startDatePicker, startDatePicker.getValue(), endDatePicker.getValue());
-            } else {
-                TimeHelper.displayErrorMessage("Start date cannot be before the current date.");
-                startDatePicker.setValue(null);
-            }
-        } else {
-            System.out.println("Waiting for end selection");
-        }
+//        if (endDatePicker != null) {
+//            if (startDatePicker.getValue().isAfter(LocalDate.now())) {
+//                TimeHelper.checkDateOverlap(startDatePicker, startDatePicker.getValue(), endDatePicker.getValue());
+//            } else {
+//                TimeHelper.displayErrorMessage("Start date cannot be before the current date.");
+//               // startDatePicker.setValue(null);
+//            }
+//        } else {
+//            System.out.println("Waiting for end selection");
+//        }
     }
 
     public void onEndDate(ActionEvent actionEvent) {
-        if (startDatePicker != null) {
-            TimeHelper.checkDateOverlap(endDatePicker, startDatePicker.getValue(), endDatePicker.getValue());
-        } else {
-            System.out.println("Waiting for start selection");
-        }
+//        if (startDatePicker != null) {
+//            TimeHelper.checkDateOverlap(endDatePicker, startDatePicker.getValue(), endDatePicker.getValue());
+//        } else {
+//            System.out.println("Waiting for start selection");
+//        }
     }
 
     public void onContactCombo(ActionEvent actionEvent) {
