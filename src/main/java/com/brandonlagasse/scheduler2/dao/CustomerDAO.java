@@ -66,6 +66,7 @@ public class CustomerDAO implements DAOInterface<Customer>{
 
     @Override
     public boolean update(Customer customer) throws SQLException {
+
         JDBC.openConnection();
         String sql = "UPDATE customers SET Customer_ID = ?, Customer_name = ?, Address = ?, Postal_Code = ?, Phone = ?, Division_ID = ? WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -88,18 +89,48 @@ public class CustomerDAO implements DAOInterface<Customer>{
 
     }
 
+//    @Override
+//    public boolean delete(int id) throws SQLException {
+//        String sql = "DELETE FROM customers WHERE Customer_ID = ?";
+//        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+//        ps.setInt(1, id);
+//        int rowsAffected = ps.executeUpdate();
+//
+//        if (rowsAffected == 0) {
+//            return false; //  failed
+//        }
+//        return true;
+//    }
+
     @Override
-    public boolean delete(int id) throws SQLException {
-        String sql = "DELETE FROM customers WHERE Customer_ID = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1, id);
-        int rowsAffected = ps.executeUpdate();
+    public boolean delete(int customer) throws SQLException {
+        //Fetch appointment id's
+        String appointmentSql = "SELECT Appointment_ID FROM appointments WHERE Customer_ID = ?";
+        PreparedStatement appointmentPs = JDBC.connection.prepareStatement(appointmentSql);
+        appointmentPs.setInt(1, customer);
+        ResultSet rs = appointmentPs.executeQuery();
 
-        if (rowsAffected == 0) {
-            return false; //  failed
+        ObservableList<Integer> appointmentIds = FXCollections.observableArrayList(); // Using ObservableList
+        while (rs.next()) {
+            appointmentIds.add(rs.getInt("Appointment_ID"));
         }
-        return true;
-    }
 
+        // First deleting the appointments
+        String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
+        PreparedStatement deletePs = JDBC.connection.prepareStatement(sql);
+
+        for (int appointmentId : appointmentIds) {
+            deletePs.setInt(1, appointmentId);
+            deletePs.executeUpdate();
+        }
+
+        // deleting the customer
+        String deleteCustomerSql = "DELETE FROM customers WHERE Customer_ID = ?";
+        PreparedStatement deleteCustomerPs = JDBC.connection.prepareStatement(deleteCustomerSql);
+        deleteCustomerPs.setInt(1, customer);
+
+        int rowsAffected = deleteCustomerPs.executeUpdate();
+        return rowsAffected > 0;
+    }
 
 }

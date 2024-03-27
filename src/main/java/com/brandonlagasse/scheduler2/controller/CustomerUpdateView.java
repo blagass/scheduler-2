@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -205,6 +206,18 @@ public class CustomerUpdateView implements Initializable {
         String customerPhone = phoneField.getText();
         int customerDivisionId  = fldCombo.getSelectionModel().getSelectedItem().getId();
         String customerDivisionName = fldCombo.getSelectionModel().getSelectedItem().toString();
+
+        if (customerName.isEmpty() || customerAddress.isEmpty() ||
+                customerPostal.isEmpty() || customerPhone.isEmpty() ||
+                fldCombo.getValue() == null) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill in all fields.");
+            alert.showAndWait();
+            return;
+        }
 
         customer.setId(customerId);
         customer.setName(customerName);

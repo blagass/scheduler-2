@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -93,29 +94,64 @@ public class CustomerView implements Initializable {
     }
     @FXML
     public void onUpdateCustomer(ActionEvent actionEvent) {
+
+
         customerToPass = customerTableView.getSelectionModel().getSelectedItem();
-        CustomerUpdateView.setPassedCustomer(customerToPass);
-        System.out.println(customerToPass);
-        try {
-            Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/customer-update-view.fxml"));
-            Scene scene = new Scene(customerScene);
-            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            window.setScene(scene);
-            window.show();
-        } catch (IOException e) {
-            System.err.println("Error loading customer-update-view.fxml: " + e.getMessage());
+        if (customerToPass == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a customer to update.");
+            alert.showAndWait();
+        } else {
+
+            CustomerUpdateView.setPassedCustomer(customerToPass);
+            System.out.println(customerToPass);
+
+            try {
+                Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/customer-update-view.fxml"));
+                Scene scene = new Scene(customerScene);
+                Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                window.setScene(scene);
+                window.show();
+            } catch (IOException e) {
+                System.err.println("Error loading customer-update-view.fxml: " + e.getMessage());
+            }
+
         }
-
-
     }
     @FXML
     public void onDeleteCustomer(ActionEvent actionEvent) throws SQLException {
 
+
+
         Customer customerToDelete = customerTableView.getSelectionModel().getSelectedItem();
 
+        if (customerToDelete == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a customer to delete.");
+            alert.showAndWait();
+            return;
+        }
+
         CustomerDAO customerDAO = new CustomerDAO();
-        customerDAO.delete(customerToDelete.getId());
-        customerTableView.setItems(customerDAO.getList());
+        if (customerDAO.delete(customerToDelete.getId())) {
+            customerTableView.setItems(customerDAO.getList());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText(null);
+            alert.setContentText("Customer deleted successfully.");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to delete customer.");
+            alert.showAndWait();
+        }
+
     }
     @FXML
     public static Customer getCustomerToPass() {
