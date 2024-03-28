@@ -10,17 +10,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import javafx.scene.control.TableCell;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class AppointmentView implements Initializable {
     public TableView<Appointment> appointmentTable;
@@ -34,6 +34,9 @@ public class AppointmentView implements Initializable {
     public TableColumn customerIdCol;
     public TableColumn userIdCol;
     public TableColumn contactIdCol;
+    public RadioButton byWeekCombo;
+    public RadioButton byMonthCombo;
+    public RadioButton viewAllCombo;
     private ObservableList<Appointment> allAppointments;
 
     private static Appointment transferAppointment;
@@ -108,10 +111,29 @@ public class AppointmentView implements Initializable {
     }
 
     public void byWeek(ActionEvent actionEvent) {
-
+        byMonthCombo.setSelected(false);
+        viewAllCombo.setSelected(false);
+        LocalDate today = LocalDate.now();
+        ObservableList<Appointment> appointmentsByWeek = allAppointments.stream()
+                .filter(app -> app.getStart().toLocalDate().isAfter(today.minusDays(7)) &&
+                        app.getStart().toLocalDate().isBefore(today.plusDays(1)))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+        appointmentTable.setItems(appointmentsByWeek);
     }
 
     public void byMonth(ActionEvent actionEvent) {
+        byWeekCombo.setSelected(false);
+        viewAllCombo.setSelected(false);
+        LocalDate today = LocalDate.now();
+        ObservableList<Appointment> appointmentsByMonth = allAppointments.stream()
+                .filter(app -> app.getStart().toLocalDate().getMonth() == today.getMonth())
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+        appointmentTable.setItems(appointmentsByMonth);
+    }
+    public void onViewAll(ActionEvent actionEvent) {
+        byWeekCombo.setSelected(false);
+        byMonthCombo.setSelected(false);
+        appointmentTable.setItems(allAppointments);
     }
 
     @Override
@@ -151,4 +173,6 @@ public class AppointmentView implements Initializable {
     public void setTransferAppointment(Appointment transferAppointment) {
         this.transferAppointment = transferAppointment;
     }
+
+
 }

@@ -47,6 +47,7 @@ public class AppointmentUpdateView implements Initializable {
     public DatePicker startDatePicker;
     public DatePicker endDatePicker;
 
+    //*
     public void onExit(ActionEvent actionEvent) {
         try {
             Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/appointment-view.fxml"));

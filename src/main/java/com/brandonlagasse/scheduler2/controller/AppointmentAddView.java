@@ -35,18 +35,18 @@ import java.util.ResourceBundle;
  */
 public class AppointmentAddView implements Initializable {
     public TextField titleField;
-    public TextField LocationField;
+    //public TextField LocationField;
     public TextField descriptionField;
     public TextField typeField;
-    public TextField startField;
-    public TextField endField;
+    //public TextField startField;
+    //public TextField endField;
     public TextField customerIdField;
     public TextField userIdField;
     public ComboBox<Contact> contactCombo;
     public ComboBox<LocalTime> startTimeCombo;
     public ComboBox<LocalTime> endTimeCombo;
     public DatePicker startDatePicker;
-    public DatePicker onEndDatePicker;
+    //public DatePicker onEndDatePicker;
     public TextField locationField;
     public DatePicker endDatePicker;
 
@@ -131,6 +131,7 @@ public class AppointmentAddView implements Initializable {
         //Customer,User,and Contact ID
         int customerId = Integer.parseInt(customerIdField.getText());
         CustomerDAO customerDAO = new CustomerDAO();
+
         // Check if the customer exists
         if (!customerDAO.customerExists(customerId)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -188,7 +189,7 @@ public class AppointmentAddView implements Initializable {
 
 //    public void onStartTime(ActionEvent actionEvent) {
 //
-//    }
+////    }
 //
 //    public void onEndCombo(ActionEvent actionEvent) {
 //    }

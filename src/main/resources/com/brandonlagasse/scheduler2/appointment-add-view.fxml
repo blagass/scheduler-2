@@ -24,9 +24,9 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <ComboBox fx:id="startTimeCombo" layoutX="316.0" layoutY="317.0" onAction="#onStartTime" prefWidth="150.0" promptText="Start Time" />
-      <ComboBox fx:id="endTimeCombo" layoutX="316.0" layoutY="354.0" onAction="#onEndCombo" prefWidth="150.0" promptText="End Time" />
-      <DatePicker fx:id="startDatePicker" layoutX="476.0" layoutY="317.0" onAction="#onStartDate" promptText="Start Date" />
-      <DatePicker fx:id="endDatePicker" layoutX="476.0" layoutY="354.0" onAction="#onEndDate" promptText="End Date" />
+      <ComboBox fx:id="startTimeCombo" layoutX="316.0" layoutY="317.0" prefWidth="150.0" promptText="Start Time" />
+      <ComboBox fx:id="endTimeCombo" layoutX="316.0" layoutY="354.0" prefWidth="150.0" promptText="End Time" />
+      <DatePicker fx:id="startDatePicker" layoutX="476.0" layoutY="317.0" promptText="Start Date" />
+      <DatePicker fx:id="endDatePicker" layoutX="476.0" layoutY="354.0" promptText="End Date" />
    </children>
 </AnchorPane>

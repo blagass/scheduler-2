@@ -29,11 +29,12 @@
         </columns>
 
       </TableView>
-      <RadioButton layoutX="95.0" layoutY="145.0" mnemonicParsing="false" onAction="#byWeek" text="By Week" />
-      <RadioButton layoutX="227.0" layoutY="145.0" mnemonicParsing="false" onAction="#byMonth" text="By Month" />
+      <RadioButton fx:id="byWeekCombo" layoutX="95.0" layoutY="145.0" mnemonicParsing="false" onAction="#byWeek" text="By Week" />
+      <RadioButton fx:id="byMonthCombo" layoutX="227.0" layoutY="145.0" mnemonicParsing="false" onAction="#byMonth" text="By Month" />
       <Label layoutX="372.0" layoutY="48.0" text="Appointments">
          <font>
             <Font size="24.0" />
          </font></Label>
+      <RadioButton fx:id="viewAllCombo" layoutX="14.0" layoutY="145.0" mnemonicParsing="false" onAction="#onViewAll" text="View All" />
    </children>
 </AnchorPane>
