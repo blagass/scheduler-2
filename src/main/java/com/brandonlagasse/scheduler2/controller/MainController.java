@@ -26,6 +26,11 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
+/**
+ * This is the main controller that loads after login. This presents the user with navigational options, as well as information related to User Appointments.
+ * Users can navigate to Customers, Appointments, Reports, or Exit from this screen.
+ * I would change this to a separate controller in the future, as it's current implementation isn't practical as it's linked to the main.java file.
+ */
 public class MainController implements Initializable {
     public Button exitButton;
     public TextArea appointmentArea;
@@ -34,6 +39,9 @@ public class MainController implements Initializable {
 
     public int passedUserId;
 
+    /**
+     * This method exits the application for the user. Since this is the first scene that appears after the login, there's no where to go from here.
+     */
     @FXML
     protected void onExitButton() {
 
@@ -41,6 +49,10 @@ public class MainController implements Initializable {
         stage.close();
     }
 
+    /**
+     * This sends users to the Customer View; the main hub for viewing customers and updating/adding new customers.
+     * @param actionEvent This is triggered by clicking on the Exit button
+     */
     public void onCustomerButton(ActionEvent actionEvent) {
         try {
             Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/customer-view.fxml"));
@@ -53,6 +65,10 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     * This method navigates uers to the Appointment View; similar to customer, this is the main hub for appointment related functionality, like sending users to add/update areas.
+     * @param actionEvent Triggered by the Appointments button
+     */
     public void onAppointmentButton(ActionEvent actionEvent) {
         try {
             Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/appointment-view.fxml"));
@@ -65,6 +81,10 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     * This sends users to the Reports View; this is where users can find three different reports about Customers and thier Appointments.
+     * @param actionEvent Triggered by clicking on the Reports button.
+     */
     public void onReportButton(ActionEvent actionEvent) {
         try {
             Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/report-view.fxml"));
@@ -77,6 +97,9 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     * The main purpose of this initialize is to present navigation to Customers, Appointments, and Report views, as well as show the user if they have any appointments within 15 minutes of login time in the designated UI area.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 //     passedUserId = LoginView.passUserId;

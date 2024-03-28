@@ -25,6 +25,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * THis class provides a UI for the user to take a previously selected customer, and update their information before it's pushed to the database and the user returns the Customer View.
+ */
 public class CustomerUpdateView implements Initializable {
     @FXML
     public TextField customerIdField;

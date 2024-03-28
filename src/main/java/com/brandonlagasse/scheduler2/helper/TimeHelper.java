@@ -14,6 +14,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.*;
 
+/**
+ * This class acts as a helper for all time functions, like checking overlap, retrieving and setting LocalDateTime and it's derivatives, and displaying error messages.
+ */
 public class TimeHelper {
     //parameters
     @FXML
@@ -21,14 +24,25 @@ public class TimeHelper {
     @FXML
     private static ObservableList<LocalTime> endHours = FXCollections.observableArrayList();
 
+    /**
+     * Getter for getStartHours
+     * @return returns the startHours ObservableList
+     */
     public static ObservableList<LocalTime> getStartHours() {
         return startHours;
     }
 
+    /**
+     * Getter for getEndHours
+     * @return returns endHours Observable list
+     */
     public static ObservableList<LocalTime> getEndHours() {
         return endHours;
     }
 
+    /**
+     * loadTimes method sets up the start/end hours during the work hours within 30 minute increments.
+     */
     public void loadTimes() {
         //  timezone
         ZoneId currentZone = ZoneId.systemDefault();
@@ -50,7 +64,10 @@ public class TimeHelper {
     }
 
 
-    // Helper function to display the popup
+    /**
+     * This acts as a helper function to display alerts
+     * @param message this will output the message to the alert, depending on how it's utilized from another method
+     */
     public static void displayErrorMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
@@ -58,65 +75,62 @@ public class TimeHelper {
         alert.showAndWait();
     }
 
+    /**
+     * This method performs a check for overlaping dates when selecting saving a new appointment
+     * @param startDate this parameter holds the start date in LocalDate
+     * @param endDate this parameter holds the end date in LocalDate
+     * @return Boolean returns true if the overlap checks pass
+     */
     public static boolean checkDateOverlap(LocalDate startDate, LocalDate endDate){
-//        if (startDate.isBefore(endDate) && startDate.isAfter(LocalDate.now()) || startDate.isEqual(LocalDate.now())) {
-//            System.out.println("That date works");
-////        } else {
-//            System.out.println("That Date doesn't work");
-//        }
-//
-//        return true;
+
         if (startDate.isBefore(LocalDate.now())) {
             System.out.println("Start date cannot be in the past.");
-            return false; // Fail if the date is in the past
+            return false;
         }
 
-        // Check 2: Start Date must be before End Date
         if (startDate.isAfter(endDate)) {
             System.out.println("Start date must be before the end date.");
-            return false; // Fail if the start date is not before the end date
+            return false;
         }
 
-        // If both checks pass:
         return true;
     }
+
+    /**
+     * This method checks for time overlaps, similar to the date overlap checker.
+     * @param startTime - this is a LocalTime variable to check that the start times and end times aren't inverted
+     * @param endTime -  this parameter is used to end the mark of the opening hours.
+     * @return boolean returns true if both overlap checks pass.
+     */
     public static boolean  checkTimeOverlap(LocalTime startTime, LocalTime endTime){
-//        if (startTime.isBefore(endTime)) {
-//            System.out.println("That time works");
-////        } else {
-////            displayErrorMessage("Make sure your start time is before your end time.");
-////           // timeBox.getSelectionModel().clearSelection();
-////        }
-//       // return false;
-//    }
-//        return false;
+
         if (startTime.isBefore(LocalTime.now())) {
             System.out.println("Start date cannot be in the past.");
-            return false; // Fail if the date is in the past
+            return false;
         }
 
-        // Check 2: Start time must be before End Date
+        // check to see if the start time is after the end time
         if (startTime.isAfter(endTime)) {
             System.out.println("Start date must be before the end date.");
-            return false; // Fail if the start date is not before the end date
+            return false;
         }
 
-        // If both checks pass:
         return true;
     }
 
-    public static boolean checkOverlap(LocalDateTime start, LocalDateTime end) throws SQLException {
-        String sql = "SELECT * FROM appointments WHERE Start < ? AND End > ?";
 
-
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setTimestamp(1, Timestamp.valueOf(start));
-        ps.setTimestamp(2, Timestamp.valueOf(end));
-
-        ResultSet rs = ps.executeQuery();
-        rs.next();
-        return false;
-    }
+//    public static boolean checkOverlap(LocalDateTime start, LocalDateTime end) throws SQLException {
+//        String sql = "SELECT * FROM appointments WHERE Start < ? AND End > ?";
+//
+//
+//        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+//        ps.setTimestamp(1, Timestamp.valueOf(start));
+//        ps.setTimestamp(2, Timestamp.valueOf(end));
+//
+//        ResultSet rs = ps.executeQuery();
+//        rs.next();
+//        return false;
+//    }
 
 }
 

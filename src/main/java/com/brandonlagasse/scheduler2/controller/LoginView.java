@@ -24,6 +24,9 @@ import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * This controller is associated with the first login screen users see when they open the application. This scene provides functionality to login using a username and password, as well as view text on the screen in French or English.
+ */
 public class LoginView implements Initializable {
     public TextField userField;
     public TextField passwordField;
@@ -35,6 +38,13 @@ public class LoginView implements Initializable {
     public Label yourZone;
     public static int passUserId;
 
+    /**
+     * This is the main entry into the program, using username and password as authentication. This is retrieved from the UserDAO.
+     * The language is set up to translate the text on screen, and on alerts, to be in French or English, depending on the users location.
+     * @param actionEvent this is triggered by clicking the Login button after the User/Password fields have been filled out.
+     * @throws SQLException this exception is for the UserDAO authentication checks
+     * @throws IOException this is not explicitly used
+     */
     public void onLogin(ActionEvent actionEvent) throws SQLException, IOException {
         //LoginHelper.logLoginAttempt();
         String userName = null;
@@ -83,9 +93,9 @@ public class LoginView implements Initializable {
                 // Log
                 LoginHelper.logLoginAttempt(userName, true);
 
-                if(LoginHelper.appointmentChecker(userId)){
-                    passUserId = userId;
-                };
+//                if(LoginHelper.appointmentChecker(userId)){
+//                    passUserId = userId;
+//                };
 
             } else {
                 throw new Error("Wrong credentials");
@@ -97,15 +107,23 @@ public class LoginView implements Initializable {
         }
     }
 
+    /**
+     * This alert is specificly for showing wrong credential authentication failure
+     * @param title this is the title of the error window
+     * @param message this is the error message to be displayed
+     */
     private void showLoginErrorAlert(String title, String message) {
         ResourceBundle rb = ResourceBundle.getBundle("/com/brandonlagasse/scheduler2/Lang", Locale.getDefault());
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(rb.getString("loginError")); // Use translated title
+        alert.setTitle(rb.getString("loginError"));
         alert.setHeaderText(null);
-        alert.setContentText(rb.getString("wrongCredentials")); // Use translated message
+        alert.setContentText(rb.getString("wrongCredentials"));
         alert.showAndWait();
     }
 
+    /**
+     * The initialize here retrieves a zone and associated bundle, and the appropriate labels, buttons, etc., to use the Lang resource bundle for French or English translation
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         String zone = String.valueOf(ZoneId.systemDefault());

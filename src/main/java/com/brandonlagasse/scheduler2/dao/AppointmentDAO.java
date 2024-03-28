@@ -14,7 +14,15 @@ import java.util.TimeZone;
 
 import static com.brandonlagasse.scheduler2.helper.TimeHelper.displayErrorMessage;
 
+/**
+ * This is the data access object specifically for the appointments database. It contains all CRUD as well as appointment Id retrieval.
+ */
 public class AppointmentDAO implements DAOInterface<Appointment> {
+    /**
+     * This method retrieves all available appointments n the database
+     * @return returns an ObservableList of all appointments in the database
+     * @throws SQLException returns an error
+     */
     @Override
     public ObservableList<Appointment> getList() throws SQLException {
         JDBC.openConnection();
@@ -68,7 +76,12 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
         return allAppointments;
     }
 
-
+    /**
+     * This method takes an appointment and inserts it in the database
+     * @param appointment the appointment to insert
+     * @return lets us know if the insert was successful
+     * @throws SQLException returns an error with database access
+     */
     @Override
     public boolean insert(Appointment appointment) throws SQLException {
         LocalDateTime start = appointment.getStart();
@@ -102,6 +115,12 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
         return true;
     }
 
+    /**
+     * Update takes in an appointment and changes the current associated update in the database
+     * @param appointment the appointment to update
+     * @return boolean to tell if the update worked
+     * @throws SQLException for database errors
+     */
     @Override
     public boolean update(Appointment appointment) throws SQLException { //Not working upon execution
 
@@ -134,6 +153,12 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
         return true;
     }
 
+    /**
+     * This removes an appointment from the database based on an ID
+     * @param id the id associated with the appointment to delete
+     * @return boolean for delete success
+     * @throws SQLException database errors tryuing to update existing customer
+     */
     @Override
     public boolean delete(int id) throws SQLException {
 
@@ -145,6 +170,12 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
         return rowsAffected > 0;
     }
 
+    /**
+     * This is a simple method that returns an appointment by ID
+     * @param id appointment id associated with appointment to return
+     * @return boolean to show delete success or failure
+     * @throws SQLException for database access errors
+     */
     @Override
     public Appointment getById(int id) throws SQLException {
         String sql = "SELECT * FROM appointments WHERE Appointment_ID =?";

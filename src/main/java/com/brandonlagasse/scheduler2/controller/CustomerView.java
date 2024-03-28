@@ -23,6 +23,9 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * This is the controller for the main customer view, which add/update stem from. This view provides a Customer tableview that shows all customers, as well as filtering.
+ */
 public class CustomerView implements Initializable {
     @FXML
     public TableView<Customer> customerTableView;
@@ -49,6 +52,9 @@ public class CustomerView implements Initializable {
     @FXML
     public static Customer customerToPass;
 
+    /**
+     * Ths populates the customerTableView with all customers, retrieved through the CustomerDAO.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)  {
         CustomerDAO customerDAO = new CustomerDAO();
@@ -70,6 +76,11 @@ public class CustomerView implements Initializable {
 
             customerTableView.setItems(transferCustomers);
     }
+
+    /**
+     * Navigates the user back to the Main View
+     * @param actionEvent triggered by clicking on the Go Back button
+     */
     @FXML
     public void onExit(ActionEvent actionEvent) {
         try {
@@ -82,6 +93,11 @@ public class CustomerView implements Initializable {
             System.err.println("Error loading main-view.fxml: " + e.getMessage());
         }
     }
+
+    /**
+     * This navigates the user to the CustomerUpdateView to add a new customer to the database
+     * @param actionEvent
+     */
     @FXML
     public void onAddNewCustomer(ActionEvent actionEvent) {
         try {
@@ -94,6 +110,11 @@ public class CustomerView implements Initializable {
             System.err.println("Error loading customer-add-view.fxml: " + e.getMessage());
         }
     }
+
+    /**
+     * This navigates users to the customerUpdateView, transferring the selected customer data to populate fields and combo boxes.
+     * @param actionEvent
+     */
     @FXML
     public void onUpdateCustomer(ActionEvent actionEvent) {
 
@@ -122,6 +143,12 @@ public class CustomerView implements Initializable {
 
         }
     }
+
+    /**
+     * This removes a customer from the database using the CustomerDAO. It also checks for any related appointments before deleting.
+     * @param actionEvent triggered by the Delete button
+     * @throws SQLException this will catch an error if the CustomerDAO has issues
+     */
     @FXML
     public void onDeleteCustomer(ActionEvent actionEvent) throws SQLException {
 
@@ -161,12 +188,17 @@ public class CustomerView implements Initializable {
             }
         }
     }
+
+    /**
+     * Getter for retrieving the customer that is being passed to other screens
+     * @return this returns the customerToPass public static parameter
+     */
     @FXML
     public static Customer getCustomerToPass() {
         return customerToPass;
     }
-    @FXML
-    public void setCustomerToPass(Customer customerToPass) {
-        CustomerView.customerToPass = customerToPass;
-    }
+//    @FXML
+//    public void setCustomerToPass(Customer customerToPass) {
+//        CustomerView.customerToPass = customerToPass;
+//    }
 }
