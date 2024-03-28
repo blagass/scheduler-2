@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,6 +20,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CustomerView implements Initializable {
@@ -123,35 +125,41 @@ public class CustomerView implements Initializable {
     @FXML
     public void onDeleteCustomer(ActionEvent actionEvent) throws SQLException {
 
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setTitle("Delete?");
+        a.setHeaderText("Are you sure you want to delete?");
+        a.setContentText("There's no going back!");
 
+        Optional<ButtonType> result = a.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
 
-        Customer customerToDelete = customerTableView.getSelectionModel().getSelectedItem();
+            Customer customerToDelete = customerTableView.getSelectionModel().getSelectedItem();
 
-        if (customerToDelete == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select a customer to delete.");
-            alert.showAndWait();
-            return;
+            if (customerToDelete == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Please select a customer to delete.");
+                alert.showAndWait();
+                return;
+            }
+
+            CustomerDAO customerDAO = new CustomerDAO();
+            if (customerDAO.delete(customerToDelete.getId())) {
+                customerTableView.setItems(customerDAO.getList());
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText(null);
+                alert.setContentText("Customer deleted successfully.");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Failed to delete customer.");
+                alert.showAndWait();
+            }
         }
-
-        CustomerDAO customerDAO = new CustomerDAO();
-        if (customerDAO.delete(customerToDelete.getId())) {
-            customerTableView.setItems(customerDAO.getList());
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Success");
-            alert.setHeaderText(null);
-            alert.setContentText("Customer deleted successfully.");
-            alert.showAndWait();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Failed to delete customer.");
-            alert.showAndWait();
-        }
-
     }
     @FXML
     public static Customer getCustomerToPass() {

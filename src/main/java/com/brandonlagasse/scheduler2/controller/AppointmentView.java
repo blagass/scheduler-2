@@ -19,6 +19,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -106,25 +107,33 @@ public class AppointmentView implements Initializable {
      * @throws SQLException Simple catch to make sure appointment can be deleted from database
      */
     public void onDeleteAppointment(ActionEvent actionEvent) throws SQLException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete?");
+        alert.setHeaderText("Are you sure you want to delete?");
+        alert.setContentText("There's no going back!");
 
-        Appointment selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
-        AppointmentDAO appointmentDAO = null;
-        if (selectedAppointment == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select an appointment to delete.");
-            alert.showAndWait();
-            appointmentDAO = new AppointmentDAO();
-        } else {
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK)
+        {
 
-            System.out.println("Number of customers in the database: " + appointmentDAO.getList().size());
-            appointmentDAO.delete(selectedAppointment.getId());
-            System.out.println("Number of customers in the database: " + appointmentDAO.getList().size());
+            Appointment selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
+            AppointmentDAO appointmentDAO = null;
+            if (selectedAppointment == null) {
+                Alert a = new Alert(Alert.AlertType.ERROR);
+                a.setTitle("Error");
+                a.setHeaderText(null);
+                a.setContentText("Please select an appointment to delete.");
+                a.showAndWait();
+            } else {
+                appointmentDAO = new AppointmentDAO();
+                System.out.println("Number of customers in the database: " + appointmentDAO.getList().size());
+                appointmentDAO.delete(selectedAppointment.getId());
+                System.out.println("Number of customers in the database: " + appointmentDAO.getList().size());
 
-            ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
-            allAppointments.setAll(appointmentDAO.getList());
-            appointmentTable.setItems(allAppointments);
+                ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
+                allAppointments.setAll(appointmentDAO.getList());
+                appointmentTable.setItems(allAppointments);
+            }
         }
     }
 
