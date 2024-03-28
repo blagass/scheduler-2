@@ -3,6 +3,9 @@ package com.brandonlagasse.scheduler2.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+/**
+ * This JDBC open/close connection singleton class is for reuse in all DAO open/close connection scenarios. It uses open to set credentials to the database whenever its needed.
+ */
 public abstract class JDBC {
     ///Class Variables///
     private static final String protocol = "jdbc";
@@ -19,8 +22,6 @@ public abstract class JDBC {
 
     /**
      * Opens the DB Connection
-     *
-     * @return
      */
     public static void openConnection(){ //OPEN DATABASE
         try{

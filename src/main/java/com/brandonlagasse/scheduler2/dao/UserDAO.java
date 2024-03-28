@@ -8,8 +8,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This is a DAO for retriving User data from the database
+ */
 public class UserDAO implements DAOInterface<User>{
-
+    /**
+     * Pulls all available Users from the database
+     * @return list of all users
+     * @throws SQLException database error catch
+     */
     @Override
     public ObservableList<User> getList() throws SQLException {
 
@@ -33,6 +40,12 @@ public class UserDAO implements DAOInterface<User>{
 
     }
 
+    /**
+     * Inserts a User into the database
+     * @param user object to insert
+     * @return boolean for success
+     * @throws SQLException
+     */
     @Override
     public boolean insert(User user) throws SQLException {
         JDBC.openConnection();
@@ -51,6 +64,12 @@ public class UserDAO implements DAOInterface<User>{
         return true;
     }
 
+    /**
+     * Updates a User in the database
+     * @param user User to update
+     * @return boolean for success
+     * @throws SQLException for database errors
+     */
     @Override
     public boolean update(User user) throws SQLException {
         JDBC.openConnection();
@@ -71,6 +90,12 @@ public class UserDAO implements DAOInterface<User>{
 
     }
 
+    /**
+     * Removes selected User from the DB
+     * @param id the id of the User to delete
+     * @return boolean showing success or failure
+     * @throws SQLException for database error handling
+     */
     @Override
     public boolean delete(int id) throws SQLException {
         String sql = "DELETE FROM users WHERE Customer_ID = ?";
@@ -84,6 +109,12 @@ public class UserDAO implements DAOInterface<User>{
         return true;
     }
 
+    /**
+     * Method to retrieve a specific User by their ID
+     * @param id id of the User to retrieve
+     * @return returns User that matches the ID
+     * @throws SQLException
+     */
     @Override
     public User getById(int id) throws SQLException {
         User returnedUser = null;
@@ -106,6 +137,12 @@ public class UserDAO implements DAOInterface<User>{
 
     }
 
+    /**
+     * This boolean method checks to make sure a user exits
+     * @param userId the id to use to see if they exist
+     * @return boolean for true/false
+     * @throws SQLException database error handling
+     */
     public boolean userExists(int userId) throws SQLException {
         String sql = "SELECT COUNT(*) FROM users WHERE User_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);

@@ -8,7 +8,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This DAO is for accessing CRUD operations for pulling lists of FirstLevelDivisions
+ */
 public class FirstLevelDivisionDAO implements DAOInterface<FirstLevelDivision> {
+    /**
+     * This method pulls all first level divisions available and adds them to a list
+     * @return ObservableList with all divisions
+     * @throws SQLException database error handling
+     */
     @Override
     public ObservableList<FirstLevelDivision> getList() throws SQLException {
         JDBC.openConnection();
@@ -27,21 +35,27 @@ public class FirstLevelDivisionDAO implements DAOInterface<FirstLevelDivision> {
         return allStates; // Returns the observable list
     }
 
-    @Override
-    public boolean insert(FirstLevelDivision object) {
-        return false;
-    }
+//    @Override
+//    public boolean insert(FirstLevelDivision object) {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean update(FirstLevelDivision object) {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean delete(int id) {
+//        return false;
+//    }
 
-    @Override
-    public boolean update(FirstLevelDivision object) {
-        return false;
-    }
-
-    @Override
-    public boolean delete(int id) {
-        return false;
-    }
-
+    /**
+     * This method retrieves a FirstLevelDivison by its ID
+     * @param id id of the FLD to retrieve
+     * @return matching FLD to ID
+     * @throws SQLException database errors
+     */
     @Override
     public FirstLevelDivision getById(int id) throws SQLException {
         String sql = "SELECT * FROM first_level_divisions WHERE Division_ID =?";
@@ -61,6 +75,11 @@ public class FirstLevelDivisionDAO implements DAOInterface<FirstLevelDivision> {
         return fld;
     }
 
+    /**
+     * This method returns a List of all US states
+     * @return list of all available US states in the database
+     * @throws SQLException for errors in database connections and CRUD
+     */
     public static ObservableList<FirstLevelDivision> usStates() throws SQLException {
         JDBC.openConnection();
         ObservableList<FirstLevelDivision> allUsStates = FXCollections.observableArrayList();
@@ -78,6 +97,11 @@ public class FirstLevelDivisionDAO implements DAOInterface<FirstLevelDivision> {
         return allUsStates; // Returns the observable list
     }
 
+    /**
+     * This method returns a list of all UK states
+     * @return List of all available UK states in the database
+     * @throws SQLException for database error
+     */
     public static ObservableList<FirstLevelDivision> ukStates() throws SQLException {
         JDBC.openConnection();
         ObservableList<FirstLevelDivision> allUkStates = FXCollections.observableArrayList();
@@ -95,6 +119,11 @@ public class FirstLevelDivisionDAO implements DAOInterface<FirstLevelDivision> {
         return allUkStates; // Returns the observable list
     }
 
+    /**
+     * This method returns a list of Canadian provinces
+     * @return list of all Canadian provinces in the database
+     * @throws SQLException database errors
+     */
     public static ObservableList<FirstLevelDivision> canadaStates() throws SQLException {
         JDBC.openConnection();
         ObservableList<FirstLevelDivision> allCanadaStates = FXCollections.observableArrayList();
@@ -112,6 +141,12 @@ public class FirstLevelDivisionDAO implements DAOInterface<FirstLevelDivision> {
         return allCanadaStates; // Returns the observable list
     }
 
+    /**
+     * This method retrieves specific divisions by country ID
+     * @param id the Country ID to match against
+     * @return list of matching divisions
+     * @throws SQLException database errors
+     */
     public ObservableList<FirstLevelDivision> getDivisionsByCountryId(int id) throws SQLException {
         String sql = "SELECT * FROM first_level_divisions WHERE Country_ID =?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);

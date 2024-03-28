@@ -8,7 +8,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * The ContactDAO uses the DAO interface to carry out Contact specific database manipulation
+ */
 public class ContactDAO implements DAOInterface<Contact>{
+    /**
+     * This method returns all available contacts in the database
+     * @return allContacts ObservableList containing all contacts
+     * @throws SQLException database errors
+     */
     @Override
     public ObservableList<Contact> getList() throws SQLException {
         JDBC.openConnection();
@@ -30,22 +38,28 @@ public class ContactDAO implements DAOInterface<Contact>{
         return allContacts; // Returns the observable list
 
     }
+//
+//    @Override
+//    public boolean insert(Contact object) {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean update(Contact object) {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean delete(int id) {
+//        return false;
+//    }
 
-    @Override
-    public boolean insert(Contact object) {
-        return false;
-    }
-
-    @Override
-    public boolean update(Contact object) {
-        return false;
-    }
-
-    @Override
-    public boolean delete(int id) {
-        return false;
-    }
-
+    /**
+     * This method retrieves a specific contact using the Contact ID
+     * @param id id of the contact to retrieve
+     * @return this returns the matching contact
+     * @throws SQLException for database error catching
+     */
     @Override
     public Contact getById(int id) throws SQLException {
         JDBC.openConnection();

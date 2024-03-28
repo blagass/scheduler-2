@@ -9,8 +9,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This is the DAO for retriving all Customer related data from the database
+ */
 public class CustomerDAO implements DAOInterface<Customer>{
-
+    /**
+     * Retrieves all available Customers
+     * @return list of all Customers
+     * @throws SQLException database errors
+     */
     @Override
     public ObservableList<Customer> getList() throws SQLException {
         JDBC.openConnection();
@@ -45,6 +52,12 @@ public class CustomerDAO implements DAOInterface<Customer>{
 
     }
 
+    /**
+     *Method for inserting customers into the databse
+     * @param customer customer to insert
+     * @return boolean to identify success/failure
+     * @throws SQLException database error handling
+     */
     @Override
     public boolean insert(Customer customer) throws SQLException {
         String sql = "INSERT INTO CUSTOMERS(Customer_Name,Address,Postal_Code, Phone, Division_ID) VALUES(?,?,?,?,?)";
@@ -64,6 +77,12 @@ public class CustomerDAO implements DAOInterface<Customer>{
         return true;
     }
 
+    /**
+     * This method updates existing customers in the databse
+     * @param customer customer to update
+     * @return boolean to measure sucess/failure
+     * @throws SQLException databse error handling
+     */
     @Override
     public boolean update(Customer customer) throws SQLException {
 
@@ -102,6 +121,12 @@ public class CustomerDAO implements DAOInterface<Customer>{
 //        return true;
 //    }
 
+    /**
+     * This method removes an existing customer from the database
+     * @param customer the id of the customer to delete
+     * @return boolean to determine success
+     * @throws SQLException database error catch
+     */
     @Override
     public boolean delete(int customer) throws SQLException {
         //Fetch appointment id's
@@ -133,6 +158,12 @@ public class CustomerDAO implements DAOInterface<Customer>{
         return rowsAffected > 0;
     }
 
+    /**
+     * This is a helper method that determine if the customer exists in the database
+     * @param customerId id of the customer to check
+     * @return boolean for success/failure
+     * @throws SQLException database errors
+     */
     public boolean customerExists(int customerId) throws SQLException {
         String sql = "SELECT COUNT(*) FROM customers WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
