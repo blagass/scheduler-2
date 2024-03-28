@@ -19,7 +19,7 @@
       <TextField fx:id="customerIdField" layoutX="316.0" layoutY="397.0" promptText="Customer ID" />
       <TextField fx:id="userIdField" layoutX="316.0" layoutY="444.0" promptText="User ID" />
       <ComboBox fx:id="contactCombo" layoutX="316.0" layoutY="491.0" prefWidth="150.0" promptText="Contact" />
-      <Label layoutX="305.0" layoutY="62.0" text="Add Appointment">
+      <Label layoutX="278.0" layoutY="95.0" text="Add New Appointment">
          <font>
             <Font size="24.0" />
          </font>

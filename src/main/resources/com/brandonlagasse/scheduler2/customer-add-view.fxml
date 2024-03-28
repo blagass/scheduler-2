@@ -2,8 +2,10 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.brandonlagasse.scheduler2.controller.CustomerAddView">
    <children>
@@ -15,5 +17,10 @@
       <TextField fx:id="phoneField" layoutX="325.0" layoutY="328.0" promptText="Phone" />
       <ComboBox fx:id="countryCombo" layoutX="326.0" layoutY="379.0" onAction="#onCountryCombo" prefWidth="150.0" promptText="Country" />
       <ComboBox fx:id="fldCombo" layoutX="326.0" layoutY="413.0" onAction="#onFldCombo" prefWidth="150.0" promptText="First Level Division" />
+      <Label layoutX="296.0" layoutY="99.0" text="Add New Customer">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

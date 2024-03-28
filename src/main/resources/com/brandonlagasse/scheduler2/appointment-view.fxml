@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.brandonlagasse.scheduler2.controller.AppointmentView">
    <children>
@@ -30,6 +31,9 @@
       </TableView>
       <RadioButton layoutX="95.0" layoutY="145.0" mnemonicParsing="false" onAction="#byWeek" text="By Week" />
       <RadioButton layoutX="227.0" layoutY="145.0" mnemonicParsing="false" onAction="#byMonth" text="By Month" />
-      <Label layoutX="372.0" layoutY="48.0" text="Appointments" />
+      <Label layoutX="372.0" layoutY="48.0" text="Appointments">
+         <font>
+            <Font size="24.0" />
+         </font></Label>
    </children>
 </AnchorPane>

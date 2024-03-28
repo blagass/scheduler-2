@@ -30,6 +30,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
+/**
+ * This Apppointment controller responsible for collecting data to create a new Appointment object to add to the database.
+ */
 public class AppointmentAddView implements Initializable {
     public TextField titleField;
     public TextField LocationField;
@@ -47,18 +50,38 @@ public class AppointmentAddView implements Initializable {
     public TextField locationField;
     public DatePicker endDatePicker;
 
-    public void onExit(ActionEvent actionEvent) {
+    /**
+     *The initialization provides population of the start time, end time, and contact combo boxes
+     * @param url
+     * @param resourceBundle
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        ContactDAO contactDAO = new ContactDAO();
+
+        ObservableList<Contact> allContacts = null;
         try {
-            Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/appointment-view.fxml"));
-            Scene scene = new Scene(customerScene);
-            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            window.setScene(scene);
-            window.show();
-        } catch (IOException e) {
-            System.err.println("Error loading appointment-view.fxml: " + e.getMessage());
+            allContacts = contactDAO.getList();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+
+        TimeHelper timeHelper = new TimeHelper();
+        timeHelper.loadTimes();
+
+        startTimeCombo.setItems(TimeHelper.getStartHours());
+
+        endTimeCombo.setItems(TimeHelper.getEndHours());
+
+        contactCombo.setItems(allContacts);
     }
 
+    /**
+     * onSave uses the Save button to initiate the collection of data from combo boxes and text fields, and combines them into an Appointment object. This is then called by the AppointmentDAO to add to the database.
+     *
+     * @param actionEvent Triggered by the Save button
+     * @throws SQLException Collects errors that occur when adding to the database
+     */
     public void onSave(ActionEvent actionEvent) throws SQLException {
         //int id = Integer.parseInt(appointmentIdField.getText());
         String title = titleField.getText();
@@ -146,37 +169,35 @@ public class AppointmentAddView implements Initializable {
         }
     }
 
-    public void onStartTime(ActionEvent actionEvent) {
-
-    }
-
-    public void onEndCombo(ActionEvent actionEvent) {
-    }
-
-    public void onStartDate(ActionEvent actionEvent) {
-    }
-
-    public void onEndDate(ActionEvent actionEvent) {
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        ContactDAO contactDAO = new ContactDAO();
-
-        ObservableList<Contact> allContacts = null;
+    /**
+     * onExit uses the Go Back button to navigate back to the AppointmentView screen
+     * @param actionEvent Triggered by the Go Back button
+     */
+    public void onExit(ActionEvent actionEvent) {
         try {
-            allContacts = contactDAO.getList();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/appointment-view.fxml"));
+            Scene scene = new Scene(customerScene);
+            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            window.setScene(scene);
+            window.show();
+        } catch (IOException e) {
+            System.err.println("Error loading appointment-view.fxml: " + e.getMessage());
         }
-
-        TimeHelper timeHelper = new TimeHelper();
-        timeHelper.loadTimes();
-
-        startTimeCombo.setItems(TimeHelper.getStartHours());
-
-        endTimeCombo.setItems(TimeHelper.getEndHours());
-
-        contactCombo.setItems(allContacts);
     }
+
+
+//    public void onStartTime(ActionEvent actionEvent) {
+//
+//    }
+//
+//    public void onEndCombo(ActionEvent actionEvent) {
+//    }
+//
+//    public void onStartDate(ActionEvent actionEvent) {
+//    }
+//
+//    public void onEndDate(ActionEvent actionEvent) {
+//    }
+
+
 }
