@@ -130,8 +130,8 @@ public class CustomerView implements Initializable {
         a.setHeaderText("Are you sure you want to delete?");
         a.setContentText("There's no going back!");
 
-        Optional<ButtonType> result = a.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        Optional<ButtonType> confirmation = a.showAndWait();
+        if (confirmation.isPresent() && confirmation.get() == ButtonType.OK) {
 
             Customer customerToDelete = customerTableView.getSelectionModel().getSelectedItem();
 

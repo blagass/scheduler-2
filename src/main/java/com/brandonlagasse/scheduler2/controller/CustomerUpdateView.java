@@ -56,6 +56,9 @@ public class CustomerUpdateView implements Initializable {
     @FXML
     private ObservableList<FirstLevelDivision> ukDivisions = FXCollections.observableArrayList();
 
+    /**
+     * This intialize sets up the text fields and combo boxes with the previously selected customers information
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         passedCustomer = CustomerView.getCustomerToPass();
@@ -84,8 +87,12 @@ public class CustomerUpdateView implements Initializable {
         }
     }
 
+    /**
+     *This method helps match the FLD with the country
+     * @throws SQLException This exception is for errors that occur while retrieving all FirstLevelDivsions
+     */
     private void setCountryAndFldCombo() throws SQLException {
-        // Find matching FLD and set the selection
+
         FirstLevelDivision matchingFld = null;
         for (FirstLevelDivision fld : fldDAO.getList()) {
             if (fld.getId() == passedCustomer.getDivisionId()) {
@@ -95,7 +102,7 @@ public class CustomerUpdateView implements Initializable {
             }
         }
 
-        // Find matching Country and set selection
+        // find country
         if (matchingFld != null) {
             int countryId = matchingFld.getCountryId();
             for (Country country : countryCombo.getItems()) {
@@ -106,12 +113,16 @@ public class CustomerUpdateView implements Initializable {
             }
         }
 
-        // Load matching divisions (only if a country is selected)
+
         if (countryCombo.getSelectionModel().getSelectedItem() != null) {
             loadMatchingDivisions();
         }
     }
 
+    /**
+     * This is the helper to seCountryAndFldCombo that sets the combo boxes for the divisions based on the matching countryh
+     * @throws SQLException Required to catch errors when retrieving the FLD divisions by countryId.
+     */
     private void loadMatchingDivisions() throws SQLException {
 
         int countryId = countryCombo.getSelectionModel().getSelectedItem().getId();
@@ -181,6 +192,10 @@ public class CustomerUpdateView implements Initializable {
 //    }
 //
 
+    /**
+     * onCancel navigates the user back to the previous screen, and does not execute any further code
+     * @param actionEvent This is triggered from the Cancel button
+     */
     @FXML
     public void onCancel(ActionEvent actionEvent) {
 
@@ -194,6 +209,12 @@ public class CustomerUpdateView implements Initializable {
             System.err.println("Error loading customer-view.fxml: " + e.getMessage());
         }
     }
+
+    /**
+     * onSave takes all the date from the text fields and country/fld combo boxes and adds them to a new customer to add to the database
+     * @param actionEvent This is triggered from the Save button
+     * @throws SQLException This will catch errors trying to add the customer to the database using the CustomerDAO.
+     */
     @FXML
     public void onSave(ActionEvent actionEvent) throws SQLException {
         Customer customer = new Customer(-1,"ted","asdfsa","14326","544-353-3333",4,"Place");
@@ -242,11 +263,16 @@ public class CustomerUpdateView implements Initializable {
 
     }
 
-    @FXML
-    public void customerPass(Customer customer){
 
-    }
+//    public void customerPass(Customer customer){
+//
+//    }
 
+    /**
+     * This method is required for filtering FIrstLevelDivisons by the slected Country.
+     * @param actionEvent Triggered by selecting a Country, which then retrieve the correct FLD and set it in the fldCombo.
+     * @throws SQLException This will catch errors trying to retrieve fld's from the database
+     */
     public void onCountryCombo(ActionEvent actionEvent) throws SQLException {
         //Get selected country
         Country country = countryCombo.getSelectionModel().getSelectedItem();
@@ -273,15 +299,18 @@ public class CustomerUpdateView implements Initializable {
         }
     }
 
-    public void onFldCombo(ActionEvent actionEvent) {
-    }
+//    public void onFldCombo(ActionEvent actionEvent) {
+//    }
 
 
-    public static Customer getPassedCustomer() {
-        return passedCustomer;
-    }
+//    public static Customer getPassedCustomer() {
+//        return passedCustomer;
+//    }
 
-
+    /**
+     * Method to retrieve the passed customer from the customer tableview in the previous screen
+     * @param passedCustomer This is the parameter that is set once the customer is retrieved
+     */
     public static void setPassedCustomer(Customer passedCustomer) {
         CustomerUpdateView.passedCustomer = passedCustomer;
     }

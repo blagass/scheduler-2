@@ -15,8 +15,8 @@
       <TextField fx:id="addressField" layoutX="325.0" layoutY="213.0" promptText="Address" />
       <TextField fx:id="postalCodeField" layoutX="325.0" layoutY="275.0" promptText="Postal Code" />
       <TextField fx:id="phoneField" layoutX="325.0" layoutY="328.0" promptText="Phone" />
-      <ComboBox fx:id="countryCombo" layoutX="326.0" layoutY="379.0" onAction="#onCountryCombo" prefWidth="150.0" promptText="Country" />
-      <ComboBox fx:id="fldCombo" layoutX="326.0" layoutY="413.0" onAction="#onFldCombo" prefWidth="150.0" promptText="First Level Division" />
+      <ComboBox fx:id="countryCombo" layoutX="326.0" layoutY="379.0" prefWidth="150.0" promptText="Country" />
+      <ComboBox fx:id="fldCombo" layoutX="326.0" layoutY="413.0" prefWidth="150.0" promptText="First Level Division" />
       <Label layoutX="296.0" layoutY="99.0" text="Add New Customer">
          <font>
             <Font size="24.0" />

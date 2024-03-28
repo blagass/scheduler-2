@@ -44,7 +44,42 @@ public class CustomerAddView implements Initializable {
     @FXML
     public FirstLevelDivisionDAO fldDAO = new FirstLevelDivisionDAO();
 
+    /**
+     * This initialize method populates the country and firstleveldivision combo boxes with the appropriate contents
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        ObservableList<Country> allCountries = FXCollections.observableArrayList();
+        ObservableList<FirstLevelDivision> allFirstLevelDivisions = FXCollections.observableArrayList();
 
+        CountryDAO countryDao = new CountryDAO();
+        FirstLevelDivisionDAO fldDao = new FirstLevelDivisionDAO();
+
+        try {
+            usDivisions = FirstLevelDivisionDAO.usStates();
+            canadaDivisions = FirstLevelDivisionDAO.canadaStates();
+            ukDivisions = FirstLevelDivisionDAO.ukStates();
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+//
+        try {
+            fldCombo.setItems(fldDao.getList());
+            fldCombo.getSelectionModel().selectFirst();
+
+            countryCombo.setItems(countryDao.getList());
+            countryCombo.getSelectionModel().selectFirst();
+            //setCountryAndFldCombo();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * saveButton create a customer, takes the information set in texts fields and combo boxes, set the customer up with the new data and adds them to the database.
+     * @param actionEvent This is triggered by clicking on the save button
+     * @throws SQLException This will throw an error if the customer is unable to be added to the database through the sql execution.
+     */
     public void saveButton(ActionEvent actionEvent) throws SQLException {
 
         Customer customer = new Customer(-1,"ted","asdfsa","14326","544-353-3333",4,"Place");
@@ -92,6 +127,10 @@ public class CustomerAddView implements Initializable {
         }
     }
 
+    /**
+     *This event navigates the user back to the previous CustomerView screen
+     * @param actionEvent Triggered by clicking on the Go Back button
+     */
     public void onCancel(ActionEvent actionEvent) {
         try {
             Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/customer-view.fxml"));
@@ -104,59 +143,33 @@ public class CustomerAddView implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        ObservableList<Country> allCountries = FXCollections.observableArrayList();
-        ObservableList<FirstLevelDivision> allFirstLevelDivisions = FXCollections.observableArrayList();
 
-        CountryDAO countryDao = new CountryDAO();
-        FirstLevelDivisionDAO fldDao = new FirstLevelDivisionDAO();
 
-        try {
-            usDivisions = FirstLevelDivisionDAO.usStates();
-            canadaDivisions = FirstLevelDivisionDAO.canadaStates();
-            ukDivisions = FirstLevelDivisionDAO.ukStates();
-        }catch (SQLException e){
-            throw new RuntimeException(e);
-        }
+//    public void onCountryCombo(ActionEvent actionEvent) {
+//        //Get selected country
+//        Country country = countryCombo.getSelectionModel().getSelectedItem();
 //
-        try {
-            fldCombo.setItems(fldDao.getList());
-            fldCombo.getSelectionModel().selectFirst();
-
-            countryCombo.setItems(countryDao.getList());
-            countryCombo.getSelectionModel().selectFirst();
-            //setCountryAndFldCombo();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void onCountryCombo(ActionEvent actionEvent) {
-        //Get selected country
-        Country country = countryCombo.getSelectionModel().getSelectedItem();
-
-        if (country != null) {
-            ObservableList<FirstLevelDivision> divisions = null;
-            switch(country.getId()) {
-                case 1:
-                    divisions = usDivisions;
-                    break;
-                case 2:
-                    divisions = ukDivisions;
-                    break;
-                case 3:
-                    divisions = canadaDivisions;
-
-                    break;
-                default:
-                    System.err.println("No matching Country found");
-            }
-
-            fldCombo.setItems(divisions);
-
-        }
-    }
+//        if (country != null) {
+//            ObservableList<FirstLevelDivision> divisions = null;
+//            switch(country.getId()) {
+//                case 1:
+//                    divisions = usDivisions;
+//                    break;
+//                case 2:
+//                    divisions = ukDivisions;
+//                    break;
+//                case 3:
+//                    divisions = canadaDivisions;
+//
+//                    break;
+//                default:
+//                    System.err.println("No matching Country found");
+//            }
+//
+//            fldCombo.setItems(divisions);
+//
+//        }
+//    }
 
 //
 //    private void setCountryAndFldCombo() throws SQLException {
@@ -196,6 +209,6 @@ public class CustomerAddView implements Initializable {
 //            fldCombo.setItems(matchingDivisions);
 //        }
 //    }
-    public void onFldCombo(ActionEvent actionEvent) {
-    }
+//    public void onFldCombo(ActionEvent actionEvent) {
+//    }
 }

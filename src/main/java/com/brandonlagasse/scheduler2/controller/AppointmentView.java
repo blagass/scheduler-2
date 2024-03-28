@@ -112,8 +112,8 @@ public class AppointmentView implements Initializable {
         alert.setHeaderText("Are you sure you want to delete?");
         alert.setContentText("There's no going back!");
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK)
+        Optional<ButtonType> confirmation = alert.showAndWait();
+        if (confirmation.isPresent() && confirmation.get() == ButtonType.OK)
         {
 
             Appointment selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
