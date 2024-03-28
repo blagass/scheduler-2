@@ -1,5 +1,8 @@
 package com.brandonlagasse.scheduler2.model;
 
+/**
+ * The Contact class is used for schedule a contact within an appointment
+ */
 public class Contact {
 
     //PROPERTIES

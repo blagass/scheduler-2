@@ -1,5 +1,8 @@
 package com.brandonlagasse.scheduler2.model;
 
+/**
+ * FirstLevelDivisions are states and providences which make up Countries
+ */
 public class FirstLevelDivision {
 
     //PARAMETERS

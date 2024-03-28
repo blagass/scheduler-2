@@ -25,6 +25,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * This class provides a way for users to ad a new Customer to the database. This is a brand new Customer that uses Insert to add to the database.
+ */
 public class CustomerAddView implements Initializable {
     public TextField nameField;
     public TextField addressField;

@@ -1,5 +1,8 @@
 package com.brandonlagasse.scheduler2.model;
 
+/**
+ * The end user in the business case, the Customer is the client with associated appointments, contacts, and users
+ */
 public class Customer {
 
     //PROPERTIES

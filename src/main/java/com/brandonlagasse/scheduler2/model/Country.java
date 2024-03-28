@@ -1,5 +1,8 @@
 package com.brandonlagasse.scheduler2.model;
 
+/**
+ * Country is associated with FirstLevelDivison, which are both part of Customer
+ */
 public class Country {
 
     //PROPERTIES

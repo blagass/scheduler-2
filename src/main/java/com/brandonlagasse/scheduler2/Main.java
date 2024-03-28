@@ -1,4 +1,4 @@
-package com.brandonlagasse.scheduler2.controller;
+package com.brandonlagasse.scheduler2;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,7 +7,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Locale;
 
 /**
  * Main class that starts when the application is opened

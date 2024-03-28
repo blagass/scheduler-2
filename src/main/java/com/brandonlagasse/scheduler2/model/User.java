@@ -1,5 +1,8 @@
 package com.brandonlagasse.scheduler2.model;
 
+/**
+ * The User is the the one logging into the application, with assigned appointments, as well as associated reporting.
+ */
 public class User {
 
     //PARAMETERS

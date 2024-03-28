@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Appointment class model. Used to store appointments associated with users and customers
+ */
 public class Appointment {
 
     //PROPERTIES
