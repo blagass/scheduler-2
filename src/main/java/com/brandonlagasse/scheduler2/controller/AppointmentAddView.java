@@ -52,8 +52,6 @@ public class AppointmentAddView implements Initializable {
 
     /**
      *The initialization provides population of the start time, end time, and contact combo boxes
-     * @param url
-     * @param resourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

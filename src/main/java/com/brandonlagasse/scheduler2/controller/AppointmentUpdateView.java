@@ -31,12 +31,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * This Apppointment update controllower loads the selected Appointment from the previous scene, populates fields, combos and datepickers. It then collects the information back from the fields, and updates the Appointment in the database
+ */
 public class AppointmentUpdateView implements Initializable {
     public TextField titleField;
     public TextField descriptionField;
     public TextField locationField;
-    public TextField startField;
-    public TextField endField;
+    //public TextField startField;
+    //public TextField endField;
     public TextField customerIdField;
     public TextField userIdField;
     public ComboBox<Contact> contactCombo;
@@ -47,7 +50,10 @@ public class AppointmentUpdateView implements Initializable {
     public DatePicker startDatePicker;
     public DatePicker endDatePicker;
 
-    //*
+    /**
+     * This action navigates the user back to the appointment view
+     * @param actionEvent Triggered byh the Go Back button
+     */
     public void onExit(ActionEvent actionEvent) {
         try {
             Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/appointment-view.fxml"));
@@ -60,6 +66,11 @@ public class AppointmentUpdateView implements Initializable {
         }
     }
 
+    /**
+     * This method takes all the information in the fields, combo boxes, and date pickers available, and uses the update method in the AppointmentDAO to update the Appointment.
+     * @param actionEvent Triggered by the Save button
+     * @throws SQLException Catches databases error if an Update cannot be executed.
+     */
     public void onSave(ActionEvent actionEvent) throws SQLException {
 
          int id = Integer.parseInt(appointmentIdField.getText());
@@ -150,6 +161,9 @@ public class AppointmentUpdateView implements Initializable {
 
     }
 
+    /**
+     * This initialization method recieves the passed appointment, and populates the forms with the appointment info. This includes combo boxes and date pickers
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ContactDAO contactDAO = new ContactDAO();
@@ -213,61 +227,62 @@ public class AppointmentUpdateView implements Initializable {
 
     }
 
-    public void onStartCombo(ActionEvent actionEvent) {
-//        if(endCombo != null) {
-//            TimeHelper.checkTimeOverlap(startCombo, startCombo.getValue(), endCombo.getValue());
-//        }else {
+
+//    public void onStartCombo(ActionEvent actionEvent) {
+////        if(endCombo != null) {
+////            TimeHelper.checkTimeOverlap(startCombo, startCombo.getValue(), endCombo.getValue());
+////        }else {
+////
+////        }
+//    }
+
+//    public void onEndCombo(ActionEvent actionEvent) {
+////        if(startCombo != null) {
+////            TimeHelper.checkTimeOverlap(endCombo, startCombo.getValue(), endCombo.getValue());
+////        }else {
+////            System.out.println("Waiting for start selection");
+////        }
+//    }
 //
-//        }
-    }
-
-    public void onEndCombo(ActionEvent actionEvent) {
-//        if(startCombo != null) {
-//            TimeHelper.checkTimeOverlap(endCombo, startCombo.getValue(), endCombo.getValue());
-//        }else {
-//            System.out.println("Waiting for start selection");
-//        }
-    }
-
+////    public void onStartDate(ActionEvent actionEvent) {
+////        if (endDatePicker != null && startDatePicker.getValue().isAfter(LocalDate.now())) {
+////            TimeHelper.checkDateOverlap(startDatePicker, startDatePicker.getValue(), endDatePicker.getValue());
+////        } else if (endDatePicker!=null) {
+////            TimeHelper.checkDateOverlap(startDatePicker, startDatePicker.getValue(), endDatePicker.getValue());
+////        } else {
+////            System.out.println("Waiting for end selection");
+////        }
+////    }
+////
+////    public void onEndDate(ActionEvent actionEvent) {
+////        if (startDatePicker != null) {
+////            TimeHelper.checkDateOverlap(endDatePicker, startDatePicker.getValue(), endDatePicker.getValue());
+////        } else {
+////            System.out.println("Waiting for start selection");
+////        }
+////    }
+//
 //    public void onStartDate(ActionEvent actionEvent) {
-//        if (endDatePicker != null && startDatePicker.getValue().isAfter(LocalDate.now())) {
-//            TimeHelper.checkDateOverlap(startDatePicker, startDatePicker.getValue(), endDatePicker.getValue());
-//        } else if (endDatePicker!=null) {
-//            TimeHelper.checkDateOverlap(startDatePicker, startDatePicker.getValue(), endDatePicker.getValue());
-//        } else {
-//            System.out.println("Waiting for end selection");
-//        }
+////        if (endDatePicker != null) {
+////            if (startDatePicker.getValue().isAfter(LocalDate.now())) {
+////                TimeHelper.checkDateOverlap(startDatePicker, startDatePicker.getValue(), endDatePicker.getValue());
+////            } else {
+////                TimeHelper.displayErrorMessage("Start date cannot be before the current date.");
+////               // startDatePicker.setValue(null);
+////            }
+////        } else {
+////            System.out.println("Waiting for end selection");
+////        }
 //    }
 //
 //    public void onEndDate(ActionEvent actionEvent) {
-//        if (startDatePicker != null) {
-//            TimeHelper.checkDateOverlap(endDatePicker, startDatePicker.getValue(), endDatePicker.getValue());
-//        } else {
-//            System.out.println("Waiting for start selection");
-//        }
+////        if (startDatePicker != null) {
+////            TimeHelper.checkDateOverlap(endDatePicker, startDatePicker.getValue(), endDatePicker.getValue());
+////        } else {
+////            System.out.println("Waiting for start selection");
+////        }
 //    }
-
-    public void onStartDate(ActionEvent actionEvent) {
-//        if (endDatePicker != null) {
-//            if (startDatePicker.getValue().isAfter(LocalDate.now())) {
-//                TimeHelper.checkDateOverlap(startDatePicker, startDatePicker.getValue(), endDatePicker.getValue());
-//            } else {
-//                TimeHelper.displayErrorMessage("Start date cannot be before the current date.");
-//               // startDatePicker.setValue(null);
-//            }
-//        } else {
-//            System.out.println("Waiting for end selection");
-//        }
-    }
-
-    public void onEndDate(ActionEvent actionEvent) {
-//        if (startDatePicker != null) {
-//            TimeHelper.checkDateOverlap(endDatePicker, startDatePicker.getValue(), endDatePicker.getValue());
-//        } else {
-//            System.out.println("Waiting for start selection");
-//        }
-    }
-
-    public void onContactCombo(ActionEvent actionEvent) {
-    }
+//
+//    public void onContactCombo(ActionEvent actionEvent) {
+//    }
 }
