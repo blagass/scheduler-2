@@ -81,91 +81,101 @@ public class AppointmentAddView implements Initializable {
      * @throws SQLException Collects errors that occur when adding to the database
      */
     public void onSave(ActionEvent actionEvent) throws SQLException {
-        //int id = Integer.parseInt(appointmentIdField.getText());
-        String title = titleField.getText();
-        String description = descriptionField.getText();
-        String location = locationField.getText();
-        String type = typeField.getText();
+if(!titleField.getText().isEmpty()) {
+    //int id = Integer.parseInt(appointmentIdField.getText());
+    String title = titleField.getText();
+    String description = descriptionField.getText();
+    String location = locationField.getText();
+    String type = typeField.getText();
 
-        //Create start LocalDateTime object
-        LocalTime startTime = startTimeCombo.getSelectionModel().getSelectedItem();
-        LocalDate startDate = startDatePicker.getValue();
-
-
-        LocalDateTime startLdt = LocalDateTime.of(startDate, startTime);
-
-        //Create end LocalDateTime object
-        LocalTime endTime = endTimeCombo.getSelectionModel().getSelectedItem();
-        LocalDate endDate = endDatePicker.getValue();
+    //Create start LocalDateTime object
+    LocalTime startTime = startTimeCombo.getSelectionModel().getSelectedItem();
+    LocalDate startDate = startDatePicker.getValue();
 
 
-        System.out.println("Start Date: " + startDate);
-        System.out.println("End Date" + endDate);
+    LocalDateTime startLdt = LocalDateTime.of(startDate, startTime);
+
+    //Create end LocalDateTime object
+    LocalTime endTime = endTimeCombo.getSelectionModel().getSelectedItem();
+    LocalDate endDate = endDatePicker.getValue();
+
+
+    System.out.println("Start Date: " + startDate);
+    System.out.println("End Date" + endDate);
 //        if (startDate.isAfter(endDate)) {
 //            Alert alert = new Alert(Alert.AlertType.ERROR);alert.setHeaderText(null);alert.setContentText("Start date must be before end date");alert.showAndWait();
 //            return;
 //        }
-        if (startDate.isAfter(endDate) ||
-                startDate.getDayOfWeek() == DayOfWeek.SATURDAY ||
-                startDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
+    if (startDate.isAfter(endDate) ||
+            startDate.getDayOfWeek() == DayOfWeek.SATURDAY ||
+            startDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setContentText("Start date must be before end date and cannot be on a weekend.");
-            alert.showAndWait();
-            return;
-        }
-
-
-        if (!TimeHelper.checkTimeOverlap(startTime, endTime)) {
-
-            Alert alert = new Alert(Alert.AlertType.ERROR);alert.setHeaderText(null);alert.setContentText("Start time must be before end time");alert.showAndWait();
-            return;
-        }
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(null);
+        alert.setContentText("Start date must be before end date and cannot be on a weekend.");
+        alert.showAndWait();
+        return;
+    }
 
 
-        LocalDateTime endLdt = LocalDateTime.of(endDate,endTime);
+    if (!TimeHelper.checkTimeOverlap(startTime, endTime)) {
 
-        //Customer,User,and Contact ID
-        int customerId = Integer.parseInt(customerIdField.getText());
-        CustomerDAO customerDAO = new CustomerDAO();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(null);
+        alert.setContentText("Start time must be before end time");
+        alert.showAndWait();
+        return;
+    }
 
-        // Check if the customer exists
-        if (!customerDAO.customerExists(customerId)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Invalid customer ID. Please enter a valid customer ID.");
-            alert.showAndWait();
-            return;  // Exit if the customer ID is invalid
-        }
 
-        UserDAO userDAO = new UserDAO();
-        int userId = Integer.parseInt(userIdField.getText());
-        if (!userDAO.userExists(userId)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Invalid user ID. Please enter a valid user ID.");
-            alert.showAndWait();
-            return;  // Exit if the user ID is invalid
-        }
+    LocalDateTime endLdt = LocalDateTime.of(endDate, endTime);
 
-        int contactId = contactCombo.getSelectionModel().getSelectedItem().getId();
+    //Customer,User,and Contact ID
+    int customerId = Integer.parseInt(customerIdField.getText());
+    CustomerDAO customerDAO = new CustomerDAO();
 
-        Appointment appointment = new Appointment(-1,title,description,location,type,  startLdt,endLdt,customerId,userId,contactId);
-        AppointmentDAO appointmentDAO = new AppointmentDAO();
-        appointmentDAO.insert(appointment);
+    // Check if the customer exists
+    if (!customerDAO.customerExists(customerId)) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText("Invalid customer ID. Please enter a valid customer ID.");
+        alert.showAndWait();
+        return;  // Exit if the customer ID is invalid
+    }
 
-        try {
-            Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/appointment-view.fxml"));
-            Scene scene = new Scene(customerScene);
-            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            window.setScene(scene);
-            window.show();
-        } catch (IOException e) {
-            System.err.println("Error loading appointment-view.fxml: " + e.getMessage());
-        }
+    UserDAO userDAO = new UserDAO();
+    int userId = Integer.parseInt(userIdField.getText());
+    if (!userDAO.userExists(userId)) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText("Invalid user ID. Please enter a valid user ID.");
+        alert.showAndWait();
+        return;  // Exit if the user ID is invalid
+    }
+
+    int contactId = contactCombo.getSelectionModel().getSelectedItem().getId();
+
+    Appointment appointment = new Appointment(-1, title, description, location, type, startLdt, endLdt, customerId, userId, contactId);
+    AppointmentDAO appointmentDAO = new AppointmentDAO();
+    appointmentDAO.insert(appointment);
+
+    try {
+        Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/appointment-view.fxml"));
+        Scene scene = new Scene(customerScene);
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        window.setScene(scene);
+        window.show();
+    } catch (IOException e) {
+        System.err.println("Error loading appointment-view.fxml: " + e.getMessage());
+    }
+} else {     Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText("Please fill in all fields.");
+    alert.showAndWait();
+    return; }
     }
 
     /**

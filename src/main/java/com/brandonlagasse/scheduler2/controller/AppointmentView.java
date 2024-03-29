@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -150,7 +152,7 @@ public class AppointmentView implements Initializable {
                 .filter(app -> app.getStart().toLocalDate().isAfter(today.minusDays(7)) &&
                         app.getStart().toLocalDate().isBefore(today.plusDays(1)))
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
-        appointmentTable.setItems(appointmentsByWeek);
+
     }
 
     /**
@@ -173,6 +175,7 @@ public class AppointmentView implements Initializable {
      * @param actionEvent This is triggered by selecting the View All radio button
      */
     public void onViewAll(ActionEvent actionEvent) {
+
         byWeekCombo.setSelected(false);
         byMonthCombo.setSelected(false);
         appointmentTable.setItems(allAppointments);

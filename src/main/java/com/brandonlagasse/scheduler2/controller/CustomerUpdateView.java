@@ -302,13 +302,13 @@ public class CustomerUpdateView implements Initializable {
         }
     }
 
-//    public void onFldCombo(ActionEvent actionEvent) {
-//    }
+    public void onFldCombo(ActionEvent actionEvent) {
+    }
 
 
-//    public static Customer getPassedCustomer() {
-//        return passedCustomer;
-//    }
+    public static Customer getPassedCustomer() {
+        return passedCustomer;
+    }
 
     /**
      * Method to retrieve the passed customer from the customer tableview in the previous screen
