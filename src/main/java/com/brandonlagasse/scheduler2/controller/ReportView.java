@@ -151,21 +151,21 @@ public class ReportView implements Initializable {
      * @return formatted string results
      */
     private String formatContactSchedules(List<ContactSchedule> schedules) {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         for (ContactSchedule schedule : schedules) {
-            builder.append("Contact ID: ").append(schedule.contactId).append("\n");
+            stringBuilder.append("Contact ID: ").append(schedule.contactId).append("\n");
             for (Appointment appt : schedule.appointments) {
-                builder.append("  Appointment ID: ").append(appt.getId()).append("\n");
-                builder.append("  Title: ").append(appt.getTitle()).append("\n");
-                builder.append("  Type: ").append(appt.getType()).append("\n");
-                builder.append("  Description: ").append(appt.getDescription()).append("\n");
-                builder.append("  Start Date/Time: ").append(appt.getStart()).append("\n");
-                builder.append("  End Date/Time: ").append(appt.getEnd()).append("\n");
-                builder.append("  Customer ID: ").append(appt.getCustomerId()).append("\n");
+                stringBuilder.append("  Appointment ID: ").append(appt.getId()).append("\n");
+                stringBuilder.append("  Title: ").append(appt.getTitle()).append("\n");
+                stringBuilder.append("  Type: ").append(appt.getType()).append("\n");
+                stringBuilder.append("  Description: ").append(appt.getDescription()).append("\n");
+                stringBuilder.append("  Start Date/Time: ").append(appt.getStart()).append("\n");
+                stringBuilder.append("  End Date/Time: ").append(appt.getEnd()).append("\n");
+                stringBuilder.append("  Customer ID: ").append(appt.getCustomerId()).append("\n");
             }
-            builder.append("\n");
+            stringBuilder.append("\n");
         }
-        return builder.toString();
+        return stringBuilder.toString();
     }
 
     /**
@@ -205,13 +205,13 @@ public class ReportView implements Initializable {
      * @return shows the formated copy used to display in the UI
      */
     private String formatAppointmentsByTypeMonth(List<AppointmentsByTypeAndMonth> counts) {
-        StringBuilder builder = new StringBuilder("Appointments by Type and Month:\n");
+        StringBuilder stringBuilder = new StringBuilder("Appointments by Type and Month:\n");
         for (AppointmentsByTypeAndMonth entry : counts) {
-            builder.append(entry.type).append(" (").append(entry.month).append("): ")
+            stringBuilder.append(entry.type).append(" (").append(entry.month).append("): ")
                     .append(entry.count)
                     .append("\n");
         }
-        return builder.toString();
+        return stringBuilder.toString();
     }
 
     /**
