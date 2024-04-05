@@ -88,17 +88,16 @@ if(!titleField.getText().isEmpty()) {
     String location = locationField.getText();
     String type = typeField.getText();
 
-    //Create start LocalDateTime object
+
     LocalTime startTime = startTimeCombo.getSelectionModel().getSelectedItem();
     LocalDate startDate = startDatePicker.getValue();
 
 
     LocalDateTime startLdt = LocalDateTime.of(startDate, startTime);
 
-    //Create end LocalDateTime object
+
     LocalTime endTime = endTimeCombo.getSelectionModel().getSelectedItem();
     LocalDate endDate = endDatePicker.getValue();
-
 
     System.out.println("Start Date: " + startDate);
     System.out.println("End Date" + endDate);
@@ -112,7 +111,7 @@ if(!titleField.getText().isEmpty()) {
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
-        alert.setContentText("Start date must be before end date and cannot be on a weekend.");
+        alert.setContentText("The start date must be before end date, and it cannot land on a weekend.");
         alert.showAndWait();
         return;
     }
@@ -122,7 +121,7 @@ if(!titleField.getText().isEmpty()) {
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
-        alert.setContentText("Start time must be before end time");
+        alert.setContentText("The start time must be before end time");
         alert.showAndWait();
         return;
     }
@@ -130,18 +129,18 @@ if(!titleField.getText().isEmpty()) {
 
     LocalDateTime endLdt = LocalDateTime.of(endDate, endTime);
 
-    //Customer,User,and Contact ID
+
     int customerId = Integer.parseInt(customerIdField.getText());
     CustomerDAO customerDAO = new CustomerDAO();
 
-    // Check if the customer exists
+
     if (!customerDAO.customerExists(customerId)) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText("Invalid customer ID. Please enter a valid customer ID.");
         alert.showAndWait();
-        return;  // Exit if the customer ID is invalid
+        return;
     }
 
     UserDAO userDAO = new UserDAO();
@@ -152,7 +151,7 @@ if(!titleField.getText().isEmpty()) {
         alert.setHeaderText(null);
         alert.setContentText("Invalid user ID. Please enter a valid user ID.");
         alert.showAndWait();
-        return;  // Exit if the user ID is invalid
+        return;
     }
 
     int contactId = contactCombo.getSelectionModel().getSelectedItem().getId();

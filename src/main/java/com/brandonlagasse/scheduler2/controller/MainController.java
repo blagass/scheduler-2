@@ -112,31 +112,6 @@ public class MainController implements Initializable {
 //
 //    }
 
-//        passedUserId = LoginView.passUserId;
-//        AppointmentDAO appointmentDAO = new AppointmentDAO();
-//        // 1. Fetch Appointments from Database
-//        ObservableList<Appointment> appointments = null;
-//        try {
-//            appointments = appointmentDAO.getList();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//        // 2. Filter for Relevant Appointments
-//        LocalDateTime now = LocalDateTime.now();
-//        StringBuilder appointmentText = new StringBuilder();
-//
-//        for (Appointment appointment : appointments) {
-//            if (appointment.getUserId() == passedUserId &&
-//                    appointment.getStart().toLocalTime().isAfter(LocalTime.from(now)) &&
-//                    appointment.getStart().toLocalTime().isBefore(LocalTime.from(now.plusMinutes(15)))) {
-//
-//                        appointmentText.append(formatter).append("\n");
-//            }
-//        }
-//
-//        // 3. Set Text in appointmentArea
-//        appointmentArea.setText(appointmentText.toString());
         passedUserId = LoginView.passUserId;
 
         AppointmentDAO appointmentDAO = new AppointmentDAO();
@@ -161,7 +136,7 @@ public class MainController implements Initializable {
             }
         }
 
-        if (appointmentText.isEmpty()) { // No appointments found
+        if (appointmentText.isEmpty()) {
             appointmentArea.setText("No Appointments Coming Up");
         } else {
             appointmentArea.setText(appointmentText.toString());

@@ -36,7 +36,7 @@ public class UserDAO implements DAOInterface<User>{
             User user = new User(userId,userName,password);
             allUsers.add(user);}
         JDBC.closeConnection();
-        return allUsers; // Returns the observable list
+        return allUsers;
 
     }
 
@@ -58,7 +58,7 @@ public class UserDAO implements DAOInterface<User>{
         int rowsAffected = ps.executeUpdate();
 
         if (rowsAffected == 0) {
-            return false; // Insert failed
+            return false;
         }
         JDBC.closeConnection();
         return true;
@@ -83,7 +83,7 @@ public class UserDAO implements DAOInterface<User>{
         int rowsAffected = ps.executeUpdate();
 
         if (rowsAffected == 0) {
-            return false; // Update failed
+            return false;
         }
         JDBC.closeConnection();
         return true;
@@ -104,7 +104,7 @@ public class UserDAO implements DAOInterface<User>{
         int rowsAffected = ps.executeUpdate();
 
         if (rowsAffected == 0) {
-            return false; //  failed
+            return false;
         }
         return true;
     }

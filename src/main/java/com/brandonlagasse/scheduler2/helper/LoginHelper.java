@@ -25,7 +25,7 @@ public class LoginHelper {
      * @param success this is a check for the success of the login atttempt
      */
     public static void logLoginAttempt(String username, boolean success) {
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(LOG_FILE, true))) { // 'true' to append
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(LOG_FILE, true))) {
             LocalDateTime ldt = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -35,8 +35,7 @@ public class LoginHelper {
             bufferedWriter.write(logEntry);
 
         } catch (IOException e) {
-            System.err.println("Error logging login attempt: " + e.getMessage());
-            // Consider more robust error handling here
+            System.err.println("Error logging: " + e.getMessage());
         }
     }
 

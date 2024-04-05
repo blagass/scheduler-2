@@ -71,9 +71,9 @@ public class LoginView implements Initializable {
 //                            u.getPassword().equals(password));
 //
             boolean loginSuccess = false;
-            int userId = -1; // Initialize userId to -1
+            int userId = -1;
 
-            // Find Matching User
+
             for (User u : allUsers) {
                 if (u.getName().equals(finalUserName) && u.getPassword().equals(password)) {
                     userId = u.getId();
@@ -90,7 +90,7 @@ public class LoginView implements Initializable {
                 window.setScene(scene);
                 window.show();
 
-                // Log
+                //log
                 LoginHelper.logLoginAttempt(userName, true);
 
 //                if(LoginHelper.appointmentChecker(userId)){

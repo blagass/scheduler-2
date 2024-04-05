@@ -48,7 +48,7 @@ public class CustomerDAO implements DAOInterface<Customer>{
 
 
 
-        return allCustomers; // Returns the observable list
+        return allCustomers;
 
     }
 
@@ -71,7 +71,7 @@ public class CustomerDAO implements DAOInterface<Customer>{
         int rowsAffected = ps.executeUpdate();
 
         if (rowsAffected == 0) {
-            return false; // Insert failed
+            return false; //insert failed
         }
         JDBC.closeConnection();
         return true;
@@ -101,7 +101,7 @@ public class CustomerDAO implements DAOInterface<Customer>{
         int rowsAffected = ps.executeUpdate();
 
         if (rowsAffected == 0) {
-            return false; // Update failed
+            return false;
         }
         JDBC.closeConnection();
         return true;
@@ -129,18 +129,18 @@ public class CustomerDAO implements DAOInterface<Customer>{
      */
     @Override
     public boolean delete(int customer) throws SQLException {
-        //Fetch appointment id's
+
         String appointmentSql = "SELECT Appointment_ID FROM appointments WHERE Customer_ID = ?";
         PreparedStatement appointmentPs = JDBC.connection.prepareStatement(appointmentSql);
         appointmentPs.setInt(1, customer);
         ResultSet rs = appointmentPs.executeQuery();
 
-        ObservableList<Integer> appointmentIds = FXCollections.observableArrayList(); // Using ObservableList
+        ObservableList<Integer> appointmentIds = FXCollections.observableArrayList();
         while (rs.next()) {
             appointmentIds.add(rs.getInt("Appointment_ID"));
         }
 
-        // First deleting the appointments
+
         String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
         PreparedStatement deletePs = JDBC.connection.prepareStatement(sql);
 
@@ -170,7 +170,7 @@ public class CustomerDAO implements DAOInterface<Customer>{
         ps.setInt(1, customerId);
         ResultSet rs = ps.executeQuery();
         rs.next();
-        return rs.getInt(1) > 0; // Returns true if a customer with the given ID is found
+        return rs.getInt(1) > 0;
     }
 
 }

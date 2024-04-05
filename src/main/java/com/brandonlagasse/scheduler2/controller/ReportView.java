@@ -31,6 +31,7 @@ public class ReportView implements Initializable {
     public TextArea appointmentsByMonth;
     private AppointmentDAO appointmentDAO = new AppointmentDAO();
 
+
     /**
      * This initialization method sets up the report TextAreas. This is done by pulling each report in smaller methods, and combining within initialize.
      */
@@ -50,12 +51,12 @@ public class ReportView implements Initializable {
         String appointmentsByTypeMonthReport = appointmentsByTypeAndMonth(appointments);
         appointmentsByType.setText(appointmentsByTypeMonthReport);
 
-        //Total Appointments by month
+
         List<AppointmentCount> countsByMonth = countsByMonth(appointments);
         String reportByMonth = buildReport(countsByMonth, "Total Appointments by Month");
         appointmentsByMonth.setText(reportByMonth);
 
-        // Users with the most Appointments
+
         String mostAppointmentsReport = mostAppointmentsReport(appointments);
         mostAppointments.setText(mostAppointmentsReport);
     }

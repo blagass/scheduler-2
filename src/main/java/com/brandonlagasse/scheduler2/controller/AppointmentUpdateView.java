@@ -128,9 +128,9 @@ public class AppointmentUpdateView implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Invalid customer ID. Please enter a valid customer ID.");
             alert.showAndWait();
-            return;  // Exit if the customer ID is invalid
+            return;
          }
-         //Check userId against DAO for valid id
+
         UserDAO userDAO = new UserDAO();
         int userId = Integer.parseInt(userIdField.getText());
         if (!userDAO.userExists(userId)) {
@@ -139,7 +139,7 @@ public class AppointmentUpdateView implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Invalid user ID. Please enter a valid user ID.");
             alert.showAndWait();
-            return;  // Exit if the user ID is invalid
+            return;
         }
 
          int contactId = contactCombo.getSelectionModel().getSelectedItem().getId();
@@ -148,7 +148,7 @@ public class AppointmentUpdateView implements Initializable {
          AppointmentDAO appointmentDAO = new AppointmentDAO();
          appointmentDAO.update(appointment);
 
-        //Exit
+        //exiting
         try {
             Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/appointment-view.fxml"));
             Scene scene = new Scene(customerScene);
@@ -207,11 +207,11 @@ public class AppointmentUpdateView implements Initializable {
 
         contactCombo.setItems(allContacts);
 
-        //Set transfer appointments start/end times
+
         startCombo.setValue(startTime);
         endCombo.setValue(endTime);
 
-        //Set Contact combo
+   //combo setting
         int contactId = appointment.getContactId();
         Contact contact = null;
         try {

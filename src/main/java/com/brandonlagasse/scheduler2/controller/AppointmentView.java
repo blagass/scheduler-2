@@ -147,12 +147,12 @@ public class AppointmentView implements Initializable {
     public void byWeek(ActionEvent actionEvent) {
         byMonthCombo.setSelected(false);
         viewAllCombo.setSelected(false);
-//        LocalDate today = LocalDate.now();
-//        ObservableList<Appointment> appointmentsByWeek = allAppointments.stream()
-//                .filter(app -> app.getStart().toLocalDate().isAfter(today.minusDays(7)) &&
-//                        app.getStart().toLocalDate().isBefore(today.plusDays(1)))
-//                .collect(Collectors.toCollection(FXCollections::observableArrayList));
-
+        LocalDate today = LocalDate.now();
+        ObservableList<Appointment> appointmentsByWeek = allAppointments.stream()
+                .filter(app -> app.getStart().toLocalDate().isAfter(today.minusDays(7)) &&
+                        app.getStart().toLocalDate().isBefore(today.plusDays(1)))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+appointmentTable.setItems(appointmentsByWeek);
     }
 
     /**
@@ -163,11 +163,11 @@ public class AppointmentView implements Initializable {
     public void byMonth(ActionEvent actionEvent) {
         byWeekCombo.setSelected(false);
         viewAllCombo.setSelected(false);
-//        LocalDate today = LocalDate.now();
-//        ObservableList<Appointment> appointmentsByMonth = allAppointments.stream()
-//                .filter(app -> app.getStart().toLocalDate().getMonth() == today.getMonth())
-//                .collect(Collectors.toCollection(FXCollections::observableArrayList));
-//        appointmentTable.setItems(appointmentsByMonth);
+        LocalDate today = LocalDate.now();
+        ObservableList<Appointment> appointmentsByMonth = allAppointments.stream()
+                .filter(app -> app.getStart().toLocalDate().getMonth() == today.getMonth())
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+        appointmentTable.setItems(appointmentsByMonth);
 
 
     }

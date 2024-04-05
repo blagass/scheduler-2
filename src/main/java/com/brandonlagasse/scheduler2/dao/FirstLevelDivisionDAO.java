@@ -94,7 +94,7 @@ public class FirstLevelDivisionDAO implements DAOInterface<FirstLevelDivision> {
             FirstLevelDivision firstLevelDivision = new FirstLevelDivision(stateId,division,countryId);
             allUsStates.add(firstLevelDivision);
         }
-        return allUsStates; // Returns the observable list
+        return allUsStates;
     }
 
     /**
@@ -116,7 +116,7 @@ public class FirstLevelDivisionDAO implements DAOInterface<FirstLevelDivision> {
             FirstLevelDivision firstLevelDivision = new FirstLevelDivision(stateId,division,countryId);
             allUkStates.add(firstLevelDivision);
         }
-        return allUkStates; // Returns the observable list
+        return allUkStates;
     }
 
     /**
@@ -138,7 +138,7 @@ public class FirstLevelDivisionDAO implements DAOInterface<FirstLevelDivision> {
             FirstLevelDivision firstLevelDivision = new FirstLevelDivision(stateId,division,countryId);
             allCanadaStates.add(firstLevelDivision);
         }
-        return allCanadaStates; // Returns the observable list
+        return allCanadaStates;
     }
 
     /**

@@ -33,7 +33,7 @@ public class CountryDAO implements DAOInterface<Country>{
             allCountries.add(country);
 
         }
-        return allCountries; // Returns the observable list
+        return allCountries;
 
     }
 //

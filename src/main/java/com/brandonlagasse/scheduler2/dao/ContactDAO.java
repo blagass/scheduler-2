@@ -35,7 +35,7 @@ public class ContactDAO implements DAOInterface<Contact>{
             allContacts.add(contact);
 
         }
-        return allContacts; // Returns the observable list
+        return allContacts;
 
     }
 //

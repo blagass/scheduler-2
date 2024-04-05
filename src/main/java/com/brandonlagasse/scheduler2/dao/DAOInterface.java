@@ -24,7 +24,7 @@ public interface DAOInterface<T> {
      * @return boolean to determine method success
      * @throws SQLException catch database errors
      */
-     default boolean insert(T object) throws SQLException // More generic name
+     default boolean insert(T object) throws SQLException
     {
         return false;
     }
@@ -35,7 +35,7 @@ public interface DAOInterface<T> {
      * @return boolean for success determination
      * @throws SQLException catch for database connection errors, etc.
      */
-     default  boolean update(T object) throws SQLException // More generic name
+     default  boolean update(T object) throws SQLException
     {
 
         return false;

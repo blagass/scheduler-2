@@ -63,7 +63,7 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
             System.out.println(appointmentUserId);
             System.out.println(contactId);
 
-            // Timezone Handling
+            //timezone Handling
             ZoneId currentZone = ZoneId.of(TimeZone.getDefault().getID());
             ZonedDateTime zdt = appointmentStart.atZone(currentZone);
             ZonedDateTime currentToLocalZDT = zdt.withZoneSameInstant(currentZone);
@@ -101,7 +101,7 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
         ps.setString(3,appointment.getLocation());
         ps.setString(4,appointment.getType());
         ps.setTimestamp(5,startTimeStamp);
-        ps.setTimestamp(6,endTimeStamp); //work on these after you have the first part of appointments figured out
+        ps.setTimestamp(6,endTimeStamp);
         ps.setInt(7, appointment.getCustomerId());
         ps.setInt(8,appointment.getUserId());
         ps.setInt(9,appointment.getContactId());
@@ -109,7 +109,7 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
         int rowsAffected = ps.executeUpdate();
 
         if (rowsAffected == 0) {
-            return false; // Insert failed
+            return false;
         }
         JDBC.closeConnection();
         return true;
@@ -130,7 +130,7 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
 
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
 
-        // Set SQL parameters (Notice the shift in indices)
+
         ps.setString(1, appointment.getTitle());
         ps.setString(2, appointment.getDescription());
         ps.setString(3, appointment.getLocation());
@@ -140,7 +140,7 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
         ps.setInt(7, appointment.getCustomerId());
         ps.setInt(8, appointment.getUserId());
         ps.setInt(9, appointment.getContactId());
-        ps.setInt(10, appointment.getId()); // Condition on Appointment_ID
+        ps.setInt(10, appointment.getId());
 
         int rowsAffected = ps.executeUpdate();
 
@@ -201,7 +201,7 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
             int appointmentUserId = rs.getInt("User_ID");
             int contactId = rs.getInt("Contact_ID");
 
-            // Timezone Handling
+
             ZoneId currentZone = ZoneId.of(TimeZone.getDefault().getID());
             ZonedDateTime zdt = appointmentStart.atZone(currentZone);
             ZonedDateTime currentToLocalZDT = zdt.withZoneSameInstant(currentZone);
