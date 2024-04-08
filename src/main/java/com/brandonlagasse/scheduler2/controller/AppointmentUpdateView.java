@@ -202,7 +202,7 @@ public class AppointmentUpdateView implements Initializable {
 
         LocalTime endTime = ltdEnd.toLocalTime();
         LocalDate endDate = ltdEnd.toLocalDate();
-
+        System.out.println(ltdStart);
 
         startCombo.setItems(TimeHelper.getStartHours());
 

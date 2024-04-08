@@ -170,7 +170,6 @@ appointmentTable.setItems(appointmentsByWeek);
 
     /**
      *  Filters the current appointment tableview to show only appointments by month.
-     *  LAMBDA - This method also uses a Lambda to filter through the new all appointments and add the collection to an ObservableList
      * @param actionEvent Triggered by selecting the By Month radio button
      */
     public void byMonth(ActionEvent actionEvent) {

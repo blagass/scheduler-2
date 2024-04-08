@@ -18,13 +18,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
+import javax.xml.transform.Source;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.sql.Time;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 /**
  * This is the main controller that loads after login. This presents the user with navigational options, as well as information related to User Appointments.
@@ -102,43 +104,131 @@ public class MainController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//     passedUserId = LoginView.passUserId;
 //
-//        ObservableList<User> allUsers = FXCollections.observableArrayList();
-//        for(User user : allUsers){
-//            if the user.getid == passedUserId, then set the text in the appointmentArea any appointment the user has within 15 minutes of the login time
-//        };
+//        passedUserId = LoginView.passUserId;
+//
+//        AppointmentDAO appointmentDAO = new AppointmentDAO();
+//
+//        ObservableList<Appointment> appointments = null;
+//
+//        try {
+//            appointments = appointmentDAO.getList();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
 //
 //
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        LocalDateTime now = LocalDateTime.now();
+//
+//        boolean hasUpcomingAppointment = false;
+//        StringBuilder builder = new StringBuilder("You have no upcoming appointments:\n");
+//
+//        if (appointments != null) {
+//            for (Appointment appointment : appointments) {
+//                if (appointment.getUserId() == passedUserId &&
+//                        appointment.getStart().isAfter(now) &&
+//                        appointment.getStart().isBefore(now.plusMinutes(15))) {
+//
+//                    builder.append(formatter.format(appointment.getStart())).append("\n");
+//                    hasUpcomingAppointment = true;
+//                }
+//            }
+//            appointmentArea.setText(hasUpcomingAppointment ? builder.toString() : "Appointment Coming up");
+//        } else{
+//            appointmentArea.setText("No Appointments Coming up");
+//        }
+//
+//
+//        }
+//
+
+
+//        passedUserId = LoginView.passUserId;
+//
+//        AppointmentDAO appointmentDAO = new AppointmentDAO();
+//        ObservableList<Appointment> appointments = null;
+//
+//        try {
+//            appointments = appointmentDAO.getList();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        LocalDateTime now = LocalDateTime.now();
+//        boolean hasUpcomingAppointment = false;
+//
+//
+//        if (appointments != null) {
+//            for (Appointment appointment : appointments) {
+//                LocalDateTime apptStartTime = appointment.getStart();
+//
+//                if (appointment.getUserId() == passedUserId &&
+//                        apptStartTime.isAfter(now) &&
+//                        apptStartTime.isBefore(now.plusMinutes(15))) {
+//                    hasUpcomingAppointment = true;
+//                }
+//            }
+//        }
+//
+//        if (hasUpcomingAppointment) {
+//            appointmentArea.setText("Appointments Coming Up");
+//
+//        } else{appointmentArea.setText("No Appointments coming up");
 //    }
 
+//        passedUserId = LoginView.passUserId;
+//        AppointmentDAO appointmentDAO = new AppointmentDAO();
+//        ObservableList<Appointment> appointments = null;
+//
+//        try {
+//            appointments = appointmentDAO.getList();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        for (Appointment app: appointments){
+//            if(passedUserId == app.getUserId()){
+//                LocalDateTime ltd = app.getStart();
+//                System.out.println("Appointment Time " + ltd);
+//            }else{
+//                System.out.println("No Appointment Coming up");
+//            }
+//        }
+
         passedUserId = LoginView.passUserId;
-
         AppointmentDAO appointmentDAO = new AppointmentDAO();
-
         ObservableList<Appointment> appointments = null;
+
         try {
             appointments = appointmentDAO.getList();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        ZoneId userTimeZone = ZoneId.systemDefault();
+        LocalDateTime now = LocalDateTime.now(userTimeZone);
 
+        for (Appointment app: appointments) {
+            if (passedUserId == app.getUserId()) {
+                LocalDateTime apptStartUTC = app.getStart();
+                LocalDateTime apptStartTimeLocal = apptStartUTC.atZone(ZoneOffset.UTC)
+                        .withZoneSameInstant(userTimeZone)
+                        .toLocalDateTime();
 
-        LocalDateTime now = LocalDateTime.now();
-        StringBuilder appointmentText = new StringBuilder();
-        for (Appointment appointment : appointments) {
-            if (appointment.getUserId() == passedUserId &&
-                    appointment.getStart().toLocalTime().isAfter(LocalTime.from(now)) &&
-                    appointment.getStart().toLocalTime().isBefore(LocalTime.from(now.plusMinutes(15)))) {
-                appointmentText.append(formatter.format(appointment.getStart())).append("\n"); // Format appointment details
+                System.out.println("Appointment Time: " + apptStartTimeLocal);
+
+                if (apptStartTimeLocal.isAfter(now) &&
+                        apptStartTimeLocal.isBefore(now.plusMinutes(30))) {
+
+                    System.out.println("Appointment within 15 minutes!");
+
+                }
+            } else {
+                System.out.println("No Appointment Coming up");
             }
-        }
 
-        if (appointmentText.isEmpty()) {
-            appointmentArea.setText("No Appointments Coming Up");
-        } else {
-            appointmentArea.setText(appointmentText.toString());
-        }
-    }}
+    }
+}}
+
