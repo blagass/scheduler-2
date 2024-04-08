@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -128,9 +129,19 @@ public class AppointmentView implements Initializable {
                 a.showAndWait();
             } else {
                 appointmentDAO = new AppointmentDAO();
-                System.out.println("Number of customers in the database: " + appointmentDAO.getList().size());
+
+                int selectedAppointmentId = selectedAppointment.getId();
+                String selectedType = selectedAppointment.getType();
+
+                //delete
                 appointmentDAO.delete(selectedAppointment.getId());
-                System.out.println("Number of customers in the database: " + appointmentDAO.getList().size());
+
+                //alert
+                Alert deleted = new Alert(Alert.AlertType.CONFIRMATION);
+                deleted.setTitle("Success!");
+                deleted.setHeaderText("Appointment" + selectedAppointmentId +"Deleted");
+                deleted.setContentText("Type: "  + selectedType);
+
 
                 ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
                 allAppointments.setAll(appointmentDAO.getList());

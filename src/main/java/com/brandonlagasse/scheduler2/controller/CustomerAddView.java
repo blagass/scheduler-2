@@ -147,71 +147,72 @@ public class CustomerAddView implements Initializable {
     }
 
 
+//PREVIOUSLY COMMENTED OUT SECTION
+    public void onCountryCombo(ActionEvent actionEvent) {
+        //Get selected country
+        Country country = countryCombo.getSelectionModel().getSelectedItem();
 
-//    public void onCountryCombo(ActionEvent actionEvent) {
-//        //Get selected country
-//        Country country = countryCombo.getSelectionModel().getSelectedItem();
-//
-//        if (country != null) {
-//            ObservableList<FirstLevelDivision> divisions = null;
-//            switch(country.getId()) {
-//                case 1:
-//                    divisions = usDivisions;
-//                    break;
-//                case 2:
-//                    divisions = ukDivisions;
-//                    break;
-//                case 3:
-//                    divisions = canadaDivisions;
-//
-//                    break;
-//                default:
-//                    System.err.println("No matching Country found");
-//            }
-//
-//            fldCombo.setItems(divisions);
-//
-//        }
-//    }
+        if (country != null) {
+            ObservableList<FirstLevelDivision> divisions = null;
+            switch(country.getId()) {
+                case 1:
+                    divisions = usDivisions;
+                    break;
+                case 2:
+                    divisions = ukDivisions;
+                    break;
+                case 3:
+                    divisions = canadaDivisions;
 
-//
-//    private void setCountryAndFldCombo() throws SQLException {
-//        // Find matching FLD and set the selection
-//        FirstLevelDivision matchingFld = null;
-//        for (FirstLevelDivision fld : fldDAO.getList()) {
-//            if (fld.getId() == passedCustomer.getDivisionId()) {
-//                matchingFld = fld;
-//                fldCombo.getSelectionModel().select(matchingFld);
-//                break;
-//            }
-//        }
-//
-//        // Find matching Country and set selection
-//        if (matchingFld != null) {
-//            int countryId = matchingFld.getCountryId();
-//            for (Country country : countryCombo.getItems()) {
-//                if (country.getId() == countryId) {
-//                    countryCombo.getSelectionModel().select(country);
-//                    break;
-//                }
-//            }
-//        }
-//
-//        // Load matching divisions (only if a country is selected)
-//        if (countryCombo.getSelectionModel().getSelectedItem() != null) {
-//            loadMatchingDivisions();
-//        }
-//    }
-//
-//    private void loadMatchingDivisions() throws SQLException {
-//
-//        int countryId = countryCombo.getSelectionModel().getSelectedItem().getId();
-//        ObservableList<FirstLevelDivision> matchingDivisions = fldDAO.getDivisionsByCountryId(countryId);
-//
-//        if (matchingDivisions != null) {
-//            fldCombo.setItems(matchingDivisions);
-//        }
-//    }
-//    public void onFldCombo(ActionEvent actionEvent) {
-//    }
+                    break;
+                default:
+                    System.err.println("No matching Country found");
+            }
+
+            fldCombo.setItems(divisions);
+            fldCombo.getSelectionModel().selectFirst();
+
+        }
+    }
+
+
+    private void setCountryAndFldCombo() throws SQLException {
+        // Find matching FLD and set the selection
+        FirstLevelDivision matchingFld = null;
+        for (FirstLevelDivision fld : fldDAO.getList()) {
+            if (fld.getId() == passedCustomer.getDivisionId()) {
+                matchingFld = fld;
+                fldCombo.getSelectionModel().select(matchingFld);
+                break;
+            }
+        }
+
+        // Find matching Country and set selection
+        if (matchingFld != null) {
+            int countryId = matchingFld.getCountryId();
+            for (Country country : countryCombo.getItems()) {
+                if (country.getId() == countryId) {
+                    countryCombo.getSelectionModel().select(country);
+                    break;
+                }
+            }
+        }
+
+        // Load matching divisions (only if a country is selected)
+        if (countryCombo.getSelectionModel().getSelectedItem() != null) {
+            loadMatchingDivisions();
+        }
+    }
+
+    private void loadMatchingDivisions() throws SQLException {
+
+        int countryId = countryCombo.getSelectionModel().getSelectedItem().getId();
+        ObservableList<FirstLevelDivision> matchingDivisions = fldDAO.getDivisionsByCountryId(countryId);
+
+        if (matchingDivisions != null) {
+            fldCombo.setItems(matchingDivisions);
+        }
+    }
+    public void onFldCombo(ActionEvent actionEvent) {
+    }
 }

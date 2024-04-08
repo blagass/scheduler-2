@@ -298,6 +298,7 @@ public class CustomerUpdateView implements Initializable {
             }
 
                 fldCombo.setItems(divisions);
+            fldCombo.getSelectionModel().selectFirst();
 
         }
     }
@@ -306,9 +307,9 @@ public class CustomerUpdateView implements Initializable {
     }
 
 
-    public static Customer getPassedCustomer() {
-        return passedCustomer;
-    }
+//    public static Customer getPassedCustomer() {
+//        return passedCustomer;
+//    }
 
     /**
      * Method to retrieve the passed customer from the customer tableview in the previous screen
