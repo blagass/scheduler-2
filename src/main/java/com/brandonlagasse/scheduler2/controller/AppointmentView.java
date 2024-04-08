@@ -136,16 +136,18 @@ public class AppointmentView implements Initializable {
                 //delete
                 appointmentDAO.delete(selectedAppointment.getId());
 
-                //alert
-                Alert deleted = new Alert(Alert.AlertType.CONFIRMATION);
-                deleted.setTitle("Success!");
-                deleted.setHeaderText("Appointment" + selectedAppointmentId +"Deleted");
-                deleted.setContentText("Type: "  + selectedType);
 
 
                 ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
                 allAppointments.setAll(appointmentDAO.getList());
                 appointmentTable.setItems(allAppointments);
+
+                //alert
+                Alert deleted = new Alert(Alert.AlertType.CONFIRMATION);
+                deleted.setTitle("Success!");
+                deleted.setHeaderText("Appointment " + selectedAppointmentId +" Deleted");
+                deleted.setContentText("Type: "  + selectedType);
+                deleted.showAndWait();
             }
         }
     }

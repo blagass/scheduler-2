@@ -105,12 +105,12 @@ public class TimeHelper {
     public static boolean  checkTimeOverlap(LocalTime startTime, LocalTime endTime){
 
         if (startTime.isBefore(LocalTime.now())) {
-            System.out.println("Start date cannot be in the past.");
+            System.out.println("Start time cannot be in the past.");
             return false;
         }
 
         // check to see if the start time is after the end time
-        if (startTime.isAfter(endTime)) {
+        if (startTime.isAfter(endTime) || startTime.equals(endTime)) {
             System.out.println("Start date must be before the end date.");
             return false;
         }

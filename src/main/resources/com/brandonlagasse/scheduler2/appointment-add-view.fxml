@@ -19,7 +19,7 @@
       <TextField fx:id="customerIdField" layoutX="316.0" layoutY="397.0" promptText="Customer ID" />
       <TextField fx:id="userIdField" layoutX="316.0" layoutY="444.0" promptText="User ID" />
       <ComboBox fx:id="contactCombo" layoutX="316.0" layoutY="491.0" prefWidth="150.0" promptText="Contact" />
-      <Label layoutX="278.0" layoutY="95.0" text="Add New Appointment">
+      <Label layoutX="269.0" layoutY="62.0" text="Add New Appointment">
          <font>
             <Font size="24.0" />
          </font>
@@ -28,5 +28,6 @@
       <ComboBox fx:id="endTimeCombo" layoutX="316.0" layoutY="354.0" prefWidth="150.0" promptText="End Time" />
       <DatePicker fx:id="startDatePicker" layoutX="476.0" layoutY="317.0" promptText="Start Date" />
       <DatePicker fx:id="endDatePicker" layoutX="476.0" layoutY="354.0" promptText="End Date" />
+      <TextField fx:id="titleField1" disable="true" layoutX="317.0" layoutY="118.0" promptText="Appointment ID" />
    </children>
 </AnchorPane>

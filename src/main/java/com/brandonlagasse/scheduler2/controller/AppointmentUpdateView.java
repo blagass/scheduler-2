@@ -109,12 +109,15 @@ public class AppointmentUpdateView implements Initializable {
             return;
         }
 
-//        if (!TimeHelper.checkTimeOverlap(startTime, endTime)) {
-//
-//            Alert alert = new Alert(Alert.AlertType.ERROR);alert.setHeaderText(null);alert.setContentText("Start time must be before end time");alert.showAndWait();
-//return;
-//        }
 
+        if (startTime.isAfter(endTime)) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("The start time must be before end time");
+            alert.showAndWait();
+            return;
+        }
 
 
         LocalDateTime endLdt = LocalDateTime.of(endDate,endTime);

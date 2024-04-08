@@ -105,19 +105,33 @@ if(!titleField.getText().isEmpty()) {
 //            Alert alert = new Alert(Alert.AlertType.ERROR);alert.setHeaderText(null);alert.setContentText("Start date must be before end date");alert.showAndWait();
 //            return;
 //        }
-    if (startDate.isAfter(endDate) ||
-            startDate.getDayOfWeek() == DayOfWeek.SATURDAY ||
-            startDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
+
+
+    if (startDate.isAfter(endDate)) {
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
-        alert.setContentText("The start date must be before end date, and it cannot land on a weekend.");
+        alert.setContentText("The start date must be before end date");
         alert.showAndWait();
         return;
     }
 
+    if (startDate.getDayOfWeek() == DayOfWeek.SUNDAY ||
+            startDate.getDayOfWeek() == DayOfWeek.SATURDAY ||
+    endDate.getDayOfWeek() == DayOfWeek.SUNDAY||
+            endDate.getDayOfWeek() == DayOfWeek.SATURDAY){
 
-    if (!TimeHelper.checkTimeOverlap(startTime, endTime)) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText(null);
+        alert.setContentText("The start/end dates cannot land on a weekend.");
+        alert.showAndWait();
+        return;
+    }
+
+//
+//
+
+    if (startTime.isAfter(endTime)) {
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
@@ -125,6 +139,7 @@ if(!titleField.getText().isEmpty()) {
         alert.showAndWait();
         return;
     }
+
 
 
     LocalDateTime endLdt = LocalDateTime.of(endDate, endTime);
@@ -145,6 +160,7 @@ if(!titleField.getText().isEmpty()) {
 
     UserDAO userDAO = new UserDAO();
     int userId = Integer.parseInt(userIdField.getText());
+
     if (!userDAO.userExists(userId)) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");

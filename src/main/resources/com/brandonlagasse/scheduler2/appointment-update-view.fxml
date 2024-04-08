@@ -23,7 +23,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="appointmentIdField" editable="false" layoutX="326.0" layoutY="114.0" promptText="Appointment ID" />
+      <TextField fx:id="appointmentIdField" disable="true" editable="false" layoutX="326.0" layoutY="114.0" promptText="Appointment ID" />
       <TextField fx:id="typeField" layoutX="326.0" layoutY="275.0" promptText="Type" />
       <ComboBox fx:id="startCombo" layoutX="327.0" layoutY="318.0" onAction="#onStartCombo" prefWidth="150.0" promptText="Start Time" />
       <ComboBox fx:id="endCombo" layoutX="327.0" layoutY="363.0" onAction="#onEndCombo" prefWidth="150.0" promptText="End Time" />
