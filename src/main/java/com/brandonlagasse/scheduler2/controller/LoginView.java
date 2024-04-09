@@ -85,7 +85,9 @@ public class LoginView implements Initializable {
             }
 
             if (loginSuccess) {
-                System.out.println("Success!");
+                //System.out.println("Success!");
+                passUserId = userId;
+                MainController.passedUserId = passUserId;
                 Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/main-view.fxml"));
                 Scene scene = new Scene(customerScene);
                 Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -95,9 +97,9 @@ public class LoginView implements Initializable {
                 //log
                 LoginHelper.logLoginAttempt(userName, true);
 
-//                if(LoginHelper.appointmentChecker(userId)){
-//                    passUserId = userId;
-//                };
+
+
+
 
             } else {
                 throw new Error("Wrong credentials");
@@ -128,15 +130,15 @@ public class LoginView implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println(Time.valueOf(LocalTime.now()));
+
         String zone = String.valueOf(ZoneId.systemDefault());
 
         ResourceBundle rb = ResourceBundle.getBundle("/com/brandonlagasse/scheduler2/Lang", Locale.getDefault());
 
         if(Locale.getDefault().getLanguage().equals("fr"))
-            System.out.println("hello");
+
         if(Locale.getDefault().getLanguage().equals("fr"))
-            System.out.println(rb.getString("hello"));
+
         loginButton.setText(rb.getString("log"));
         userLabel.setText(rb.getString("user"));
         passwordLabel.setText(rb.getString("password"));

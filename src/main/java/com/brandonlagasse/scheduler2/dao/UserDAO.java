@@ -27,7 +27,7 @@ public class UserDAO implements DAOInterface<User>{
         String sql = "SELECT * FROM users";
 
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        System.out.println("connection working");
+        //System.out.println("connection working");
         ResultSet rs = ps.executeQuery();
         while(rs.next()){
             int userId = rs.getInt("User_ID");

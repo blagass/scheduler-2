@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -39,7 +40,7 @@ public class MainController implements Initializable {
     @FXML
     private Label welcomeText;
 
-    public int passedUserId;
+    public static int passedUserId;
 
     /**
      * This method exits the application for the user. Since this is the first scene that appears after the login, there's no where to go from here.
@@ -104,102 +105,12 @@ public class MainController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//
-//        passedUserId = LoginView.passUserId;
-//
-//        AppointmentDAO appointmentDAO = new AppointmentDAO();
-//
-//        ObservableList<Appointment> appointments = null;
-//
-//        try {
-//            appointments = appointmentDAO.getList();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//        LocalDateTime now = LocalDateTime.now();
-//
-//        boolean hasUpcomingAppointment = false;
-//        StringBuilder builder = new StringBuilder("You have no upcoming appointments:\n");
-//
-//        if (appointments != null) {
-//            for (Appointment appointment : appointments) {
-//                if (appointment.getUserId() == passedUserId &&
-//                        appointment.getStart().isAfter(now) &&
-//                        appointment.getStart().isBefore(now.plusMinutes(15))) {
-//
-//                    builder.append(formatter.format(appointment.getStart())).append("\n");
-//                    hasUpcomingAppointment = true;
-//                }
-//            }
-//            appointmentArea.setText(hasUpcomingAppointment ? builder.toString() : "Appointment Coming up");
-//        } else{
-//            appointmentArea.setText("No Appointments Coming up");
-//        }
-//
-//
-//        }
-//
-
-
-//        passedUserId = LoginView.passUserId;
-//
-//        AppointmentDAO appointmentDAO = new AppointmentDAO();
-//        ObservableList<Appointment> appointments = null;
-//
-//        try {
-//            appointments = appointmentDAO.getList();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//        LocalDateTime now = LocalDateTime.now();
-//        boolean hasUpcomingAppointment = false;
-//
-//
-//        if (appointments != null) {
-//            for (Appointment appointment : appointments) {
-//                LocalDateTime apptStartTime = appointment.getStart();
-//
-//                if (appointment.getUserId() == passedUserId &&
-//                        apptStartTime.isAfter(now) &&
-//                        apptStartTime.isBefore(now.plusMinutes(15))) {
-//                    hasUpcomingAppointment = true;
-//                }
-//            }
-//        }
-//
-//        if (hasUpcomingAppointment) {
-//            appointmentArea.setText("Appointments Coming Up");
-//
-//        } else{appointmentArea.setText("No Appointments coming up");
-//    }
-
-//        passedUserId = LoginView.passUserId;
-//        AppointmentDAO appointmentDAO = new AppointmentDAO();
-//        ObservableList<Appointment> appointments = null;
-//
-//        try {
-//            appointments = appointmentDAO.getList();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        for (Appointment app: appointments){
-//            if(passedUserId == app.getUserId()){
-//                LocalDateTime ltd = app.getStart();
-//                System.out.println("Appointment Time " + ltd);
-//            }else{
-//                System.out.println("No Appointment Coming up");
-//            }
-//        }
 
         passedUserId = LoginView.passUserId;
         AppointmentDAO appointmentDAO = new AppointmentDAO();
         ObservableList<Appointment> appointments = null;
+
+        System.out.println("User ID is:" + passedUserId); // TEST LOG - Doesn't seem to be working
 
         try {
             appointments = appointmentDAO.getList();
@@ -212,21 +123,22 @@ public class MainController implements Initializable {
 
         for (Appointment app: appointments) {
             if (passedUserId == app.getUserId()) {
-                LocalDateTime apptStartUTC = app.getStart();
-                LocalDateTime apptStartTimeLocal = apptStartUTC.atZone(ZoneOffset.UTC)
-                        .withZoneSameInstant(userTimeZone)
-                        .toLocalDateTime();
 
-                System.out.println("Appointment Time: " + apptStartTimeLocal);
+                LocalDateTime utcStart = app.getStart();
+                LocalDateTime localStart = utcStart.atZone(ZoneOffset.UTC).withZoneSameInstant(userTimeZone).toLocalDateTime();
 
-                if (apptStartTimeLocal.isAfter(now) &&
-                        apptStartTimeLocal.isBefore(now.plusMinutes(30))) {
+                System.out.println("Local Time is: " + localStart);// TEST LOG
 
-                    System.out.println("Appointment within 15 minutes!");
+                System.out.println("UTC start is:" + utcStart); // TEST LOG
 
+
+                if (localStart.isAfter(now) && localStart.isBefore(now.plusMinutes(15))) {
+                    System.out.println("Appointment starting soon!");
+                   appointmentArea.setText("Appointment starting soon!");
                 }
             } else {
-                System.out.println("No Appointment Coming up");
+                System.out.println("No appointments coming up");
+                appointmentArea.setText("No Appointments coming up!");
             }
 
     }

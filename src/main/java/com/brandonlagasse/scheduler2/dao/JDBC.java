@@ -27,7 +27,7 @@ public abstract class JDBC {
         try{
             Class.forName(driver);
             connection = DriverManager.getConnection(jdbUrl,userName,password);
-            System.out.println("Connection Successful");
+        //    System.out.println("Connection Successful");
 
         }
         catch(Exception e){
@@ -44,7 +44,7 @@ public abstract class JDBC {
     public static void closeConnection(){ //CLOSE DATABASE
         try{
             connection.close();
-            System.out.println("Connection Closed");
+           // System.out.println("Connection Closed");
 
         }
         catch(Exception e){

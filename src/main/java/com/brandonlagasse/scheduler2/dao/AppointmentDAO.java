@@ -52,16 +52,16 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
             int appointmentUserId = rs.getInt("User_ID");
             int contactId = rs.getInt("Contact_ID");
 
-            System.out.println(appointmentId);
-            System.out.println(appointmentTitle);
-            System.out.println(appointmentDescription);
-            System.out.println(appointmentLocation);
-            System.out.println(appointmentType);
-            System.out.println(appointmentStart);
-            System.out.println(appointmentEnd);
-            System.out.println(appointmentCustomerId);
-            System.out.println(appointmentUserId);
-            System.out.println(contactId);
+//            System.out.println(appointmentId);
+//            System.out.println(appointmentTitle);
+//            System.out.println(appointmentDescription);
+//            System.out.println(appointmentLocation);
+//            System.out.println(appointmentType);
+//            System.out.println(appointmentStart);
+//            System.out.println(appointmentEnd);
+//            System.out.println(appointmentCustomerId);
+//            System.out.println(appointmentUserId);
+//            System.out.println(contactId);
 
             //timezone Handling
             ZoneId currentZone = ZoneId.of(TimeZone.getDefault().getID());
