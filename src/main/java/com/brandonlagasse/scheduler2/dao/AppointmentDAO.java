@@ -64,10 +64,10 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
 //            System.out.println(contactId);
 
             //timezone Handling
-            ZoneId currentZone = ZoneId.of(TimeZone.getDefault().getID());
-            ZonedDateTime zdt = appointmentStart.atZone(currentZone);
-            ZonedDateTime currentToLocalZDT = zdt.withZoneSameInstant(currentZone);
-            appointmentStart = currentToLocalZDT.toLocalDateTime();
+//            ZoneId currentZone = ZoneId.of(TimeZone.getDefault().getID());
+//            ZonedDateTime zdt = appointmentStart.atZone(currentZone);
+//            ZonedDateTime currentToLocalZDT = zdt.withZoneSameInstant(currentZone);
+//            appointmentStart = currentToLocalZDT.toLocalDateTime();
 
             Appointment appointment = new Appointment(appointmentId, appointmentTitle, appointmentDescription, appointmentLocation, appointmentType, appointmentStart, appointmentEnd, appointmentCustomerId, appointmentUserId, contactId);
             allAppointments.add(appointment);

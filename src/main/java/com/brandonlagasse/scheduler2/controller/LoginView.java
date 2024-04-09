@@ -1,8 +1,10 @@
 package com.brandonlagasse.scheduler2.controller;
 
+import com.brandonlagasse.scheduler2.dao.AppointmentDAO;
 import com.brandonlagasse.scheduler2.dao.UserDAO;
 import com.brandonlagasse.scheduler2.helper.LoginHelper;
 import com.brandonlagasse.scheduler2.helper.Validation;
+import com.brandonlagasse.scheduler2.model.Appointment;
 import com.brandonlagasse.scheduler2.model.User;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,8 +23,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -88,6 +92,60 @@ public class LoginView implements Initializable {
                 //System.out.println("Success!");
                 passUserId = userId;
                 MainController.passedUserId = passUserId;
+
+
+                AppointmentDAO appointmentDAO = new AppointmentDAO();
+                ObservableList<Appointment> appointments = null;
+
+                System.out.println("User ID is:" + passUserId); // TEST LOG - Doesn't seem to be working
+
+                try {
+                    appointments = appointmentDAO.getList();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+
+                ZoneId userTimeZone = ZoneId.systemDefault();
+                LocalDateTime now = LocalDateTime.now();
+                LocalDateTime now15 = now.plusMinutes(15);
+                boolean appFound = false;
+
+                for (Appointment app: appointments) {
+                    if (passUserId == app.getUserId()) {
+                        System.out.println("Found User");
+
+//                        LocalDateTime utcStart = app.getStart();
+//                        LocalDateTime localStart = utcStart.atZone(ZoneOffset.UTC).withZoneSameInstant(userTimeZone).toLocalDateTime();
+
+//                        System.out.println("Local Time is: " + localStart);// TEST LOG
+//
+//                        System.out.println("UTC start is:" + utcStart); // TEST LOG
+
+
+                        if ((app.getStart().isAfter(now) || app.getStart().equals(now)) && (app.getStart().isBefore(now15) || app.getStart().equals(now15))) {
+                            System.out.println("Appointment starting soon!");
+                            //appointmentArea.setText("Appointment starting soon!");
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Heads up!");
+                            alert.setHeaderText("You have an appointment coming up!");
+                            alert.setContentText("Appointment ID " + app.getId() + " Time: " + app.getStart());
+                            alert.showAndWait();
+                            appFound = true;
+                            break;
+                        }
+
+                    }
+
+                }
+
+                if (!appFound){
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("No Appointments coming up");
+                    alert.showAndWait();
+                }
+
+
+                //SCENE CHANGE
                 Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/main-view.fxml"));
                 Scene scene = new Scene(customerScene);
                 Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();

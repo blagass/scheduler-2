@@ -119,18 +119,7 @@ public class TimeHelper {
     }
 
 
-//    public static boolean checkOverlap(LocalDateTime start, LocalDateTime end) throws SQLException {
-//        String sql = "SELECT * FROM appointments WHERE Start < ? AND End > ?";
-//
-//
-//        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-//        ps.setTimestamp(1, Timestamp.valueOf(start));
-//        ps.setTimestamp(2, Timestamp.valueOf(end));
-//
-//        ResultSet rs = ps.executeQuery();
-//        rs.next();
-//        return false;
-//    }
+
 
 }
 

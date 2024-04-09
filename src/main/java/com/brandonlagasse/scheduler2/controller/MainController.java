@@ -106,41 +106,6 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        passedUserId = LoginView.passUserId;
-        AppointmentDAO appointmentDAO = new AppointmentDAO();
-        ObservableList<Appointment> appointments = null;
-
-        System.out.println("User ID is:" + passedUserId); // TEST LOG - Doesn't seem to be working
-
-        try {
-            appointments = appointmentDAO.getList();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        ZoneId userTimeZone = ZoneId.systemDefault();
-        LocalDateTime now = LocalDateTime.now(userTimeZone);
-
-        for (Appointment app: appointments) {
-            if (passedUserId == app.getUserId()) {
-
-                LocalDateTime utcStart = app.getStart();
-                LocalDateTime localStart = utcStart.atZone(ZoneOffset.UTC).withZoneSameInstant(userTimeZone).toLocalDateTime();
-
-                System.out.println("Local Time is: " + localStart);// TEST LOG
-
-                System.out.println("UTC start is:" + utcStart); // TEST LOG
-
-
-                if (localStart.isAfter(now) && localStart.isBefore(now.plusMinutes(15))) {
-                    System.out.println("Appointment starting soon!");
-                   appointmentArea.setText("Appointment starting soon!");
-                }
-            } else {
-                System.out.println("No appointments coming up");
-                appointmentArea.setText("No Appointments coming up!");
-            }
-
     }
-}}
+}
 
