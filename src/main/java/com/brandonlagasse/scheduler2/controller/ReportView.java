@@ -148,6 +148,7 @@ public class ReportView implements Initializable {
 
     /**
      * Output formatting to display the contact scheudles
+     * LAMBDA - this lambda formats the stringbuilder using a foreach loop.
      * @param schedules the schedules to display
      * @return formatted string results
      */
@@ -155,15 +156,19 @@ public class ReportView implements Initializable {
         StringBuilder stringBuilder = new StringBuilder();
         for (ContactSchedule schedule : schedules) {
             stringBuilder.append("Contact ID: ").append(schedule.contactId).append("\n");
-            for (Appointment appt : schedule.appointments) {
-                stringBuilder.append("  Appointment ID: ").append(appt.getId()).append("\n");
-                stringBuilder.append("  Title: ").append(appt.getTitle()).append("\n");
-                stringBuilder.append("  Type: ").append(appt.getType()).append("\n");
-                stringBuilder.append("  Description: ").append(appt.getDescription()).append("\n");
-                stringBuilder.append("  Start Date/Time: ").append(appt.getStart()).append("\n");
-                stringBuilder.append("  End Date/Time: ").append(appt.getEnd()).append("\n");
-                stringBuilder.append("  Customer ID: ").append(appt.getCustomerId()).append("\n");
-            }
+
+            //LAMBDA
+            schedule.appointments.forEach(appt -> {
+                stringBuilder.append(" Appointment ID: ").append(appt.getId()).append("\n")
+                        .append(" Title: ").append(appt.getTitle()).append("\n")
+                        .append(" Type: ").append(appt.getType()).append("\n")
+                        .append(" Description: ").append(appt.getDescription()).append("\n")
+                        .append(" Start Date/Time: ").append(appt.getStart()).append("\n")
+                        .append(" End Date/Time: ").append(appt.getEnd()).append("\n")
+                        .append(" Customer ID: ").append(appt.getCustomerId()).append("\n");
+            });
+
+//
             stringBuilder.append("\n");
         }
         return stringBuilder.toString();

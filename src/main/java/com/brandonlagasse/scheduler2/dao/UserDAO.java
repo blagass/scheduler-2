@@ -123,7 +123,7 @@ public class UserDAO implements DAOInterface<User>{
         ps.setInt(1, id);
 
         ResultSet rs = ps.executeQuery();
-
+//
         while (rs.next()) {
 
             int userId = rs.getInt("User_ID");
@@ -131,7 +131,9 @@ public class UserDAO implements DAOInterface<User>{
             String userPassword = rs.getString("Password");
             User user = new User(userId,userName,userPassword);
             returnedUser = user;
+
         }
+
         
         return returnedUser;
 
