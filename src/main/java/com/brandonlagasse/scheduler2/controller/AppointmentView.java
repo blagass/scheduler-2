@@ -18,9 +18,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -158,14 +156,29 @@ public class AppointmentView implements Initializable {
      * @param actionEvent Triggered by selected th By Weeek radio button
      */
     public void byWeek(ActionEvent actionEvent) {
+        ZoneId userLtz = ZoneId.systemDefault();
+
         byMonthCombo.setSelected(false);
         viewAllCombo.setSelected(false);
-        LocalDate today = LocalDate.now();
-        ObservableList<Appointment> appointmentsByWeek = allAppointments.stream()
-                .filter(app -> app.getStart().toLocalDate().isAfter(today.minusDays(7)) &&
-                        app.getStart().toLocalDate().isBefore(today.plusDays(1)))
+
+
+        LocalDate today = LocalDate.now(userLtz);
+
+        LocalDate weekStart = today.with(DayOfWeek.MONDAY);
+        LocalDate weekEnd = today.with(DayOfWeek.SUNDAY);
+
+        ObservableList<Appointment> allAppointments = this.allAppointments.stream()
+                .filter(app -> {
+                    LocalDateTime UtcStart = app.getStart();
+                    LocalDateTime localStart = UtcStart.atZone(ZoneOffset.UTC)
+                            .withZoneSameInstant(userLtz)
+                            .toLocalDateTime();
+                    return localStart.toLocalDate().isAfter(weekStart.minusDays(1)) &&
+                            localStart.toLocalDate().isBefore(weekEnd.plusDays(1));
+                })
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
-appointmentTable.setItems(appointmentsByWeek);
+
+        appointmentTable.setItems(allAppointments);
     }
 
     /**

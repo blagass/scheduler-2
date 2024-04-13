@@ -136,6 +136,8 @@ public class AppointmentUpdateView implements Initializable {
 
         UserDAO userDAO = new UserDAO();
         int userId = Integer.parseInt(userIdField.getText());
+
+
         if (!userDAO.userExists(userId)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -145,12 +147,20 @@ public class AppointmentUpdateView implements Initializable {
             return;
         }
 
-         int contactId = contactCombo.getSelectionModel().getSelectedItem().getId();
+        int contactId = contactCombo.getSelectionModel().getSelectedItem().getId();
 
-         Appointment appointment = new Appointment(id,title,description,location,type,startLdt,endLdt,customerId,userId,contactId);
-         AppointmentDAO appointmentDAO = new AppointmentDAO();
-         appointmentDAO.update(appointment);
+        Appointment appointment = new Appointment(id,title,description,location,type,startLdt,endLdt,customerId,userId,contactId);
+        AppointmentDAO appointmentDAO = new AppointmentDAO();
+        //appointmentDAO.update(appointment);
+        ObservableList<Appointment> allAppointments = appointmentDAO.getList();
 
+        Appointment possibleOverlap = appointmentDAO.getById(id);
+
+        boolean updateSuccess = appointmentDAO.update(appointment);
+
+        if (!updateSuccess) {
+            return;
+        }
         //exiting
         try {
             Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/appointment-view.fxml"));

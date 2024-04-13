@@ -174,7 +174,12 @@ if(!titleField.getText().isEmpty()) {
 
     Appointment appointment = new Appointment(-1, title, description, location, type, startLdt, endLdt, customerId, userId, contactId);
     AppointmentDAO appointmentDAO = new AppointmentDAO();
-    appointmentDAO.insert(appointment);
+
+    boolean insertSuccess = appointmentDAO.insert(appointment);
+
+    if (!insertSuccess) {
+        return; // Exit the method immediately
+    }
 
     try {
         Parent customerScene = FXMLLoader.load(getClass().getResource("/com/brandonlagasse/scheduler2/appointment-view.fxml"));

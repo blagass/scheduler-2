@@ -5,11 +5,10 @@ import com.brandonlagasse.scheduler2.model.Appointment;
 import com.brandonlagasse.scheduler2.model.FirstLevelDivision;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 import java.sql.*;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.TimeZone;
 
 import static com.brandonlagasse.scheduler2.helper.TimeHelper.displayErrorMessage;
@@ -87,9 +86,38 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
         LocalDateTime start = appointment.getStart();
         LocalDateTime end = appointment.getEnd();
 
-//        if (TimeHelper.checkOverlap(start, end)) {
-//            return false;
-//        }
+        int userId = appointment.getUserId();
+        ObservableList<Appointment> overlappingAppointment = getAppointmentsForUser(userId);
+
+        LocalDate startDate = start.toLocalDate();
+        LocalTime startTime = start.toLocalTime();
+        LocalDate endDate = end.toLocalDate();
+        LocalTime endTime = end.toLocalTime();
+
+        for (Appointment existingAppt : overlappingAppointment) {
+            LocalDateTime existingStartLdt = existingAppt.getStart();
+            LocalDateTime existingEndLdt = existingAppt.getEnd();
+
+            // Extract components of the existing appointment
+            LocalDate existingStartDate = existingStartLdt.toLocalDate();
+            LocalTime existingStartTime = existingStartLdt.toLocalTime();
+            LocalDate existingEndDate = existingEndLdt.toLocalDate();
+            LocalTime existingEndTime = existingEndLdt.toLocalTime();
+
+            if (!startDate.isEqual(existingStartDate)) {
+                continue;
+            }
+
+            if (startTime.isBefore(existingEndTime) && endTime.isAfter(existingStartTime)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setHeaderText("Uh oh!");
+                alert.setContentText("Appointment overlaps with an existing appointment.");
+                alert.showAndWait();
+                return false;
+            }
+        }
+
+
 
         Timestamp startTimeStamp = Timestamp.valueOf(start);
         Timestamp endTimeStamp = Timestamp.valueOf(end);
@@ -122,9 +150,53 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
      * @throws SQLException for database errors
      */
     @Override
-    public boolean update(Appointment appointment) throws SQLException { //Not working upon execution
+    public boolean update(Appointment appointment) throws SQLException {
 
         JDBC.openConnection();
+        LocalDateTime start = appointment.getStart();
+        LocalDateTime end = appointment.getEnd();
+
+        int userId = appointment.getUserId();
+        ObservableList<Appointment> appointments = getAppointmentsForUser(userId);
+
+        LocalDate startDate = start.toLocalDate();
+        LocalTime startTime = start.toLocalTime();
+        LocalDate endDate = end.toLocalDate();
+        LocalTime endTime = end.toLocalTime();
+
+
+        boolean overlapFound = false;
+        for (Appointment existingAppt : appointments) {
+            if (existingAppt.getId() == appointment.getId()) {
+                continue;
+            }
+
+            LocalDateTime existingStartLdt = existingAppt.getStart();
+            LocalDateTime existingEndLdt = existingAppt.getEnd();
+
+            // Extract components of the existing appointment
+            LocalDate existingStartDate = existingStartLdt.toLocalDate();
+            LocalTime existingStartTime = existingStartLdt.toLocalTime();
+            LocalDate existingEndDate = existingEndLdt.toLocalDate();
+            LocalTime existingEndTime = existingEndLdt.toLocalTime();
+
+            if (!startDate.isEqual(existingStartDate)) {
+                continue;
+            }
+
+            if (startTime.isBefore(existingEndTime) && endTime.isAfter(existingStartTime)) {
+                overlapFound = true;
+                break;
+            }
+
+        }
+        if(overlapFound){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Uh oh!");
+            alert.setContentText("Appointment overlaps with an existing appointment.");
+            alert.showAndWait();
+            return false;
+        }
 
         String sql = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Customer_ID = ?, User_ID = ?, Contact_ID =? WHERE Appointment_ID = ?";
 
@@ -212,4 +284,42 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
         }
         return appointment;
     }
+
+    public ObservableList<Appointment> getAppointmentsForUser(int userId) throws SQLException {
+        JDBC.openConnection();
+
+        ObservableList<Appointment> userAppointments = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM APPOINTMENTS WHERE User_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, userId);
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            int appointmentId = rs.getInt("Appointment_ID");
+            String title = rs.getString("Title");
+            String description = rs.getString("Description");
+            String location = rs.getString("Location");
+            String type = rs.getString("Type");
+            LocalDateTime start = rs.getTimestamp("Start").toLocalDateTime();
+            LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
+            int customerId = rs.getInt("Customer_ID");
+            int contactId = rs.getInt("Contact_ID");
+
+
+            ZoneId currentZone = ZoneId.of(TimeZone.getDefault().getID());
+            ZonedDateTime zdtStart = start.atZone(currentZone);
+            ZonedDateTime currentToLocalStart = zdtStart.withZoneSameInstant(currentZone);
+            start = currentToLocalStart.toLocalDateTime();
+
+            ZonedDateTime zdtEnd = end.atZone(currentZone);
+            ZonedDateTime currentToLocalEnd = zdtEnd.withZoneSameInstant(currentZone);
+            end = currentToLocalEnd.toLocalDateTime();
+
+            Appointment appointment = new Appointment(appointmentId, title, description, location, type, start, end, customerId, userId, contactId);
+            userAppointments.add(appointment);
+        }
+        return userAppointments;
+    }
+
 }
