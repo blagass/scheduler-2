@@ -1,6 +1,7 @@
 package com.brandonlagasse.scheduler2.controller;
 
 import com.brandonlagasse.scheduler2.dao.AppointmentDAO;
+import com.brandonlagasse.scheduler2.dao.JDBC;
 import com.brandonlagasse.scheduler2.dao.UserDAO;
 import com.brandonlagasse.scheduler2.helper.LoginHelper;
 import com.brandonlagasse.scheduler2.helper.Validation;
@@ -188,6 +189,8 @@ public class LoginView implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        JDBC.openConnection();
 
         String zone = String.valueOf(ZoneId.systemDefault());
 

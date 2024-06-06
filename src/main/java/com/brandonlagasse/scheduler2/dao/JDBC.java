@@ -8,17 +8,20 @@ import java.sql.DriverManager;
  */
 public abstract class JDBC {
     ///Class Variables///
-    private static final String protocol = "jdbc";
-    private static final String vendor = ":mysql:";
-    private static final String location ="//localhost/";
-    private static final String databaseName = "client_schedule";
-    private static final String jdbUrl = protocol + vendor + location + databaseName +"?connectionTimeZone = SERVER";
-    private static final String driver = "com.mysql.cj.jdbc.Driver";
-    private static final String userName = "sqlUser";
-    private static final String password = "Passw0rd!";
+//    private static final String protocol = "jdbc";
+//    private static final String vendor = ":mysql:";
+//    private static final String location ="//localhost/";
+//    private static final String databaseName = "client_schedule";
+//    //private static final String jdbUrl = protocol + vendor + location + databaseName +"?connectionTimeZone = SERVER";
+//    //private static final String driver = "com.mysql.cj.jdbc.Driver";
+//    private static final String userName = "sqlUser";
+//    private static final String password = "Passw0rd!";
     public static Connection connection;
     ///
 
+    //This is for the new sqlLite implimentation
+    private static final String jdbcUrl = "jdbc:sqlite:identifier.sqlite"; // Update with your actual URL
+    private static final String driver = "org.sqlite.JDBC";
 
     /**
      * Opens the DB Connection
@@ -26,8 +29,7 @@ public abstract class JDBC {
     public static void openConnection(){ //OPEN DATABASE
         try{
             Class.forName(driver);
-            connection = DriverManager.getConnection(jdbUrl,userName,password);
-        //    System.out.println("Connection Successful");
+            connection = DriverManager.getConnection(jdbcUrl);
 
         }
         catch(Exception e){
@@ -43,9 +45,9 @@ public abstract class JDBC {
      */
     public static void closeConnection(){ //CLOSE DATABASE
         try{
-            connection.close();
-           // System.out.println("Connection Closed");
-
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
         }
         catch(Exception e){
             System.out.println("Error" + e.getMessage());
