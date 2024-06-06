@@ -173,4 +173,43 @@ public class CustomerDAO implements DAOInterface<Customer>{
         return rs.getInt(1) > 0;
     }
 
+    /**
+     * This function uses an SQL query to search the DB, surround each name in %% make it a query for the setstring, making it a throughough option for this requirement.
+     * @param name the name input derived from the text field
+     * @return the search results to change the display of the customers table
+     * @throws SQLException db errors
+     */
+    public ObservableList<Customer> searchByName(String name) throws SQLException {
+
+
+        JDBC.openConnection();
+
+        ObservableList<Customer> searchResults = FXCollections.observableArrayList();
+        //This is something I wish I had known earlier. The use of == vs Like. It makes search easier, without being so strict.
+        String sql = "SELECT CUSTOMERS.Customer_ID, CUSTOMERS.Customer_Name, CUSTOMERS.Address, CUSTOMERS.Postal_Code, CUSTOMERS.Phone, CUSTOMERS.Division_ID, FIRST_LEVEL_DIVISIONS.Division " +
+                "FROM CUSTOMERS " +
+                "INNER JOIN FIRST_LEVEL_DIVISIONS ON CUSTOMERS.Division_ID = FIRST_LEVEL_DIVISIONS.Division_ID " +
+                "WHERE CUSTOMERS.Customer_Name LIKE ?";
+
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+
+        ps.setString(1, "%" + name + "%");
+        ResultSet rs = ps.executeQuery();
+
+        while(rs.next()){
+            int customerId = rs.getInt("Customer_ID");
+            String customerName = rs.getString("Customer_Name");
+            String customerAddress = rs.getString("Address");
+            String customerPostalCode = rs.getString("Postal_Code");
+            String customerPhone = rs.getString("Phone");
+            int customerDivision = rs.getInt("Division_ID");
+            String customerDivisionName = rs.getString("Division");
+
+            Customer customer = new Customer(customerId, customerName, customerAddress, customerPostalCode, customerPhone, customerDivision, customerDivisionName);
+            searchResults.add(customer);
+        }
+
+        JDBC.closeConnection();
+        return searchResults;
+    }
 }

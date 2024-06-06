@@ -10,10 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -51,6 +48,8 @@ public class CustomerView implements Initializable {
 
     @FXML
     public static Customer customerToPass;
+    @FXML
+    public TextField searchField;
 
     /**
      * Ths populates the customerTableView with all customers, retrieved through the CustomerDAO.
@@ -201,4 +200,30 @@ public class CustomerView implements Initializable {
 //    public void setCustomerToPass(Customer customerToPass) {
 //        CustomerView.customerToPass = customerToPass;
 //    }
+
+    /**
+     * This method retrieves input text for the Search functionality, makes sure it's not empty.
+     */
+    @FXML
+    public void onSearchCustomer() {
+
+        String searchText = searchField.getText();
+        CustomerDAO customerDAO = new CustomerDAO();
+
+        try {
+            if (searchText.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning");
+                alert.setHeaderText(null);
+                alert.setContentText("Search field cannot be empty.");
+                alert.showAndWait();
+            } else {
+                transferCustomers = customerDAO.searchByName(searchText);
+                customerTableView.setItems(transferCustomers);
+            }
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+    }
 }

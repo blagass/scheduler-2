@@ -185,7 +185,7 @@ public class LoginView implements Initializable {
     }
 
     /**
-     * The initialize here retrieves a zone and associated bundle, and the appropriate labels, buttons, etc., to use the Lang resource bundle for French or English translation
+     * The initialize method here retrieves a zone and associated bundle, and the appropriate labels, buttons, etc., to use the Lang resource bundle for French or English translation
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

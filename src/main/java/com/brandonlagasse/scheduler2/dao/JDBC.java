@@ -20,7 +20,7 @@ public abstract class JDBC {
     ///
 
     //This is for the new sqlLite implimentation
-    private static final String jdbcUrl = "jdbc:sqlite:identifier.sqlite"; // Update with your actual URL
+    private static final String jdbcUrl = "jdbc:sqlite:identifier.sqlite";
     private static final String driver = "org.sqlite.JDBC";
 
     /**
