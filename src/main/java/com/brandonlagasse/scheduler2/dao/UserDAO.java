@@ -98,15 +98,13 @@ public class UserDAO implements DAOInterface<User>{
      */
     @Override
     public boolean delete(int id) throws SQLException {
-        String sql = "DELETE FROM users WHERE Customer_ID = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1, id);
-        int rowsAffected = ps.executeUpdate();
+        String sql = "DELETE FROM users WHERE User_ID = ?";
+        try (PreparedStatement ps = JDBC.connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            int rowsAffected = ps.executeUpdate();
 
-        if (rowsAffected == 0) {
-            return false;
+            return rowsAffected > 0;
         }
-        return true;
     }
 
     /**

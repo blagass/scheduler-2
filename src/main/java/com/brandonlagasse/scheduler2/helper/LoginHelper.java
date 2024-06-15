@@ -38,19 +38,4 @@ public class LoginHelper {
             System.err.println("Error logging: " + e.getMessage());
         }
     }
-
-//    /**
-//     * checks
-//     * @param id
-//     * @return
-//     * @throws SQLException
-//     */
-//    public static boolean appointmentChecker(int id) throws SQLException {
-//
-//        Appointment appointment;
-//
-//        UserDAO userDAO = new UserDAO();
-//        User user = userDAO.getById(id);
-//        return false;
-//    }
 }

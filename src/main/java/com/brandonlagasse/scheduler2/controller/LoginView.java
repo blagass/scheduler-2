@@ -157,14 +157,12 @@ public class LoginView implements Initializable {
                 LoginHelper.logLoginAttempt(userName, true);
 
 
-
-
-
             } else {
-                throw new Error("Wrong credentials");
+                ResourceBundle rb = ResourceBundle.getBundle("/com/brandonlagasse/scheduler2/Lang", Locale.getDefault());
+                throw new Validation.wrongCredentials(rb.getString("wrongCredentials"));
             }
 
-        } catch (Error e) {
+        } catch (Error | Validation.wrongCredentials e) {
             showLoginErrorAlert("Login Error", e.getMessage());
             LoginHelper.logLoginAttempt(userName, false);
         }

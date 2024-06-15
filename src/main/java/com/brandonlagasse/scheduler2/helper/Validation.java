@@ -1,7 +1,6 @@
 package com.brandonlagasse.scheduler2.helper;
 
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -11,6 +10,7 @@ import java.util.ResourceBundle;
  * While this implimentation works, it was part of an expirement to see which way was more efficient.
  * In the future, I would make this class contain errors for all types in a public static class
  */
+
 public class Validation {
     /**
      * This is the main method that is called for errors.
@@ -23,4 +23,11 @@ public class Validation {
         alert.setContentText(rb.getString("emptyFields"));
         alert.showAndWait();
     }
+
+    public static class wrongCredentials extends Exception {
+        public wrongCredentials(String message) {
+            super(message);
+        }
+    }
+
 }
