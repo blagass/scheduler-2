@@ -51,23 +51,6 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
             int appointmentUserId = rs.getInt("User_ID");
             int contactId = rs.getInt("Contact_ID");
 
-//            System.out.println(appointmentId);
-//            System.out.println(appointmentTitle);
-//            System.out.println(appointmentDescription);
-//            System.out.println(appointmentLocation);
-//            System.out.println(appointmentType);
-//            System.out.println(appointmentStart);
-//            System.out.println(appointmentEnd);
-//            System.out.println(appointmentCustomerId);
-//            System.out.println(appointmentUserId);
-//            System.out.println(contactId);
-
-            //timezone Handling
-//            ZoneId currentZone = ZoneId.of(TimeZone.getDefault().getID());
-//            ZonedDateTime zdt = appointmentStart.atZone(currentZone);
-//            ZonedDateTime currentToLocalZDT = zdt.withZoneSameInstant(currentZone);
-//            appointmentStart = currentToLocalZDT.toLocalDateTime();
-
             Appointment appointment = new Appointment(appointmentId, appointmentTitle, appointmentDescription, appointmentLocation, appointmentType, appointmentStart, appointmentEnd, appointmentCustomerId, appointmentUserId, contactId);
             allAppointments.add(appointment);
         }
@@ -83,6 +66,7 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
      */
     @Override
     public boolean insert(Appointment appointment) throws SQLException {
+        JDBC.openConnection();
         LocalDateTime start = appointment.getStart();
         LocalDateTime end = appointment.getEnd();
 
@@ -98,7 +82,6 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
             LocalDateTime existingStartLdt = existingAppt.getStart();
             LocalDateTime existingEndLdt = existingAppt.getEnd();
 
-            // Extract components of the existing appointment
             LocalDate existingStartDate = existingStartLdt.toLocalDate();
             LocalTime existingStartTime = existingStartLdt.toLocalTime();
             LocalDate existingEndDate = existingEndLdt.toLocalDate();
@@ -139,7 +122,6 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
         if (rowsAffected == 0) {
             return false;
         }
-        JDBC.closeConnection();
         return true;
     }
 
@@ -234,11 +216,12 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
     @Override
     public boolean delete(int id) throws SQLException {
 
-
+        JDBC.openConnection();
         String sql = "DELETE FROM APPOINTMENTS WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, id);
         int rowsAffected = ps.executeUpdate();
+        JDBC.closeConnection();
         return rowsAffected > 0;
     }
 
@@ -319,6 +302,7 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
             Appointment appointment = new Appointment(appointmentId, title, description, location, type, start, end, customerId, userId, contactId);
             userAppointments.add(appointment);
         }
+        JDBC.closeConnection();
         return userAppointments;
     }
 

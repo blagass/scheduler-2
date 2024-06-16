@@ -30,7 +30,6 @@ public abstract class JDBC {
         try{
             Class.forName(driver);
             connection = DriverManager.getConnection(jdbcUrl);
-
         }
         catch(Exception e){
             e.printStackTrace();

@@ -5,6 +5,7 @@ import com.brandonlagasse.scheduler2.model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,7 +48,7 @@ public class CustomerDAO implements DAOInterface<Customer>{
         }
 
 
-
+        JDBC.closeConnection();
         return allCustomers;
 
     }
@@ -60,6 +61,7 @@ public class CustomerDAO implements DAOInterface<Customer>{
      */
     @Override
     public boolean insert(Customer customer) throws SQLException {
+        JDBC.openConnection();
         String sql = "INSERT INTO CUSTOMERS(Customer_Name,Address,Postal_Code, Phone, Division_ID) VALUES(?,?,?,?,?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1,customer.getName());
@@ -71,7 +73,7 @@ public class CustomerDAO implements DAOInterface<Customer>{
         int rowsAffected = ps.executeUpdate();
 
         if (rowsAffected == 0) {
-            return false; //insert failed
+            return false;
         }
         JDBC.closeConnection();
         return true;
@@ -108,19 +110,6 @@ public class CustomerDAO implements DAOInterface<Customer>{
 
     }
 
-//    @Override
-//    public boolean delete(int id) throws SQLException {
-//        String sql = "DELETE FROM customers WHERE Customer_ID = ?";
-//        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-//        ps.setInt(1, id);
-//        int rowsAffected = ps.executeUpdate();
-//
-//        if (rowsAffected == 0) {
-//            return false; //  failed
-//        }
-//        return true;
-//    }
-
     /**
      * This method removes an existing customer from the database
      * @param customer the id of the customer to delete
@@ -129,7 +118,7 @@ public class CustomerDAO implements DAOInterface<Customer>{
      */
     @Override
     public boolean delete(int customer) throws SQLException {
-
+        JDBC.openConnection();
         String appointmentSql = "SELECT Appointment_ID FROM appointments WHERE Customer_ID = ?";
         PreparedStatement appointmentPs = JDBC.connection.prepareStatement(appointmentSql);
         appointmentPs.setInt(1, customer);
@@ -155,6 +144,7 @@ public class CustomerDAO implements DAOInterface<Customer>{
         deleteCustomerPs.setInt(1, customer);
 
         int rowsAffected = deleteCustomerPs.executeUpdate();
+        JDBC.closeConnection();
         return rowsAffected > 0;
     }
 
@@ -165,6 +155,7 @@ public class CustomerDAO implements DAOInterface<Customer>{
      * @throws SQLException database errors
      */
     public boolean customerExists(int customerId) throws SQLException {
+        JDBC.openConnection();
         String sql = "SELECT COUNT(*) FROM customers WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, customerId);
@@ -209,7 +200,6 @@ public class CustomerDAO implements DAOInterface<Customer>{
             searchResults.add(customer);
         }
 
-        JDBC.closeConnection();
         return searchResults;
     }
 }

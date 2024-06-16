@@ -2,6 +2,7 @@ module com.brandonlagasse.scheduler2 {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires java.desktop;
 
 
     opens com.brandonlagasse.scheduler2 to javafx.fxml;
