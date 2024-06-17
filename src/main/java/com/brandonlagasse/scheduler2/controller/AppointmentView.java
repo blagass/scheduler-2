@@ -5,6 +5,7 @@ import com.brandonlagasse.scheduler2.model.Appointment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -44,6 +45,7 @@ public class AppointmentView implements Initializable {
     public RadioButton viewAllCombo;
     private ObservableList<Appointment> allAppointments;
     private static Appointment transferAppointment;
+    public TextField appointmentSearch;
 
 
     /**
@@ -138,6 +140,7 @@ public class AppointmentView implements Initializable {
 
                 ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
                 allAppointments.setAll(appointmentDAO.getList());
+                appointmentTable.getSelectionModel().clearSelection();
                 appointmentTable.setItems(allAppointments);
 
                 //alert
@@ -148,6 +151,7 @@ public class AppointmentView implements Initializable {
                 deleted.showAndWait();
             }
         }
+
     }
 
     /**
@@ -246,6 +250,47 @@ public class AppointmentView implements Initializable {
 //    public void setTransferAppointment(Appointment transferAppointment) {
 //        this.transferAppointment = transferAppointment;
 //    }
+    @FXML
+    public void onSearchAppointment() {
+        String searchText = appointmentSearch.getText();
+        AppointmentDAO appointmentDAO = new AppointmentDAO();
 
+        try {
+            if (searchText.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning");
+                alert.setHeaderText(null);
+                alert.setContentText("Search field cannot be empty.");
+                alert.showAndWait();
+                appointmentTable.setItems(allAppointments);
+            } else {
+                int searchId;
+                try {
+                    searchId = Integer.parseInt(searchText);
+                } catch (NumberFormatException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Invalid ID.");
+                    alert.showAndWait();
+                    return;
+                }
+
+                Appointment foundAppointment = appointmentDAO.getById(searchId);
+                if (foundAppointment != null) {
+                    appointmentTable.setItems(FXCollections.observableArrayList(foundAppointment));
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information");
+                    alert.setHeaderText(null);
+                    alert.setContentText("No appointment found with that ID.");
+                    alert.showAndWait();
+                    appointmentTable.setItems(allAppointments);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

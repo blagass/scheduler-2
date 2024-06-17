@@ -28,13 +28,15 @@ public abstract class JDBC {
      */
     public static void openConnection(){ //OPEN DATABASE
         try{
-            Class.forName(driver);
-            connection = DriverManager.getConnection(jdbcUrl);
+            if(connection == null || connection.isClosed()){
+                Class.forName(driver);
+                connection = DriverManager.getConnection(jdbcUrl);
+            }
+
         }
         catch(Exception e){
             e.printStackTrace();
             System.out.println("Error" + e.getMessage());
-
         }
     }
 

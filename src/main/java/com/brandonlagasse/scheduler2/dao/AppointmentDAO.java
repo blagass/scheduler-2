@@ -54,7 +54,6 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
             Appointment appointment = new Appointment(appointmentId, appointmentTitle, appointmentDescription, appointmentLocation, appointmentType, appointmentStart, appointmentEnd, appointmentCustomerId, appointmentUserId, contactId);
             allAppointments.add(appointment);
         }
-
         return allAppointments;
     }
 
@@ -67,6 +66,7 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
     @Override
     public boolean insert(Appointment appointment) throws SQLException {
         JDBC.openConnection();
+
         LocalDateTime start = appointment.getStart();
         LocalDateTime end = appointment.getEnd();
 
@@ -100,8 +100,6 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
             }
         }
 
-
-
         Timestamp startTimeStamp = Timestamp.valueOf(start);
         Timestamp endTimeStamp = Timestamp.valueOf(end);
 
@@ -123,6 +121,7 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
             return false;
         }
         return true;
+
     }
 
     /**
@@ -135,6 +134,7 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
     public boolean update(Appointment appointment) throws SQLException {
 
         JDBC.openConnection();
+
         LocalDateTime start = appointment.getStart();
         LocalDateTime end = appointment.getEnd();
 
@@ -156,7 +156,6 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
             LocalDateTime existingStartLdt = existingAppt.getStart();
             LocalDateTime existingEndLdt = existingAppt.getEnd();
 
-            // Extract components of the existing appointment
             LocalDate existingStartDate = existingStartLdt.toLocalDate();
             LocalTime existingStartTime = existingStartLdt.toLocalTime();
             LocalDate existingEndDate = existingEndLdt.toLocalDate();
@@ -198,12 +197,9 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
 
         int rowsAffected = ps.executeUpdate();
 
-        JDBC.closeConnection();
-
         if (rowsAffected == 0) {
             return false;
         }
-        JDBC.closeConnection();
         return true;
     }
 
@@ -233,6 +229,7 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
      */
     @Override
     public Appointment getById(int id) throws SQLException {
+        JDBC.openConnection();
         String sql = "SELECT * FROM appointments WHERE Appointment_ID =?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
 
@@ -302,7 +299,6 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
             Appointment appointment = new Appointment(appointmentId, title, description, location, type, start, end, customerId, userId, contactId);
             userAppointments.add(appointment);
         }
-        JDBC.closeConnection();
         return userAppointments;
     }
 

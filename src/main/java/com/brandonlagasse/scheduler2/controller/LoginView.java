@@ -53,6 +53,7 @@ public class LoginView implements Initializable {
      * @throws IOException this is not explicitly used
      */
     public void onLogin(ActionEvent actionEvent) throws SQLException, IOException {
+        JDBC.openConnection();
         //LoginHelper.logLoginAttempt();
         String userName = null;
         try {

@@ -17,7 +17,7 @@
       <TextField fx:id="locationField" layoutX="326.0" layoutY="233.0" promptText="Location" />
       <TextField fx:id="customerIdField" layoutX="327.0" layoutY="405.0" promptText="Customer ID" />
       <TextField fx:id="userIdField" layoutX="327.0" layoutY="443.0" promptText="User ID" />
-      <ComboBox fx:id="contactCombo" layoutX="326.0" layoutY="484.0" onAction="#onContactCombo" prefWidth="150.0" promptText="Contact" />
+      <ComboBox fx:id="contactCombo" layoutX="326.0" layoutY="484.0" prefWidth="150.0" promptText="Contact" />
       <Label layoutX="288.0" layoutY="53.0" text="Update Appointment">
          <font>
             <Font size="24.0" />
@@ -25,9 +25,9 @@
       </Label>
       <TextField fx:id="appointmentIdField" disable="true" editable="false" layoutX="326.0" layoutY="114.0" promptText="Appointment ID" />
       <TextField fx:id="typeField" layoutX="326.0" layoutY="275.0" promptText="Type" />
-      <ComboBox fx:id="startCombo" layoutX="327.0" layoutY="318.0" onAction="#onStartCombo" prefWidth="150.0" promptText="Start Time" />
-      <ComboBox fx:id="endCombo" layoutX="327.0" layoutY="363.0" onAction="#onEndCombo" prefWidth="150.0" promptText="End Time" />
-      <DatePicker fx:id="startDatePicker" layoutX="506.0" layoutY="318.0" onAction="#onStartDate" promptText="Start Date" />
-      <DatePicker fx:id="endDatePicker" layoutX="506.0" layoutY="363.0" onAction="#onEndDate" promptText="End Date" />
+      <ComboBox fx:id="startCombo" layoutX="327.0" layoutY="318.0" prefWidth="150.0" promptText="Start Time" />
+      <ComboBox fx:id="endCombo" layoutX="327.0" layoutY="363.0" prefWidth="150.0" promptText="End Time" />
+      <DatePicker fx:id="startDatePicker" layoutX="506.0" layoutY="318.0"  promptText="Start Date" />
+      <DatePicker fx:id="endDatePicker" layoutX="506.0" layoutY="363.0"  promptText="End Date" />
    </children>
 </AnchorPane>
