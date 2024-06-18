@@ -76,7 +76,7 @@ public class CustomerUpdateView implements Initializable {
             usDivisions = FirstLevelDivisionDAO.usStates();
             canadaDivisions = FirstLevelDivisionDAO.canadaStates();
             ukDivisions = FirstLevelDivisionDAO.ukStates();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -91,7 +91,8 @@ public class CustomerUpdateView implements Initializable {
     }
 
     /**
-     *This method helps match the FLD with the country
+     * This method helps match the FLD with the country
+     *
      * @throws SQLException This exception is for errors that occur while retrieving all FirstLevelDivsions
      */
     private void setCountryAndFldCombo() throws SQLException {
@@ -124,6 +125,7 @@ public class CustomerUpdateView implements Initializable {
 
     /**
      * This is the helper to seCountryAndFldCombo that sets the combo boxes for the divisions based on the matching countryh
+     *
      * @throws SQLException Required to catch errors when retrieving the FLD divisions by countryId.
      */
     private void loadMatchingDivisions() throws SQLException {
@@ -136,67 +138,9 @@ public class CustomerUpdateView implements Initializable {
         }
     }
 
-//
-//    @Override
-//    public void initialize(URL url, ResourceBundle resourceBundle) {
-//        passedCustomer = CustomerView.getCustomerToPass();
-//
-//
-//        customerIdField.setText(String.valueOf(passedCustomer.getId()));
-//        nameField.setText(passedCustomer.getName());
-//        addressField.setText(passedCustomer.getAddress());
-//        postalCodeField.setText(passedCustomer.getPostalCode());
-//        phoneField.setText(passedCustomer.getPhone());
-//
-//        try {
-//            usDivisions = FirstLevelDivisionDAO.usStates();
-//            canadaDivisions = FirstLevelDivisionDAO.canadaStates();
-//            ukDivisions = FirstLevelDivisionDAO.ukStates();
-//
-//
-//
-//            countryCombo.setItems(countryDAO.getList());
-//            fldCombo.setItems(fldDAO.getList());
-//
-//            setCountryAndFldCombo();
-//
-//
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//    }
-//
-//
-//    private void setCountryAndFldCombo() throws SQLException {
-//
-//        // Find the matching fld for the customer
-//        FirstLevelDivision matchingFld = null;
-//        for (FirstLevelDivision fld : fldDAO.getList()) {
-//            if (fld.getId() == passedCustomer.getDivisionId()) {
-//                matchingFld = fld;
-//                break;
-//            }
-//        }
-//
-//        // Set the FLD and the Country
-//        if (matchingFld != null) {
-//
-//            fldCombo.getSelectionModel().select(matchingFld);
-//
-//            int countryId = matchingFld.getCountryId();
-//            for (Country country : countryCombo.getItems()) {
-//                if (country.getId() == countryId) {
-//                    countryCombo.getSelectionModel().select(country);
-//                    break;
-//                }
-//            }
-//        }
-//    }
-//
-
     /**
      * onCancel navigates the user back to the previous screen, and does not execute any further code
+     *
      * @param actionEvent This is triggered from the Cancel button
      */
     @FXML
@@ -215,12 +159,13 @@ public class CustomerUpdateView implements Initializable {
 
     /**
      * onSave takes all the date from the text fields and country/fld combo boxes and adds them to a new customer to add to the database
+     *
      * @param actionEvent This is triggered from the Save button
      * @throws SQLException This will catch errors trying to add the customer to the database using the CustomerDAO.
      */
     @FXML
     public void onSave(ActionEvent actionEvent) throws SQLException {
-        Customer customer = new Customer(-1,"ted","asdfsa","14326","544-353-3333",4,"Place");
+        Customer customer = new Customer(-1, "ted", "asdfsa", "14326", "544-353-3333", 4, "Place");
         CustomerDAO customerDAO = new CustomerDAO();
 
         int customerId = Integer.parseInt(customerIdField.getText());
@@ -228,7 +173,7 @@ public class CustomerUpdateView implements Initializable {
         String customerAddress = addressField.getText();
         String customerPostal = postalCodeField.getText();
         String customerPhone = phoneField.getText();
-        int customerDivisionId  = fldCombo.getSelectionModel().getSelectedItem().getId();
+        int customerDivisionId = fldCombo.getSelectionModel().getSelectedItem().getId();
         String customerDivisionName = fldCombo.getSelectionModel().getSelectedItem().toString();
 
         if (customerName.isEmpty() || customerAddress.isEmpty() ||
@@ -267,12 +212,9 @@ public class CustomerUpdateView implements Initializable {
     }
 
 
-//    public void customerPass(Customer customer){
-//
-//    }
-
     /**
      * This method is required for filtering FIrstLevelDivisons by the slected Country.
+     *
      * @param actionEvent Triggered by selecting a Country, which then retrieve the correct FLD and set it in the fldCombo.
      * @throws SQLException This will catch errors trying to retrieve fld's from the database
      */
@@ -282,7 +224,7 @@ public class CustomerUpdateView implements Initializable {
 
         if (country != null) {
             ObservableList<FirstLevelDivision> divisions = null;
-            switch(country.getId()) {
+            switch (country.getId()) {
                 case 1:
                     divisions = usDivisions;
                     break;
@@ -297,7 +239,7 @@ public class CustomerUpdateView implements Initializable {
                     System.err.println("No matching Country found");
             }
 
-                fldCombo.setItems(divisions);
+            fldCombo.setItems(divisions);
             fldCombo.getSelectionModel().selectFirst();
 
         }
@@ -307,12 +249,9 @@ public class CustomerUpdateView implements Initializable {
     }
 
 
-//    public static Customer getPassedCustomer() {
-//        return passedCustomer;
-//    }
-
     /**
      * Method to retrieve the passed customer from the customer tableview in the previous screen
+     *
      * @param passedCustomer This is the parameter that is set once the customer is retrieved
      */
     public static void setPassedCustomer(Customer passedCustomer) {

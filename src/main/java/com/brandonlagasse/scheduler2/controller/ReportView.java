@@ -24,7 +24,6 @@ import java.util.ResourceBundle;
  * Looking back, I would do this whole section differently, and it ended up this way because of the step-by-step approach I used because of the complexity of the reports (originally in a table).
  */
 public class ReportView implements Initializable {
-    public TextArea appointmentSchedule;
     public TextArea contactSchedule;
     public TextArea mostAppointments;
     public TextArea appointmentsByType;
@@ -74,15 +73,6 @@ public class ReportView implements Initializable {
         }
         return counts;
     }
-
-//    private List<AppointmentCount> countsByTYpe(List<Appointment> appointments) {
-//        List<AppointmentCount> counts = new ArrayList<>();
-//        for (Appointment appointment : appointments) {
-//            String type = appointment.getType();
-//            updateCount(counts, type);
-//        }
-//        return counts;
-//    }
 
     /**
      * This method updates a list based on the Object given. Using an Object here makes it funcitonal for multiple uses.
@@ -281,9 +271,6 @@ public class ReportView implements Initializable {
             System.err.println("Error loading main-view.fxml: " + e.getMessage());
         }
     }
-
-
-    // Helper classess
 
     /**
      * This helper method uses Object to store various objects like months and contact ids throughout several reports

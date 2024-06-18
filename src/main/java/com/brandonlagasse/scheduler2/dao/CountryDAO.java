@@ -36,21 +36,6 @@ public class CountryDAO implements DAOInterface<Country>{
         return allCountries;
 
     }
-//
-//    @Override
-//    public boolean insert(Country object) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean update(Country object) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean delete(int id) {
-//        return false;
-//    }
 
     /**
      * Method for retrieving a specific country by ID

@@ -37,9 +37,6 @@ import java.util.TimeZone;
 public class MainController implements Initializable {
     public Button exitButton;
     public TextArea appointmentArea;
-    @FXML
-    private Label welcomeText;
-
     public static int passedUserId;
 
     /**

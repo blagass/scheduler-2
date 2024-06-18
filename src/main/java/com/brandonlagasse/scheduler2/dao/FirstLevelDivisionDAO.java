@@ -35,21 +35,6 @@ public class FirstLevelDivisionDAO implements DAOInterface<FirstLevelDivision> {
         return allStates; // Returns the observable list
     }
 
-//    @Override
-//    public boolean insert(FirstLevelDivision object) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean update(FirstLevelDivision object) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean delete(int id) {
-//        return false;
-//    }
-
     /**
      * This method retrieves a FirstLevelDivison by its ID
      * @param id id of the FLD to retrieve

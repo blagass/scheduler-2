@@ -32,18 +32,14 @@ import java.util.ResourceBundle;
  */
 public class AppointmentAddView implements Initializable {
     public TextField titleField;
-    //public TextField LocationField;
     public TextField descriptionField;
     public TextField typeField;
-    //public TextField startField;
-    //public TextField endField;
     public TextField customerIdField;
     public TextField userIdField;
     public ComboBox<Contact> contactCombo;
     public ComboBox<LocalTime> startTimeCombo;
     public ComboBox<LocalTime> endTimeCombo;
     public DatePicker startDatePicker;
-    //public DatePicker onEndDatePicker;
     public TextField locationField;
     public DatePicker endDatePicker;
 

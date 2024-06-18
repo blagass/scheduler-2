@@ -196,10 +196,6 @@ public class CustomerView implements Initializable {
     public static Customer getCustomerToPass() {
         return customerToPass;
     }
-//    @FXML
-//    public void setCustomerToPass(Customer customerToPass) {
-//        CustomerView.customerToPass = customerToPass;
-//    }
 
     /**
      * This method retrieves input text for the Search functionality, makes sure it's not empty.

@@ -247,9 +247,6 @@ public class AppointmentView implements Initializable {
         return transferAppointment;
     }
 
-//    public void setTransferAppointment(Appointment transferAppointment) {
-//        this.transferAppointment = transferAppointment;
-//    }
     @FXML
     public void onSearchAppointment() {
         String searchText = appointmentSearch.getText();

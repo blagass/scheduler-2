@@ -38,21 +38,6 @@ public class ContactDAO implements DAOInterface<Contact>{
         return allContacts;
 
     }
-//
-//    @Override
-//    public boolean insert(Contact object) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean update(Contact object) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean delete(int id) {
-//        return false;
-//    }
 
     /**
      * This method retrieves a specific contact using the Contact ID

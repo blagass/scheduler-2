@@ -1,8 +1,6 @@
 package com.brandonlagasse.scheduler2.dao;
 
-import com.brandonlagasse.scheduler2.helper.TimeHelper;
 import com.brandonlagasse.scheduler2.model.Appointment;
-import com.brandonlagasse.scheduler2.model.FirstLevelDivision;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -10,8 +8,6 @@ import javafx.scene.control.Alert;
 import java.sql.*;
 import java.time.*;
 import java.util.TimeZone;
-
-import static com.brandonlagasse.scheduler2.helper.TimeHelper.displayErrorMessage;
 
 /**
  * This is the data access object specifically for the appointments database. It contains all CRUD as well as appointment Id retrieval.
@@ -71,7 +67,7 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
         LocalDateTime end = appointment.getEnd();
 
         int userId = appointment.getUserId();
-        ObservableList<Appointment> overlappingAppointment = getAppointmentsForUser(userId);
+        ObservableList<Appointment> overlappingAppointment = getUserAppointments(userId);
 
         LocalDate startDate = start.toLocalDate();
         LocalTime startTime = start.toLocalTime();
@@ -139,7 +135,7 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
         LocalDateTime end = appointment.getEnd();
 
         int userId = appointment.getUserId();
-        ObservableList<Appointment> appointments = getAppointmentsForUser(userId);
+        ObservableList<Appointment> appointments = getUserAppointments(userId);
 
         LocalDate startDate = start.toLocalDate();
         LocalTime startTime = start.toLocalTime();
@@ -265,7 +261,7 @@ public class AppointmentDAO implements DAOInterface<Appointment> {
         return appointment;
     }
 
-    public ObservableList<Appointment> getAppointmentsForUser(int userId) throws SQLException {
+    public ObservableList<Appointment> getUserAppointments(int userId) throws SQLException {
         JDBC.openConnection();
 
         ObservableList<Appointment> userAppointments = FXCollections.observableArrayList();
