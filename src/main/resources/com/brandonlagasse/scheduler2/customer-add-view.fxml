@@ -1,27 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.brandonlagasse.scheduler2.controller.CustomerAddView">
-   <children>
-      <Button layoutX="201.0" layoutY="532.0" mnemonicParsing="false" onAction="#saveButton" text="Save" />
-      <Button layoutX="64.0" layoutY="532.0" mnemonicParsing="false" onAction="#onCancel" text="Go Back" />
-      <TextField fx:id="nameField" layoutX="327.0" layoutY="179.0" promptText="Name" />
-      <TextField fx:id="addressField" layoutX="327.0" layoutY="232.0" promptText="Address" />
-      <TextField fx:id="postalCodeField" layoutX="325.0" layoutY="275.0" promptText="Postal Code" />
-      <TextField fx:id="phoneField" layoutX="325.0" layoutY="328.0" promptText="Phone" />
-      <ComboBox fx:id="countryCombo" layoutX="326.0" layoutY="379.0" onAction="#onCountryCombo" prefWidth="150.0" promptText="Country" />
-      <ComboBox fx:id="fldCombo" layoutX="326.0" layoutY="413.0" onAction="#onFldCombo" prefWidth="150.0" promptText="First Level Division" />
-      <Label layoutX="298.0" layoutY="59.0" text="Add New Customer">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <TextField fx:id="nameField1" disable="true" editable="false" layoutX="327.0" layoutY="134.0" promptText="Name" text="Customer ID" />
-   </children>
+<AnchorPane prefHeight="600.0" prefWidth="800.0"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.brandonlagasse.scheduler2.controller.CustomerAddView"
+            stylesheets="@scheduler-theme.css"
+            styleClass="root">
+
+   <VBox layoutX="200" layoutY="100" spacing="20">
+      <padding>
+         <Insets top="40" right="200" bottom="40" left="200" />
+      </padding>
+      <children>
+         <Label text="Add New Customer" styleClass="title-label" />
+
+         <VBox spacing="10">
+            <children>
+               <TextField fx:id="nameField1" disable="true" editable="false" text="Customer ID" styleClass="text-field"/>
+               <TextField fx:id="nameField" promptText="Name" styleClass="text-field" />
+               <TextField fx:id="addressField" promptText="Address" styleClass="text-field" />
+               <TextField fx:id="postalCodeField" promptText="Postal Code" styleClass="text-field" />
+               <TextField fx:id="phoneField" promptText="Phone" styleClass="text-field" />
+               <ComboBox fx:id="countryCombo" onAction="#onCountryCombo" prefWidth="150.0" promptText="Country" />
+               <ComboBox fx:id="fldCombo" onAction="#onFldCombo" prefWidth="150.0" promptText="First Level Division" />
+            </children>
+         </VBox>
+
+         <HBox spacing="10" alignment="CENTER">
+            <Button onAction="#onCancel" text="Go Back" styleClass="button" />
+            <Button onAction="#saveButton" text="Save" styleClass="button" />
+         </HBox>
+      </children>
+   </VBox>
 </AnchorPane>

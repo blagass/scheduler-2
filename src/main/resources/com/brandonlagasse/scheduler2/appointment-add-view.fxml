@@ -1,33 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.brandonlagasse.scheduler2.controller.AppointmentAddView">
-   <children>
-      <Button layoutX="68.0" layoutY="546.0" mnemonicParsing="false" onAction="#onExit" text="Go Back" />
-      <Button layoutX="168.0" layoutY="546.0" mnemonicParsing="false" onAction="#onSave" text="Save" />
-      <TextField fx:id="titleField" layoutX="316.0" layoutY="150.0" promptText="Title" />
-      <TextField fx:id="locationField" layoutX="316.0" layoutY="231.0" promptText="Location" />
-      <TextField fx:id="descriptionField" layoutX="316.0" layoutY="187.0" promptText="Description" />
-      <TextField fx:id="typeField" layoutX="316.0" layoutY="275.0" promptText="Type" />
-      <TextField fx:id="customerIdField" layoutX="316.0" layoutY="397.0" promptText="Customer ID" />
-      <TextField fx:id="userIdField" layoutX="316.0" layoutY="444.0" promptText="User ID" />
-      <ComboBox fx:id="contactCombo" layoutX="316.0" layoutY="491.0" prefWidth="150.0" promptText="Contact" />
-      <Label layoutX="269.0" layoutY="62.0" text="Add New Appointment">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="startTimeCombo" layoutX="316.0" layoutY="317.0" prefWidth="150.0" promptText="Start Time" />
-      <ComboBox fx:id="endTimeCombo" layoutX="316.0" layoutY="354.0" prefWidth="150.0" promptText="End Time" />
-      <DatePicker fx:id="startDatePicker" layoutX="476.0" layoutY="317.0" promptText="Start Date" />
-      <DatePicker fx:id="endDatePicker" layoutX="476.0" layoutY="354.0" promptText="End Date" />
-      <TextField fx:id="titleField1" disable="true" layoutX="317.0" layoutY="118.0" promptText="Appointment ID" />
-   </children>
+<AnchorPane prefHeight="600.0" prefWidth="800.0"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.brandonlagasse.scheduler2.controller.AppointmentAddView"
+            stylesheets="@scheduler-theme.css"
+            styleClass="root">
+
+   <VBox layoutX="200" layoutY="100" spacing="20">
+      <padding>
+         <Insets top="40" right="200" bottom="40" left="200" />
+      </padding>
+      <children>
+         <Label text="Add New Appointment" styleClass="title-label" />
+
+         <VBox spacing="10">
+            <children>
+               <TextField fx:id="titleField1" disable="true" promptText="Appointment ID" styleClass="text-field"/>
+               <TextField fx:id="titleField" promptText="Title" styleClass="text-field" />
+               <TextField fx:id="descriptionField" promptText="Description" styleClass="text-field" />
+               <TextField fx:id="locationField" promptText="Location" styleClass="text-field" />
+               <TextField fx:id="typeField" promptText="Type" styleClass="text-field" />
+
+               <HBox spacing="10" alignment="CENTER_LEFT">
+                  <Label text="Start Time:" styleClass="label" />
+                  <ComboBox fx:id="startTimeCombo" prefWidth="150.0" promptText="Start Time" />
+                  <DatePicker fx:id="startDatePicker" promptText="Start Date" />
+               </HBox>
+
+               <HBox spacing="10" alignment="CENTER_LEFT">
+                  <Label text="End Time:" styleClass="label" />
+                  <ComboBox fx:id="endTimeCombo" prefWidth="150.0" promptText="End Time" />
+                  <DatePicker fx:id="endDatePicker" promptText="End Date" />
+               </HBox>
+
+               <TextField fx:id="customerIdField" promptText="Customer ID" styleClass="text-field" />
+               <TextField fx:id="userIdField" promptText="User ID" styleClass="text-field" />
+               <ComboBox fx:id="contactCombo" prefWidth="150.0" promptText="Contact" />
+            </children>
+         </VBox>
+
+         <HBox spacing="10" alignment="CENTER">
+            <Button onAction="#onExit" text="Go Back" styleClass="button" />
+            <Button onAction="#onSave" text="Save" styleClass="button" />
+         </HBox>
+      </children>
+   </VBox>
 </AnchorPane>
+

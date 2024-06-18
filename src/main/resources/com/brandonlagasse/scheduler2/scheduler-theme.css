@@ -1,0 +1,27 @@
+/* light-theme.css */
+
+.root {
+    -fx-background-color: #F5F5F5;
+    -fx-text-fill: #333;
+}
+
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+}
+
+.button:hover {
+    -fx-background-color: #45a049;
+}
+
+.label {
+    -fx-font-size: 14px;
+}
+
+.text-area, .text-field {
+    -fx-background-color: white;
+    -fx-border-color: lightgray;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
