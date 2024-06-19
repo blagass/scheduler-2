@@ -3,7 +3,7 @@ module com.brandonlagasse.scheduler2 {
     requires javafx.fxml;
     requires java.sql;
     requires java.desktop;
-
+    requires org.xerial.sqlitejdbc;
 
     opens com.brandonlagasse.scheduler2 to javafx.fxml;
     exports com.brandonlagasse.scheduler2;

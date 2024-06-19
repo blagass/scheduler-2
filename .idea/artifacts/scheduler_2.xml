@@ -1,0 +1,19 @@
+<component name="ArtifactManager">
+  <artifact type="jpackage" name="scheduler-2">
+    <output-path>$PROJECT_DIR$/out/artifacts/scheduler_2</output-path>
+    <properties id="jpackage-properties">
+      <options>
+        <option name="version" value="" />
+        <option name="copyright" value="" />
+        <option name="description" value="" />
+        <option name="vendor" value="" />
+        <option name="mainClass" value="com.brandonlagasse.scheduler2.Main" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="scheduler_2.jar">
+        <element id="module-output" name="scheduler-2" />
+      </element>
+    </root>
+  </artifact>
+</component>
