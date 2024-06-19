@@ -27,13 +27,13 @@
 }
 
 .left-pane {
-    -fx-background-color: #007BFF; /* Deep blue background */
+    -fx-background-color: #007BFF;
 }
 
 .title-label {
-    -fx-font-size: 48px; /* Larger font size */
+    -fx-font-size: 48px;
     -fx-font-weight: bold;
-    -fx-text-fill: white;  /* White text for contrast */
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 4, 0, 0, 2); /* Subtle drop shadow */
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 4, 0, 0, 2);
 }
 
