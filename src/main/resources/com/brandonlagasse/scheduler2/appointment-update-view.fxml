@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0"
-            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.brandonlagasse.scheduler2.controller.AppointmentUpdateView"
-            stylesheets="@scheduler-theme.css"
-            styleClass="root">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="root" stylesheets="@scheduler-theme.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.brandonlagasse.scheduler2.controller.AppointmentUpdateView">
 
-   <VBox layoutX="200" layoutY="100" spacing="20">
+   <VBox prefHeight="641.0" prefWidth="1008.0" spacing="20">
       <padding>
-         <Insets top="40" right="200" bottom="40" left="200" />
+         <Insets bottom="40" left="200" right="200" top="40" />
       </padding>
       <children>
-         <Label text="Update Appointment" styleClass="title-label" />
+         <Label styleClass="title-label" text="Update Appointment" />
 
          <VBox spacing="10">
             <children>
@@ -25,14 +21,14 @@
                <TextField fx:id="locationField" promptText="Location" styleClass="text-field" />
                <TextField fx:id="typeField" promptText="Type" styleClass="text-field" />
 
-               <HBox spacing="10" alignment="CENTER_LEFT">
-                  <Label text="Start Time:" styleClass="label" />
+               <HBox alignment="CENTER_LEFT" spacing="10">
+                  <Label styleClass="label" text="Start Time:" />
                   <ComboBox fx:id="startCombo" prefWidth="150.0" promptText="Start Time" />
                   <DatePicker fx:id="startDatePicker" promptText="Start Date" />
                </HBox>
 
-               <HBox spacing="10" alignment="CENTER_LEFT">
-                  <Label text="End Time:" styleClass="label" />
+               <HBox alignment="CENTER_LEFT" spacing="10">
+                  <Label styleClass="label" text="End Time:" />
                   <ComboBox fx:id="endCombo" prefWidth="150.0" promptText="End Time" />
                   <DatePicker fx:id="endDatePicker" promptText="End Date" />
                </HBox>
@@ -43,9 +39,9 @@
             </children>
          </VBox>
 
-         <HBox spacing="10" alignment="CENTER">
-            <Button onAction="#onExit" text="Go Back" styleClass="button" />
-            <Button onAction="#onSave" text="Save" styleClass="button" />
+         <HBox alignment="CENTER" spacing="10">
+            <Button onAction="#onExit" styleClass="button" text="Go Back" />
+            <Button onAction="#onSave" styleClass="button" text="Save" />
          </HBox>
       </children>
    </VBox>
