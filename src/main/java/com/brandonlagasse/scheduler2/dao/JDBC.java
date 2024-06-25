@@ -8,20 +8,20 @@ import java.sql.DriverManager;
  */
 public abstract class JDBC {
     ///Class Variables///
-//    private static final String protocol = "jdbc";
-//    private static final String vendor = ":mysql:";
-//    private static final String location ="//localhost/";
-//    private static final String databaseName = "client_schedule";
-//    //private static final String jdbUrl = protocol + vendor + location + databaseName +"?connectionTimeZone = SERVER";
-//    //private static final String driver = "com.mysql.cj.jdbc.Driver";
-//    private static final String userName = "sqlUser";
-//    private static final String password = "Passw0rd!";
+    private static final String protocol = "jdbc";
+    private static final String vendor = ":mysql:";
+    private static final String location ="//localhost/";
+    private static final String databaseName = "client_schedule";
+    private static final String jdbUrl = protocol + vendor + location + databaseName +"?connectionTimeZone = SERVER";
+    private static final String driver = "com.mysql.cj.jdbc.Driver";
+    private static final String userName = "sqlUser";
+    private static final String password = "Passw0rd!";
     public static Connection connection;
     ///
 
     //This is for the new sqlLite implimentation
-    private static final String jdbcUrl = "jdbc:sqlite:identifier.sqlite";
-    private static final String driver = "org.sqlite.JDBC";
+//    private static final String jdbcUrl = "jdbc:sqlite:identifier.sqlite";
+//    private static final String driver = "org.sqlite.JDBC";
 
     /**
      * Opens the DB Connection
@@ -30,7 +30,7 @@ public abstract class JDBC {
         try{
             if(connection == null || connection.isClosed()){
                 Class.forName(driver);
-                connection = DriverManager.getConnection(jdbcUrl);
+                connection = DriverManager.getConnection(jdbUrl,userName,password);
             }
 
         }
