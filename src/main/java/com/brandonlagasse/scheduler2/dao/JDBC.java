@@ -19,9 +19,6 @@ public abstract class JDBC {
     public static Connection connection;
     ///
 
-    //This is for the new sqlLite implimentation
-//    private static final String jdbcUrl = "jdbc:sqlite:identifier.sqlite";
-//    private static final String driver = "org.sqlite.JDBC";
 
     /**
      * Opens the DB Connection
